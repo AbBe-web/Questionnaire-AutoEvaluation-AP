@@ -6,17 +6,15 @@
 <title>Pré-consultation – Activité Physique</title>
 
 <style>
-body { font-family: Arial, sans-serif; background:#f6f7f8; margin:0; }
-.container { max-width:700px; margin:auto; padding:20px; background:white; min-height:100vh; }
-h1,h2,h3 { font-weight:600; }
-.btn { display:block; width:100%; padding:14px; margin:10px 0; font-size:16px; border-radius:6px; border:none; background:#007BFF; color:white; cursor:pointer; }
-.btn.secondary { background:#6c757d; }
-.btn:hover { background:#0056b3; }
-.progress { height:6px; background:#ddd; margin:15px 0; }
-.progress-bar { height:6px; background:#4caf50; }
-input[type=number], input[type=range] { width:100%; padding:10px; font-size:16px; margin-top:10px; }
-.footer { font-size:12px; color:#666; margin-top:40px; }
-.rgpd-banner { font-size:12px; color:#555; margin-bottom:15px; }
+body{font-family:Arial,sans-serif;background:#f6f7f8;margin:0}
+.container{max-width:700px;margin:auto;padding:20px;background:white;min-height:100vh}
+h1,h2{font-weight:600}
+.btn{display:block;width:100%;padding:14px;margin:10px 0;font-size:16px;border-radius:6px;border:none;background:#007BFF;color:white}
+.btn.secondary{background:#6c757d}
+.progress{height:6px;background:#ddd;margin:15px 0}
+.progress-bar{height:6px;background:#4caf50}
+input[type=number],input[type=range]{width:100%;padding:10px;font-size:16px;margin-top:10px}
+.footer{font-size:12px;color:#666;margin-top:40px}
 </style>
 </head>
 
@@ -25,33 +23,28 @@ input[type=number], input[type=range] { width:100%; padding:10px; font-size:16px
 
 <script>
 /*************************************************
- * ÉTAT GLOBAL STRUCTURÉ
+ * ÉTAT GLOBAL
  *************************************************/
 const state = {
-  tool: null,
-  gpaq: {},
-  result: {},
-  reponses: {},
-  synthese: {},
-  exportCR: {},
-  history: []
+  tool:null,
+  gpaq:{},
+  result:{},
+  history:[]
 };
 
 /*************************************************
- * RENDER & NAVIGATION
+ * RENDER + RETOUR
  *************************************************/
-function render(html, progress=0){
-  state.history.push(document.getElementById('app').innerHTML);
-  document.getElementById('app').innerHTML = `
-    <div class="progress">
-      <div class="progress-bar" style="width:${progress}%"></div>
-    </div>
+function render(html,progress=0){
+  state.history.push(document.getElementById("app").innerHTML);
+  document.getElementById("app").innerHTML=`
+    <div class="progress"><div class="progress-bar" style="width:${progress}%"></div></div>
     ${html}
   `;
 }
-function goBack(){
+function back(){
   if(state.history.length>0){
-    document.getElementById('app').innerHTML = state.history.pop();
+    document.getElementById("app").innerHTML=state.history.pop();
   }
 }
 
@@ -60,30 +53,17 @@ function goBack(){
  *************************************************/
 render(`
 <h1>Activité physique</h1>
-<p>Questionnaire destiné à préparer votre consultation médicale.<br>Aucune donnée n'est enregistrée.</p>
-
-<div class="rgpd-banner">
-  Ce questionnaire est hébergé sur GitHub Pages et ne stocke aucune donnée personnelle.
-  <a href="https://abbe-web.github.io/Questionnaire-AutoEvaluation-AP/politique-confidentialite.html"
-     target="_blank" rel="noopener noreferrer">Politique de confidentialité</a>
-</div>
-
+<p>Questionnaire destiné à préparer votre consultation médicale.<br>Aucune donnée n’est enregistrée.</p>
 <button class="btn" onclick="start('gpaq')">Questionnaire détaillé (GPAQ)</button>
 <button class="btn secondary" onclick="start('marshall')">Questionnaire court (Marshall)</button>
-`,0);
+`);
 
-/*************************************************
- * DÉMARRAGE
- *************************************************/
 function start(tool){
-  state.tool = tool;
-  state.gpaq = {};
-  state.result = {};
-  state.reponses = {};
-  state.synthese = {};
-  state.exportCR = {};
-  state.history = [];
-  tool === 'marshall' ? marshallQ1() : gpaqQ1();
+  state.tool=tool;
+  state.gpaq={};
+  state.result={};
+  state.history=[];
+  tool==='marshall'?marshallQ1():gpaqQ1();
 }
 
 /*************************************************
@@ -91,62 +71,71 @@ function start(tool){
  *************************************************/
 function marshallQ1(){
   render(`
-    <h2>Marshall – Question 1</h2>
-    <p>≥20 min d’activité intense ?</p>
-    <button class="btn" onclick="state.result.q1=4; marshallQ2()">≥3 fois</button>
-    <button class="btn" onclick="state.result.q1=2; marshallQ2()">1–2 fois</button>
-    <button class="btn" onclick="state.result.q1=0; marshallQ2()">Jamais</button>
-  `,20);
+<h2>Marshall – Q1</h2>
+<p>≥ 20 min d’activité intense par semaine ?</p>
+<button class="btn" onclick="state.result.m1=4; marshallQ2()">≥ 3 fois</button>
+<button class="btn" onclick="state.result.m1=2; marshallQ2()">1–2 fois</button>
+<button class="btn" onclick="state.result.m1=0; marshallQ2()">Jamais</button>
+<button class="btn secondary" onclick="back()">Retour</button>
+`,20);
 }
 function marshallQ2(){
   render(`
-    <h2>Marshall – Question 2</h2>
-    <p>≥30 min d’activité modérée ?</p>
-    <button class="btn" onclick="finishMarshall(4)">≥5 fois</button>
-    <button class="btn" onclick="finishMarshall(2)">3–4 fois</button>
-    <button class="btn" onclick="finishMarshall(1)">1–2 fois</button>
-    <button class="btn" onclick="finishMarshall(0)">Jamais</button>
-  `,40);
+<h2>Marshall – Q2</h2>
+<p>≥ 30 min d’activité modérée ?</p>
+<button class="btn" onclick="finishMarshall(4)">≥ 5 fois</button>
+<button class="btn" onclick="finishMarshall(2)">3–4 fois</button>
+<button class="btn" onclick="finishMarshall(1)">1–2 fois</button>
+<button class="btn" onclick="finishMarshall(0)">Jamais</button>
+<button class="btn secondary" onclick="back()">Retour</button>
+`,40);
 }
-function finishMarshall(q2){
-  const score = state.result.q1 + q2;
-  state.reponses = { questionnaire:"marshall", score };
-  state.synthese.niveau = score>=4 ? "suffisamment actif" : "insuffisamment actif";
+function finishMarshall(v){
+  const score=state.result.m1+v;
+  state.result.niveau=score>=4?'suffisamment actif':'insuffisamment actif';
   motivation();
 }
 
 /*************************************************
- * GPAQ – CALCUL OMS EXACT
+ * GPAQ – QUESTIONS COMPLÈTES
+ *************************************************/
+function gpaqQ1(){
+render(`
+<h2>Travail – activité intense</h2>
+<p>Votre travail implique-t-il des activités physiques intenses ?</p>
+<button class="btn" onclick="state.gpaq.q1=1; gpaqQ2()">Oui</button>
+<button class="btn" onclick="state.gpaq.q1=0; gpaqQ4()">Non</button>
+<button class="btn secondary" onclick="back()">Retour</button>
+`,10);
+}
+function gpaqQ2(){render(`<p>Jours/semaine</p><input type="number" min="0" max="7" onchange="state.gpaq.q2=this.value"><button class="btn" onclick="gpaqQ3()">Continuer</button><button class="btn secondary" onclick="back()">Retour</button>`,20);}
+function gpaqQ3(){render(`<p>Minutes/jour</p><input type="number" min="0" max="1440" onchange="state.gpaq.q3=this.value"><button class="btn" onclick="gpaqQ4()">Continuer</button><button class="btn secondary" onclick="back()">Retour</button>`,30);}
+function gpaqQ4(){render(`<h2>Travail – activité modérée</h2><button class="btn" onclick="state.gpaq.q4=1; gpaqQ5()">Oui</button><button class="btn" onclick="gpaqQ7()">Non</button><button class="btn secondary" onclick="back()">Retour</button>`,40);}
+function gpaqQ5(){render(`<p>Jours/semaine</p><input type="number" min="0" max="7" onchange="state.gpaq.q5=this.value"><button class="btn" onclick="gpaqQ6()">Continuer</button><button class="btn secondary" onclick="back()">Retour</button>`,50);}
+function gpaqQ6(){render(`<p>Minutes/jour</p><input type="number" min="0" max="1440" onchange="state.gpaq.q6=this.value"><button class="btn" onclick="gpaqQ7()">Continuer</button><button class="btn secondary" onclick="back()">Retour</button>`,60);}
+function gpaqQ7(){render(`<h2>Déplacements</h2><button class="btn" onclick="state.gpaq.q7=1; gpaqQ8()">Oui</button><button class="btn" onclick="gpaqQ10()">Non</button><button class="btn secondary" onclick="back()">Retour</button>`,70);}
+function gpaqQ8(){render(`<p>Jours/semaine</p><input type="number" min="0" max="7" onchange="state.gpaq.q8=this.value"><button class="btn" onclick="gpaqQ9()">Continuer</button><button class="btn secondary" onclick="back()">Retour</button>`,75);}
+function gpaqQ9(){render(`<p>Minutes/jour</p><input type="number" min="0" max="1440" onchange="state.gpaq.q9=this.value"><button class="btn" onclick="gpaqQ10()">Continuer</button><button class="btn secondary" onclick="back()">Retour</button>`,80);}
+function gpaqQ10(){render(`<h2>Loisirs – activité intense</h2><button class="btn" onclick="state.gpaq.q10=1; gpaqQ11()">Oui</button><button class="btn" onclick="gpaqQ13()">Non</button><button class="btn secondary" onclick="back()">Retour</button>`,85);}
+function gpaqQ11(){render(`<p>Jours/semaine</p><input type="number" min="0" max="7" onchange="state.gpaq.q11=this.value"><button class="btn" onclick="gpaqQ12()">Continuer</button><button class="btn secondary" onclick="back()">Retour</button>`,87);}
+function gpaqQ12(){render(`<p>Minutes/jour</p><input type="number" min="0" max="1440" onchange="state.gpaq.q12=this.value"><button class="btn" onclick="gpaqQ13()">Continuer</button><button class="btn secondary" onclick="back()">Retour</button>`,88);}
+function gpaqQ13(){render(`<h2>Loisirs – activité modérée</h2><button class="btn" onclick="state.gpaq.q13=1; gpaqQ14()">Oui</button><button class="btn" onclick="finishGPAQ()">Non</button><button class="btn secondary" onclick="back()">Retour</button>`,90);}
+function gpaqQ14(){render(`<p>Jours/semaine</p><input type="number" min="0" max="7" onchange="state.gpaq.q14=this.value"><button class="btn" onclick="gpaqQ15()">Continuer</button><button class="btn secondary" onclick="back()">Retour</button>`,92);}
+function gpaqQ15(){render(`<p>Minutes/jour</p><input type="number" min="0" max="1440" onchange="state.gpaq.q15=this.value"><button class="btn" onclick="finishGPAQ()">Terminer</button><button class="btn secondary" onclick="back()">Retour</button>`,94);}
+
+/*************************************************
+ * CALCUL GPAQ STRICT
  *************************************************/
 function finishGPAQ(){
-  const APim =
-    (state.gpaq.q2||0)*(state.gpaq.q3||0) +
-    (state.gpaq.q11||0)*(state.gpaq.q12||0);
+  const APim=(state.gpaq.q2||0)*(state.gpaq.q3||0)+(state.gpaq.q11||0)*(state.gpaq.q12||0);
+  const APmm=(state.gpaq.q5||0)*(state.gpaq.q6||0)+(state.gpaq.q8||0)*(state.gpaq.q9||0)+(state.gpaq.q14||0)*(state.gpaq.q15||0);
+  const MET=APim*8+APmm*4;
 
-  const APmm =
-    (state.gpaq.q5||0)*(state.gpaq.q6||0) +
-    (state.gpaq.q8||0)*(state.gpaq.q9||0) +
-    (state.gpaq.q14||0)*(state.gpaq.q15||0);
+  if(MET>=3000) state.result.niveau="très actif";
+  else if(MET>=600) state.result.niveau="moyennement actif";
+  else state.result.niveau="insuffisamment actif";
 
-  const MET = APim*8 + APmm*4;
-
-  let niveau =
-    MET>=3000 ? "très actif" :
-    MET>=600  ? "moyennement actif" :
-                "insuffisamment actif";
-
-  state.synthese = { niveau, MET };
-
-  state.reponses = {
-    questionnaire:"gpaq",
-    travail_intense:{jours:state.gpaq.q2||0,min:state.gpaq.q3||0},
-    travail_modere:{jours:state.gpaq.q5||0,min:state.gpaq.q6||0},
-    deplacements:{jours:state.gpaq.q8||0,min:state.gpaq.q9||0},
-    loisirs_intense:{jours:state.gpaq.q11||0,min:state.gpaq.q12||0},
-    loisirs_modere:{jours:state.gpaq.q14||0,min:state.gpaq.q15||0},
-    sedentarite_min_jour:state.gpaq.q16||0
-  };
-
+  state.result.met=MET;
   motivation();
 }
 
@@ -154,70 +143,39 @@ function finishGPAQ(){
  * MOTIVATION + EVA
  *************************************************/
 function motivation(){
-  if(state.synthese.niveau!=="insuffisamment actif"){
-    render(`
-      <p>Êtes-vous actif à ce niveau depuis plus de 6 mois ?</p>
-      <button class="btn" onclick="state.synthese.stade='consolidation'; evaI()">Oui</button>
-      <button class="btn" onclick="state.synthese.stade='action'; evaI()">Non</button>
-    `,70);
-  } else {
-    render(`
-      <p>Augmenter votre activité dans les 30 jours ?</p>
-      <button class="btn" onclick="state.synthese.stade='préparation'; evaI()">Oui</button>
-      <button class="btn" onclick="state.synthese.stade='indétermination'; evaI()">Non</button>
-    `,70);
+  if(state.result.niveau!=="insuffisamment actif"){
+    render(`<p>Êtes-vous actif à ce niveau depuis plus de 6 mois ?</p>
+    <button class="btn" onclick="state.result.stade='consolidation';evaI()">Oui</button>
+    <button class="btn" onclick="state.result.stade='action';evaI()">Non</button>
+    <button class="btn secondary" onclick="back()">Retour</button>`,70);
+  }else{
+    render(`<p>Envisagez-vous d’augmenter votre activité dans les 30 jours ?</p>
+    <button class="btn" onclick="state.result.stade='préparation';evaI()">Oui</button>
+    <button class="btn" onclick="state.result.stade='indétermination';evaI()">Non</button>
+    <button class="btn secondary" onclick="back()">Retour</button>`,70);
   }
 }
 function evaI(){
-  render(`
-    <p>Importance (0–10)</p>
-    <input type="range" min="0" max="10" value="5"
-      oninput="this.nextElementSibling.innerText=this.value">
-    <div>5</div>
-    <button class="btn" onclick="state.synthese.importance=document.querySelector('input').value; evaC()">Continuer</button>
-  `,85);
+  render(`<p>Importance (0–10)</p>
+  <input type="range" min="0" max="10" value="5" oninput="this.nextElementSibling.innerText=this.value"><div>5</div>
+  <button class="btn" onclick="state.result.importance=this.previousElementSibling.previousElementSibling.value;evaC()">Continuer</button>`,85);
 }
 function evaC(){
-  render(`
-    <p>Confiance (0–10)</p>
-    <input type="range" min="0" max="10" value="5"
-      oninput="this.nextElementSibling.innerText=this.value">
-    <div>5</div>
-    <button class="btn" onclick="state.synthese.confiance=document.querySelector('input').value; resultat()">Terminer</button>
-  `,90);
+  render(`<p>Confiance (0–10)</p>
+  <input type="range" min="0" max="10" value="5" oninput="this.nextElementSibling.innerText=this.value"><div>5</div>
+  <button class="btn" onclick="state.result.confiance=this.previousElementSibling.previousElementSibling.value;resultat()">Terminer</button>`,95);
 }
 
 /*************************************************
- * AFFICHAGE CLINIQUE + EXPORT CR
+ * RÉSULTAT PATIENT
  *************************************************/
 function resultat(){
-  state.exportCR = {
-    questionnaire: state.tool,
-    niveau_activite: state.synthese.niveau,
-    met_min_semaine_total: state.synthese.MET || null,
-    stade_motivationnel: state.synthese.stade,
-    importance_ap: state.synthese.importance,
-    confiance_ap: state.synthese.confiance
-  };
-
   render(`
-    <h2>Conclusion</h2>
-    <p><strong>${state.synthese.niveau}</strong>
-    ${state.synthese.MET?`(${state.synthese.MET} MET-min/semaine)`:''}</p>
-
-    <h3>Détail des réponses</h3>
-    <pre>${JSON.stringify(state.reponses,null,2)}</pre>
-
-    <button class="btn" onclick="exportCR()">Exporter vers le compte rendu médical</button>
-    <button class="btn secondary" onclick="window.print()">Imprimer</button>
-
-    <p class="footer">Outil d’aide à la discussion – ne remplace pas un avis médical.</p>
-  `,100);
-}
-
-function exportCR(){
-  navigator.clipboard.writeText(JSON.stringify(state.exportCR,null,2))
-    .then(()=>alert("Résumé médical copié dans le presse-papiers."));
+<h2>Résultat</h2>
+<p><strong>${state.result.niveau}</strong>${state.result.met?` (${state.result.met} MET-min/semaine)`:``}</p>
+<p>Ce questionnaire a pour objectif de préparer un échange avec votre médecin.</p>
+<p class="footer">Aucune donnée n’est enregistrée.</p>
+`,100);
 }
 </script>
 </body>
