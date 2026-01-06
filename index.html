@@ -142,8 +142,8 @@ function finishGPAQ(){
   const APim = (state.gpaq.q2||0)*(state.gpaq.q3||0);
   const APmm = (state.gpaq.q5||0)*(state.gpaq.q6||0) + (state.gpaq.q8||0)*(state.gpaq.q9||0) + (state.gpaq.q14||0)*(state.gpaq.q15||0);
   const APtS = APim*8 + APmm*4;
-  const APij = (state.gpaq.q2||0) + (state.gpaq.q8||0) + (state.gpaq.q11||0);
-  const APmj = (state.gpaq.q5||0) + (state.gpaq.q14||0) + (state.gpaq.q11||0);
+  const APij = (state.gpaq.q2||0) + (state.gpaq.q11||0);
+const APmj = (state.gpaq.q5||0) + (state.gpaq.q8||0) + (state.gpaq.q14||0);
   const APtj = APij + APmj;
 
   if ((APij>=3 && APtS>=1500) || (APtj>=7 && APtS>=3000)) state.result.niveau='très_actif';
@@ -185,7 +185,7 @@ function resultat(){
     questionnaire: state.tool,
     date: dateNow,
     niveau_activite: state.result.niveau,
-    met_min_semaine: state.result.met || null,
+    met_min_semaine_total: state.result.met,
     stade_motivationnel: state.result.stade,
     importance_ap: state.result.importance,
     confiance_ap: state.result.confiance
