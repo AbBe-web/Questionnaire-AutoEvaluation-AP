@@ -200,11 +200,32 @@ function resultat(){
     <pre id="json">${JSON.stringify(medical,null,2)}</pre>
     <button class="btn" onclick="navigator.clipboard.writeText(document.getElementById('json').innerText)">Copier le résumé médical</button>
     <button class="btn" onclick="window.print()">Exporter en PDF</button>
-    <button class="btn" onclick="window.location='mailto:?subject=Questionnaire activité physique&body='+encodeURIComponent(patientText+'\n\n'+JSON.stringify(medical,null,2))">Envoyer par mail</button>
+    <button class="btn" onclick="envoyerMail()">Envoyer par mail</button>
     <button class="btn secondary" onclick="goBack()">Retour</button>
     <p class="footer">Cet outil a pour objectif de préparer un échange avec votre médecin.</p>
   `,100,false);
 }
+
+function envoyerMail(){
+  const patientText = `Questionnaire activité physique – pré-consultation.\n\nMerci de copier-coller le résumé médical ci-dessous dans votre outil.`;
+
+  const json = document.getElementById('json').innerText;
+
+  // 1️⃣ Copier le JSON automatiquement
+  navigator.clipboard.writeText(json).then(() => {
+    // 2️⃣ Mail court et sûr
+    const subject = encodeURIComponent("Questionnaire activité physique");
+    const body = encodeURIComponent(
+      patientText +
+      "\n\n👉 Le résumé médical a été COPIÉ automatiquement dans le presse-papier."
+    );
+
+    window.location.href = `mailto:?subject=${subject}&body=${body}`;
+  }).catch(() => {
+    alert("Impossible de copier automatiquement. Vous pouvez copier manuellement le résumé médical.");
+  });
+}
+
 </script>
 </body>
 </html>
