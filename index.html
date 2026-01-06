@@ -15,6 +15,8 @@ h1,h2{font-weight:600}
 .progress-bar{height:6px;background:#4caf50}
 input[type=number],input[type=range]{width:100%;padding:10px;font-size:16px;margin-top:10px}
 .footer{font-size:12px;color:#666;margin-top:40px}
+.rgpd{font-size:12px;color:#555;margin-top:20px}
+a{color:#007BFF}
 </style>
 </head>
 
@@ -22,6 +24,8 @@ input[type=number],input[type=range]{width:100%;padding:10px;font-size:16px;marg
 <div class="container" id="app"></div>
 
 <script>
+const RGPD_URL = "https://abbe-web.github.io/Questionnaire-AutoEvaluation-AP/politique-confidentialite.html";
+
 /*************************************************
  * ÉTAT GLOBAL
  *************************************************/
@@ -54,8 +58,15 @@ function back(){
 render(`
 <h1>Activité physique</h1>
 <p>Questionnaire destiné à préparer votre consultation médicale.<br>Aucune donnée n’est enregistrée.</p>
+
 <button class="btn" onclick="start('gpaq')">Questionnaire détaillé (GPAQ)</button>
 <button class="btn secondary" onclick="start('marshall')">Questionnaire court (Marshall)</button>
+
+<div class="rgpd">
+<a href="${RGPD_URL}" target="_blank" rel="noopener noreferrer">
+Politique de confidentialité
+</a>
+</div>
 `);
 
 function start(tool){
@@ -97,7 +108,7 @@ function finishMarshall(v){
 }
 
 /*************************************************
- * GPAQ – QUESTIONS COMPLÈTES
+ * GPAQ – QUESTIONS (inchangé, validé)
  *************************************************/
 function gpaqQ1(){
 render(`
@@ -123,9 +134,6 @@ function gpaqQ13(){render(`<h2>Loisirs – activité modérée</h2><button class
 function gpaqQ14(){render(`<p>Jours/semaine</p><input type="number" min="0" max="7" onchange="state.gpaq.q14=this.value"><button class="btn" onclick="gpaqQ15()">Continuer</button><button class="btn secondary" onclick="back()">Retour</button>`,92);}
 function gpaqQ15(){render(`<p>Minutes/jour</p><input type="number" min="0" max="1440" onchange="state.gpaq.q15=this.value"><button class="btn" onclick="finishGPAQ()">Terminer</button><button class="btn secondary" onclick="back()">Retour</button>`,94);}
 
-/*************************************************
- * CALCUL GPAQ STRICT
- *************************************************/
 function finishGPAQ(){
   const APim=(state.gpaq.q2||0)*(state.gpaq.q3||0)+(state.gpaq.q11||0)*(state.gpaq.q12||0);
   const APmm=(state.gpaq.q5||0)*(state.gpaq.q6||0)+(state.gpaq.q8||0)*(state.gpaq.q9||0)+(state.gpaq.q14||0)*(state.gpaq.q15||0);
@@ -156,25 +164,31 @@ function motivation(){
   }
 }
 function evaI(){
-  render(`<p>Importance (0–10)</p>
+  render(`<p>Importance de l’activité physique (0–10)</p>
   <input type="range" min="0" max="10" value="5" oninput="this.nextElementSibling.innerText=this.value"><div>5</div>
   <button class="btn" onclick="state.result.importance=this.previousElementSibling.previousElementSibling.value;evaC()">Continuer</button>`,85);
 }
 function evaC(){
-  render(`<p>Confiance (0–10)</p>
+  render(`<p>Confiance pour maintenir ou augmenter votre activité (0–10)</p>
   <input type="range" min="0" max="10" value="5" oninput="this.nextElementSibling.innerText=this.value"><div>5</div>
   <button class="btn" onclick="state.result.confiance=this.previousElementSibling.previousElementSibling.value;resultat()">Terminer</button>`,95);
 }
 
 /*************************************************
- * RÉSULTAT PATIENT
+ * RÉSULTAT FINAL (corrigé)
  *************************************************/
 function resultat(){
   render(`
 <h2>Résultat</h2>
-<p><strong>${state.result.niveau}</strong>${state.result.met?` (${state.result.met} MET-min/semaine)`:``}</p>
-<p>Ce questionnaire a pour objectif de préparer un échange avec votre médecin.</p>
-<p class="footer">Aucune donnée n’est enregistrée.</p>
+<p><strong>Niveau d’activité :</strong> ${state.result.niveau}${state.result.met?` (${state.result.met} MET-min/semaine)`:``}</p>
+<p><strong>Stade motivationnel :</strong> ${state.result.stade}</p>
+<p><strong>Importance de l’AP :</strong> ${state.result.importance}/10</p>
+<p><strong>Confiance :</strong> ${state.result.confiance}/10</p>
+
+<p class="footer">
+Cet outil a pour objectif de préparer un échange avec votre médecin.<br>
+<a href="${RGPD_URL}" target="_blank" rel="noopener noreferrer">Politique de confidentialité</a>
+</p>
 `,100);
 }
 </script>
