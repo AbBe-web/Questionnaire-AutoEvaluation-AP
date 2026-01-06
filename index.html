@@ -181,13 +181,19 @@ render(`<p>Importance de l’activité physique (0–10)</p>
 <button class="btn" onclick="state.result.importance=document.querySelector('input').value; evaConf()">Continuer</button>
 <button class="btn secondary" onclick="back()">Retour</button>`,97);
 }
-function evaConf(){
-render(`<p>Confiance pour maintenir ou augmenter l’activité (0–10)</p>
-<input type="range" min="0" max="10" value="5" oninput="this.nextElementSibling.innerText=this.value">
-<div>5</div>
-<button class="btn" onclick="final()">Terminer</button>
-<button class="btn secondary" onclick="back()">Retour</button>`,99);
+function evaConfiance(){
+  render(`
+    <p>Confiance pour maintenir ou augmenter votre activité (0–10)</p>
+    <input type="range" min="0" max="10" value="5"
+      oninput="this.nextElementSibling.innerText=this.value">
+    <div>5</div>
+    <button class="btn" onclick="state.result.confiance=document.querySelector('input').value; resultat()">
+      Terminer
+    </button>
+    <button class="btn secondary" onclick="goBack()">Retour</button>
+  `,90);
 }
+
 
 /*************************************************
  * RÉSULTAT FINAL — ÉTAPE 2
