@@ -57,17 +57,19 @@ function back(){
  *************************************************/
 render(`
 <h1>Activité physique</h1>
-<p>Questionnaire destiné à préparer votre consultation médicale.<br>Aucune donnée n’est enregistrée.</p>
 
-<button class="btn" onclick="start('gpaq')">Questionnaire détaillé (GPAQ)</button>
-<button class="btn secondary" onclick="start('marshall')">Questionnaire court (Marshall)</button>
-
-<div class="rgpd">
+<p>
+Questionnaire destiné à préparer votre consultation médicale.<br>
+<strong>Aucune donnée n’est enregistrée.</strong><br>
 <a href="${RGPD_URL}" target="_blank" rel="noopener noreferrer">
 Politique de confidentialité
 </a>
-</div>
+</p>
+
+<button class="btn" onclick="start('gpaq')">Questionnaire détaillé (GPAQ)</button>
+<button class="btn secondary" onclick="start('marshall')">Questionnaire court (Marshall)</button>
 `);
+
 
 function start(tool){
   state.tool=tool;
