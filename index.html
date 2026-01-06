@@ -143,7 +143,9 @@ function gpaqQ15(){ render(`<p>Temps par jour (minutes)</p><input type="number" 
 function gpaqQ16(){ render(`<h2>Comportement sédentaire</h2><p>Temps assis ou couché par jour (hors sommeil) ?</p><input type="number" min="0" max="1440" onchange="state.gpaq.q16=this.value"><button class="btn" onclick="finishGPAQ()">Terminer</button><button class="btn secondary" onclick="goBack()">Retour</button>`,92);}
 function finishGPAQ(){
   // Calcul MET-min
-  const APim = (state.gpaq.q2||0)*(state.gpaq.q3||0);
+  const APim =
+  (state.gpaq.q2||0)*(state.gpaq.q3||0) +
+  (state.gpaq.q11||0)*(state.gpaq.q12||0);
   const APmm = (state.gpaq.q5||0)*(state.gpaq.q6||0) + (state.gpaq.q8||0)*(state.gpaq.q9||0) + (state.gpaq.q14||0)*(state.gpaq.q15||0);
   const APtS = APim*8 + APmm*4;
   const APij = (state.gpaq.q2||0) + (state.gpaq.q11||0);
