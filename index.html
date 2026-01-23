@@ -312,21 +312,71 @@ render(`
 /*************************************************
  * FIN ÉTAPE 2
  *************************************************/
+<script>
 function final(){
-render(`
-<h2>Conclusion</h2>
-<p><strong>Niveau d’activité :</strong> ${state.result.niveau.replace("_"," ")}
-${state.result.met?` (${Math.round(state.result.met)} MET-min/semaine)`:""}
-</p>
 
-<p><strong>Stade motivationnel :</strong> ${state.result.stade}</p>
-<p><strong>Importance :</strong> ${state.result.importance}/10</p>
-<p><strong>Confiance :</strong> ${state.result.confiance}/10</p>
+  const today = new Date().toISOString().split("T")[0];
 
-<button class="btn secondary" onclick="location.reload()">Recommencer</button>
-<p class="footer">Outil d’aide à la consultation médicale.</p>
-`,100,false);
+  const medicalJSON = {
+    outil: "auto_evaluation_AP",
+    questionnaire: state.tool,
+    date: today,
+    niveau_activite: state.result.niveau,
+    met_min_semaine: state.tool==="gpaq" ? Math.round(state.result.met) : null,
+    marshall_score: state.tool==="marshall" ? state.result.marshall_score : null,
+    stade_motivationnel: state.result.stade,
+    eva_importance: Number(state.result.importance),
+    eva_confiance: Number(state.result.confiance)
+  };
+
+  render(`
+    <h2>Conclusion</h2>
+
+    <p><strong>Niveau d’activité :</strong>
+      ${state.result.niveau.replace("_"," ")}
+      ${state.result.met ? `(${Math.round(state.result.met)} MET-min/semaine)` : ""}
+      ${state.result.marshall_score!==undefined ? `(score ${state.result.marshall_score})` : ""}
+    </p>
+
+    <p><strong>Stade motivationnel :</strong> ${state.result.stade}</p>
+    <p><strong>Importance :</strong> ${state.result.importance}/10</p>
+    <p><strong>Confiance :</strong> ${state.result.confiance}/10</p>
+
+    <hr>
+
+    <details>
+      <summary><strong>📄 Résumé médical (pour le médecin)</strong></summary>
+
+      <pre id="json">${JSON.stringify(medicalJSON,null,2)}</pre>
+
+      <button class="btn"
+        onclick="navigator.clipboard.writeText(document.getElementById('json').innerText)">
+        Copier le JSON médical
+      </button>
+
+      <button class="btn"
+        onclick="envoyerMailJSON()">
+        Envoyer au médecin par mail
+      </button>
+    </details>
+
+    <button class="btn secondary" onclick="location.reload()">Recommencer</button>
+
+    <p class="footer">
+      Outil d’aide à la consultation médicale.
+    </p>
+  `,100,false);
+
+  window.medicalJSON = medicalJSON;
+}
+
+function envoyerMailJSON(){
+  const subject = encodeURIComponent("Auto-évaluation activité physique");
+  const body = encodeURIComponent(
+    "Bonjour,\n\nVoici les données issues de l’auto-évaluation d’activité physique :\n\n" +
+    JSON.stringify(window.medicalJSON,null,2)
+  );
+  window.location.href = `mailto:?subject=${subject}&body=${body}`;
 }
 </script>
-</body>
-</html>
+
