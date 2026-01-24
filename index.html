@@ -3,19 +3,20 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Pré-consultation – Activité Physique</title>
+<title>Auto-évaluation – Activité Physique</title>
 
 <style>
 body { font-family: Arial, sans-serif; background:#f6f7f8; margin:0; }
 .container { max-width:720px; margin:auto; padding:20px; background:white; min-height:100vh; }
-h1,h2,h3 { font-weight:600; margin-top:25px; }
-.btn { display:block; width:100%; padding:14px; margin:10px 0; font-size:16px; border-radius:6px; border:none; background:#007BFF; color:white; cursor:pointer; }
+h1,h2 { font-weight:600; margin-top:20px; }
+.btn { display:block; width:100%; padding:14px; margin:10px 0; font-size:16px;
+       border-radius:6px; border:none; background:#007BFF; color:white; cursor:pointer; }
 .btn.secondary { background:#6c757d; }
 .progress { height:6px; background:#ddd; margin:15px 0; }
-.progress-bar { height:6px; width:0%; background:#4caf50; }
-.footer { font-size:12px; color:#666; margin-top:40px; }
-input { width:100%; padding:10px; font-size:16px; margin-top:8px; }
-label { font-weight:600; display:block; margin-top:10px; }
+.progress-bar { height:6px; background:#4caf50; width:0%; }
+.footer { font-size:12px; color:#666; margin-top:30px; }
+input[type=number], input[type=range] { width:100%; padding:10px; font-size:16px; }
+.rgpd { font-size:12px; margin-top:10px; }
 </style>
 </head>
 
@@ -24,7 +25,7 @@ label { font-weight:600; display:block; margin-top:10px; }
 
 <script>
 /*************************************************
- * ÉTAT GLOBAL
+ * ÉTAT GLOBAL (local uniquement)
  *************************************************/
 const state = {
   tool: null,
@@ -58,14 +59,14 @@ render(`
 <p>Questionnaire destiné à préparer votre consultation médicale.<br>
 Aucune donnée n’est enregistrée.</p>
 
-<p style="font-size:12px">
+<div class="rgpd">
 <a href="https://abbe-web.github.io/Questionnaire-AutoEvaluation-AP/politique-confidentialite.html" target="_blank">
 Politique de confidentialité
 </a>
-</p>
+</div>
 
-<button class="btn" onclick="start('gpaq')">Questionnaire détaillé (GPAQ)</button>
-<button class="btn secondary" onclick="start('marshall')">Questionnaire court (Marshall)</button>
+<button class="btn" onclick="start('gpaq')">Questionnaire détaillé (GPAQ – 2 à 3 min)</button>
+<button class="btn secondary" onclick="start('marshall')">Questionnaire court (Marshall – 30 sec)</button>
 `,0,false);
 
 function start(tool){
@@ -82,25 +83,25 @@ function start(tool){
  *************************************************/
 function marshallQ1(){
 render(`
-<h2>Marshall – Question 1</h2>
-<p>Combien de fois par semaine faites-vous au moins 20 minutes d’activité intense ?</p>
+<h2>Question 1</h2>
+<p>Combien de fois par semaine faites-vous au moins 20 minutes d’activité physique intense ?</p>
 <button class="btn" onclick="state.marshall.q1=4; marshallQ2()">≥ 3 fois</button>
 <button class="btn" onclick="state.marshall.q1=2; marshallQ2()">1–2 fois</button>
 <button class="btn" onclick="state.marshall.q1=0; marshallQ2()">Jamais</button>
 <button class="btn secondary" onclick="back()">Retour</button>
-`,15);
+`,20);
 }
 
 function marshallQ2(){
 render(`
-<h2>Marshall – Question 2</h2>
+<h2>Question 2</h2>
 <p>Combien de fois par semaine faites-vous au moins 30 minutes d’activité modérée ou de marche rapide ?</p>
 <button class="btn" onclick="finishMarshall(4)">≥ 5 fois</button>
 <button class="btn" onclick="finishMarshall(2)">3–4 fois</button>
 <button class="btn" onclick="finishMarshall(1)">1–2 fois</button>
 <button class="btn" onclick="finishMarshall(0)">Jamais</button>
 <button class="btn secondary" onclick="back()">Retour</button>
-`,30);
+`,40);
 }
 
 function finishMarshall(q2){
@@ -112,7 +113,7 @@ function finishMarshall(q2){
 }
 
 /*************************************************
- * GPAQ — TEXTE EXACT FOURNI
+ * GPAQ – libellés complets OMS
  *************************************************/
 function gpaqQ1(){
 render(`
@@ -123,20 +124,24 @@ render(`
 <button class="btn secondary" onclick="back()">Retour</button>
 `,10);
 }
-
 function gpaqQ2(){
 render(`
 <h2>Activité au travail – intense</h2>
-<label>Combien de jours par semaine faites-vous ces activités ?</label>
+<p>Combien de jours par semaine faites-vous ces activités ?</p>
 <input type="number" min="0" max="7" onchange="state.gpaq.wi_d=this.value">
-<label>Combien d’heures et minutes par jour ?</label>
-<input type="number" placeholder="Heures" min="0" max="24" onchange="state.gpaq.wi_h=this.value">
-<input type="number" placeholder="Minutes" min="0" max="59" onchange="state.gpaq.wi_m=this.value">
-<button class="btn" onclick="gpaqQ4()">Continuer</button>
+<button class="btn" onclick="gpaqQ3()">Continuer</button>
 <button class="btn secondary" onclick="back()">Retour</button>
 `,20);
 }
-
+function gpaqQ3(){
+render(`
+<h2>Activité au travail – intense</h2>
+<p>Combien d’heures et minutes par jour ? (en minutes)</p>
+<input type="number" min="0" max="1440" onchange="state.gpaq.wi_t=this.value">
+<button class="btn" onclick="gpaqQ4()">Continuer</button>
+<button class="btn secondary" onclick="back()">Retour</button>
+`,30);
+}
 function gpaqQ4(){
 render(`
 <h2>Activité modérée au travail</h2>
@@ -144,22 +149,26 @@ render(`
 <button class="btn" onclick="state.gpaq.wm=1; gpaqQ5()">Oui</button>
 <button class="btn" onclick="state.gpaq.wm=0; gpaqQ7()">Non</button>
 <button class="btn secondary" onclick="back()">Retour</button>
-`,30);
+`,40);
 }
-
 function gpaqQ5(){
 render(`
 <h2>Activité modérée au travail</h2>
-<label>Combien de jours par semaine faites-vous ces activités ?</label>
+<p>Combien de jours par semaine ?</p>
 <input type="number" min="0" max="7" onchange="state.gpaq.wm_d=this.value">
-<label>Combien d’heures et minutes par jour ?</label>
-<input type="number" placeholder="Heures" min="0" max="24" onchange="state.gpaq.wm_h=this.value">
-<input type="number" placeholder="Minutes" min="0" max="59" onchange="state.gpaq.wm_m=this.value">
+<button class="btn" onclick="gpaqQ6()">Continuer</button>
+<button class="btn secondary" onclick="back()">Retour</button>
+`,50);
+}
+function gpaqQ6(){
+render(`
+<h2>Activité modérée au travail</h2>
+<p>Combien d’heures et minutes par jour ? (en minutes)</p>
+<input type="number" min="0" max="1440" onchange="state.gpaq.wm_t=this.value">
 <button class="btn" onclick="gpaqQ7()">Continuer</button>
 <button class="btn secondary" onclick="back()">Retour</button>
-`,40);
+`,60);
 }
-
 function gpaqQ7(){
 render(`
 <h2>Déplacements</h2>
@@ -167,22 +176,26 @@ render(`
 <button class="btn" onclick="state.gpaq.tr=1; gpaqQ8()">Oui</button>
 <button class="btn" onclick="state.gpaq.tr=0; gpaqQ10()">Non</button>
 <button class="btn secondary" onclick="back()">Retour</button>
-`,50);
+`,65);
 }
-
 function gpaqQ8(){
 render(`
 <h2>Déplacements</h2>
-<label>Combien de jours par semaine ?</label>
+<p>Combien de jours par semaine ?</p>
 <input type="number" min="0" max="7" onchange="state.gpaq.tr_d=this.value">
-<label>Combien de temps y consacrez-vous par jour ?</label>
-<input type="number" placeholder="Heures" min="0" max="24" onchange="state.gpaq.tr_h=this.value">
-<input type="number" placeholder="Minutes" min="0" max="59" onchange="state.gpaq.tr_m=this.value">
+<button class="btn" onclick="gpaqQ9()">Continuer</button>
+<button class="btn secondary" onclick="back()">Retour</button>
+`,70);
+}
+function gpaqQ9(){
+render(`
+<h2>Déplacements</h2>
+<p>Combien de temps y consacrez-vous par jour ? (en minutes)</p>
+<input type="number" min="0" max="1440" onchange="state.gpaq.tr_t=this.value">
 <button class="btn" onclick="gpaqQ10()">Continuer</button>
 <button class="btn secondary" onclick="back()">Retour</button>
-`,60);
+`,75);
 }
-
 function gpaqQ10(){
 render(`
 <h2>Activité de loisirs</h2>
@@ -190,193 +203,146 @@ render(`
 <button class="btn" onclick="state.gpaq.li=1; gpaqQ11()">Oui</button>
 <button class="btn" onclick="state.gpaq.li=0; gpaqQ13()">Non</button>
 <button class="btn secondary" onclick="back()">Retour</button>
-`,70);
-}
-
-function gpaqQ11(){
-render(`
-<h2>Loisirs – activité intense</h2>
-<label>Combien de jours par semaine ?</label>
-<input type="number" min="0" max="7" onchange="state.gpaq.li_d=this.value">
-<label>Combien de temps y consacrez-vous par jour ?</label>
-<input type="number" placeholder="Heures" min="0" max="24" onchange="state.gpaq.li_h=this.value">
-<input type="number" placeholder="Minutes" min="0" max="59" onchange="state.gpaq.li_m=this.value">
-<button class="btn" onclick="gpaqQ13()">Continuer</button>
-<button class="btn secondary" onclick="back()">Retour</button>
 `,80);
 }
-
+function gpaqQ11(){
+render(`
+<h2>Loisirs – intense</h2>
+<p>Combien de jours par semaine ?</p>
+<input type="number" min="0" max="7" onchange="state.gpaq.li_d=this.value">
+<button class="btn" onclick="gpaqQ12()">Continuer</button>
+<button class="btn secondary" onclick="back()">Retour</button>
+`,82);
+}
+function gpaqQ12(){
+render(`
+<h2>Loisirs – intense</h2>
+<p>Combien de temps y consacrez-vous par jour ? (en minutes)</p>
+<input type="number" min="0" max="1440" onchange="state.gpaq.li_t=this.value">
+<button class="btn" onclick="gpaqQ13()">Continuer</button>
+<button class="btn secondary" onclick="back()">Retour</button>
+`,84);
+}
 function gpaqQ13(){
 render(`
-<h2>Activité de loisirs</h2>
+<h2>Loisirs – modérée</h2>
 <p>Pratiquez-vous des activités physiques modérées en loisirs ?</p>
 <button class="btn" onclick="state.gpaq.lm=1; gpaqQ14()">Oui</button>
 <button class="btn" onclick="state.gpaq.lm=0; gpaqQ16()">Non</button>
 <button class="btn secondary" onclick="back()">Retour</button>
-`,85);
+`,86);
 }
-
 function gpaqQ14(){
 render(`
-<h2>Loisirs – activité modérée</h2>
-<label>Combien de jours par semaine ?</label>
+<h2>Loisirs – modérée</h2>
+<p>Combien de jours par semaine ?</p>
 <input type="number" min="0" max="7" onchange="state.gpaq.lm_d=this.value">
-<label>Combien de temps y consacrez-vous par jour ?</label>
-<input type="number" placeholder="Heures" min="0" max="24" onchange="state.gpaq.lm_h=this.value">
-<input type="number" placeholder="Minutes" min="0" max="59" onchange="state.gpaq.lm_m=this.value">
+<button class="btn" onclick="gpaqQ15()">Continuer</button>
+<button class="btn secondary" onclick="back()">Retour</button>
+`,88);
+}
+function gpaqQ15(){
+render(`
+<h2>Loisirs – modérée</h2>
+<p>Combien de temps y consacrez-vous par jour ? (en minutes)</p>
+<input type="number" min="0" max="1440" onchange="state.gpaq.lm_t=this.value">
 <button class="btn" onclick="gpaqQ16()">Continuer</button>
 <button class="btn secondary" onclick="back()">Retour</button>
 `,90);
 }
-
 function gpaqQ16(){
 render(`
 <h2>Comportement sédentaire</h2>
 <p>Combien de temps passez-vous assis ou couché par jour (hors sommeil) ?</p>
-<input type="number" placeholder="Heures" min="0" max="24" onchange="state.gpaq.sed_h=this.value">
-<input type="number" placeholder="Minutes" min="0" max="59" onchange="state.gpaq.sed_m=this.value">
-<button class="btn" onclick="finishGPAQ()">Continuer</button>
+<input type="number" min="0" max="1440" onchange="state.gpaq.sed=this.value">
+<button class="btn" onclick="finishGPAQ()">Terminer</button>
 <button class="btn secondary" onclick="back()">Retour</button>
-`,95);
+`,92);
 }
 
 function finishGPAQ(){
-  const toMin = (h,m)=> (h||0)*60+(m||0);
-  const MET =
-    toMin(state.gpaq.wi_h,state.gpaq.wi_m)*(state.gpaq.wi_d||0)*8 +
-    toMin(state.gpaq.li_h,state.gpaq.li_m)*(state.gpaq.li_d||0)*8 +
-    (
-      toMin(state.gpaq.wm_h,state.gpaq.wm_m)*(state.gpaq.wm_d||0) +
-      toMin(state.gpaq.tr_h,state.gpaq.tr_m)*(state.gpaq.tr_d||0) +
-      toMin(state.gpaq.lm_h,state.gpaq.lm_m)*(state.gpaq.lm_d||0)
-    )*4;
-
+  const wi=(state.gpaq.wi_d||0)*(state.gpaq.wi_t||0);
+  const li=(state.gpaq.li_d||0)*(state.gpaq.li_t||0);
+  const wm=(state.gpaq.wm_d||0)*(state.gpaq.wm_t||0);
+  const tr=(state.gpaq.tr_d||0)*(state.gpaq.tr_t||0);
+  const lm=(state.gpaq.lm_d||0)*(state.gpaq.lm_t||0);
+  const MET = wi*8 + li*8 + (wm+tr+lm)*4;
   state.result.met=MET;
-  state.result.niveau=MET>=3000?"très_actif":MET>=600?"moyennement_actif":"insuffisamment_actif";
+  state.result.niveau = MET>=3000?"très_actif":MET>=600?"moyennement_actif":"insuffisamment_actif";
   motivation();
 }
 
 /*************************************************
- * STADE MOTIVATIONNEL (CORRIGÉ)
+ * MOTIVATION + EVA (logique corrigée)
  *************************************************/
 function motivation(){
   if(state.result.niveau!=="insuffisamment_actif"){
     render(`
-<p>Êtes-vous actif à ce niveau depuis plus de 6 mois ?</p>
-<button class="btn" onclick="state.result.stade='consolidation'; evaImportance()">Oui</button>
-<button class="btn" onclick="state.result.stade='action'; evaImportance()">Non</button>
-<button class="btn secondary" onclick="back()">Retour</button>
-`,97);
+    <p>Êtes-vous actif à ce niveau depuis plus de 6 mois ?</p>
+    <button class="btn" onclick="state.result.stade='consolidation'; evaImportance()">Oui</button>
+    <button class="btn" onclick="state.result.stade='action'; evaImportance()">Non</button>
+    <button class="btn secondary" onclick="back()">Retour</button>
+    `,95);
   } else {
     render(`
-<p>Envisagez-vous d’augmenter votre activité physique dans les 30 jours ?</p>
-<button class="btn" onclick="state.result.stade='préparation'; evaImportance()">Oui</button>
-<button class="btn" onclick="motivation6mois()">Non</button>
-<button class="btn secondary" onclick="back()">Retour</button>
-`,97);
+    <p>Envisagez-vous de vous engager dans une activité physique régulière dans les 30 jours ?</p>
+    <button class="btn" onclick="state.result.stade='préparation'; evaImportance()">Oui</button>
+    <button class="btn" onclick="motivation2()">Non</button>
+    <button class="btn secondary" onclick="back()">Retour</button>
+    `,95);
   }
 }
-
-function motivation6mois(){
+function motivation2(){
 render(`
 <p>Avez-vous l’intention de vous engager dans une activité physique régulière dans les 6 mois ?</p>
 <button class="btn" onclick="state.result.stade='intention'; evaImportance()">Oui</button>
 <button class="btn" onclick="state.result.stade='indétermination'; evaImportance()">Non</button>
 <button class="btn secondary" onclick="back()">Retour</button>
-`,98);
+`,96);
 }
 
-/*************************************************
- * EVA
- *************************************************/
 function evaImportance(){
 render(`
-<p>Quelle importance accordez-vous à l’activité physique dans votre vie, entre 0 (aucune importance) et 10 (très grande importance) ?</p>
-<input type="range" min="0" max="10" value="5" oninput="this.nextElementSibling.innerText=this.value">
+<p>Quelle importance accordez-vous à l’activité physique dans votre vie ?<br>
+0 = aucune importance / 10 = très grande importance</p>
+<input type="range" min="0" max="10" value="5"
+oninput="this.nextElementSibling.innerText=this.value">
 <div>5</div>
 <button class="btn" onclick="state.result.importance=document.querySelector('input').value; evaConfiance()">Continuer</button>
 <button class="btn secondary" onclick="back()">Retour</button>
-`,99);
+`,97);
 }
 
 function evaConfiance(){
 render(`
-<p>Dans quelle mesure êtes-vous confiant(e) en vous pour réussir à augmenter, si besoin, votre niveau d’activité physique ?</p>
-<input type="range" min="0" max="10" value="5" oninput="this.nextElementSibling.innerText=this.value">
+<p>Dans quelle mesure êtes-vous confiant(e) en vous pour réussir à augmenter, si besoin, votre niveau d’activité physique ?<br>
+0 = pas du tout confiant / 10 = tout à fait confiant</p>
+<input type="range" min="0" max="10" value="5"
+oninput="this.nextElementSibling.innerText=this.value">
 <div>5</div>
-<button class="btn" onclick="state.result.confiance=document.querySelector('input').value; final()">Terminer</button>
+<button class="btn" onclick="final()">Terminer</button>
 <button class="btn secondary" onclick="back()">Retour</button>
-`,100);
+`,98);
 }
 
 /*************************************************
- * FIN ÉTAPE 2
+ * RÉSULTAT PATIENT
  *************************************************/
-<script>
 function final(){
+render(`
+<h2>Conclusion</h2>
+<p><strong>Niveau d’activité :</strong> ${state.result.niveau.replace("_"," ")}
+${state.result.met?` (${state.result.met} MET-min/semaine)`:""}
+${state.result.marshall_score!==undefined?` (score Marshall ${state.result.marshall_score})`:""}</p>
 
-  const today = new Date().toISOString().split("T")[0];
+<p><strong>Stade motivationnel :</strong> ${state.result.stade}</p>
+<p><strong>Importance de l’activité physique :</strong> ${state.result.importance}/10</p>
+<p><strong>Confiance en soi :</strong> ${state.result.confiance}/10</p>
 
-  const medicalJSON = {
-    outil: "auto_evaluation_AP",
-    questionnaire: state.tool,
-    date: today,
-    niveau_activite: state.result.niveau,
-    met_min_semaine: state.tool==="gpaq" ? Math.round(state.result.met) : null,
-    marshall_score: state.tool==="marshall" ? state.result.marshall_score : null,
-    stade_motivationnel: state.result.stade,
-    eva_importance: Number(state.result.importance),
-    eva_confiance: Number(state.result.confiance)
-  };
-
-  render(`
-    <h2>Conclusion</h2>
-
-    <p><strong>Niveau d’activité :</strong>
-      ${state.result.niveau.replace("_"," ")}
-      ${state.result.met ? `(${Math.round(state.result.met)} MET-min/semaine)` : ""}
-      ${state.result.marshall_score!==undefined ? `(score ${state.result.marshall_score})` : ""}
-    </p>
-
-    <p><strong>Stade motivationnel :</strong> ${state.result.stade}</p>
-    <p><strong>Importance :</strong> ${state.result.importance}/10</p>
-    <p><strong>Confiance :</strong> ${state.result.confiance}/10</p>
-
-    <hr>
-
-    <details>
-      <summary><strong>📄 Résumé médical (pour le médecin)</strong></summary>
-
-      <pre id="json">${JSON.stringify(medicalJSON,null,2)}</pre>
-
-      <button class="btn"
-        onclick="navigator.clipboard.writeText(document.getElementById('json').innerText)">
-        Copier le JSON médical
-      </button>
-
-      <button class="btn"
-        onclick="envoyerMailJSON()">
-        Envoyer au médecin par mail
-      </button>
-    </details>
-
-    <button class="btn secondary" onclick="location.reload()">Recommencer</button>
-
-    <p class="footer">
-      Outil d’aide à la consultation médicale.
-    </p>
-  `,100,false);
-
-  window.medicalJSON = medicalJSON;
-}
-
-function envoyerMailJSON(){
-  const subject = encodeURIComponent("Auto-évaluation activité physique");
-  const body = encodeURIComponent(
-    "Bonjour,\n\nVoici les données issues de l’auto-évaluation d’activité physique :\n\n" +
-    JSON.stringify(window.medicalJSON,null,2)
-  );
-  window.location.href = `mailto:?subject=${subject}&body=${body}`;
+<p class="footer">Cet outil a pour objectif de préparer un échange avec votre médecin.</p>
+<button class="btn secondary" onclick="location.reload()">Recommencer</button>
+`,100,false);
 }
 </script>
-
+</body>
+</html>
