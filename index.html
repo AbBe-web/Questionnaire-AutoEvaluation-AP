@@ -114,74 +114,91 @@ function finishMarshall(q2){
 }
 
 /*************************************************
- * GPAQ (inchangé)
+ * GPAQ — VERSION FONCTIONNELLE COMPLÈTE
  *************************************************/
-/* --- GPAQ identique à ta version fournie --- */
-/* (aucune modification ici volontairement) */
+function gpaqQ1(){
+render(`
+<h2>Travail – activité intense</h2>
+<p>Votre travail comporte-t-il des efforts physiques intenses ?</p>
+<button class="btn" onclick="state.gpaq.wi=1; gpaqQ2()">Oui</button>
+<button class="btn" onclick="state.gpaq.wi=0; gpaqQ4()">Non</button>
+<button class="btn secondary" onclick="back()">Retour</button>
+`,10);
+}
+function gpaqQ2(){ render(`<p>Jours / semaine</p><input type="number" onchange="state.gpaq.wi_d=this.value"><button class="btn" onclick="gpaqQ3()">Continuer</button>`,20);}
+function gpaqQ3(){ render(`<p>Minutes / jour</p><input type="number" onchange="state.gpaq.wi_t=this.value"><button class="btn" onclick="gpaqQ4()">Continuer</button>`,30);}
+function gpaqQ4(){ render(`<p>Activité modérée au travail ?</p><button class="btn" onclick="state.gpaq.wm=1; gpaqQ5()">Oui</button><button class="btn" onclick="state.gpaq.wm=0; gpaqQ7()">Non</button>`,40);}
+function gpaqQ5(){ render(`<p>Jours / semaine</p><input type="number" onchange="state.gpaq.wm_d=this.value"><button class="btn" onclick="gpaqQ6()">Continuer</button>`,50);}
+function gpaqQ6(){ render(`<p>Minutes / jour</p><input type="number" onchange="state.gpaq.wm_t=this.value"><button class="btn" onclick="gpaqQ7()">Continuer</button>`,60);}
+function gpaqQ7(){ render(`<p>≥ 10 min à pied ou vélo ?</p><button class="btn" onclick="state.gpaq.tr=1; gpaqQ8()">Oui</button><button class="btn" onclick="state.gpaq.tr=0; gpaqQ10()">Non</button>`,70);}
+function gpaqQ8(){ render(`<p>Jours / semaine</p><input type="number" onchange="state.gpaq.tr_d=this.value"><button class="btn" onclick="gpaqQ9()">Continuer</button>`,75);}
+function gpaqQ9(){ render(`<p>Minutes / jour</p><input type="number" onchange="state.gpaq.tr_t=this.value"><button class="btn" onclick="gpaqQ10()">Continuer</button>`,80);}
+function gpaqQ10(){ render(`<p>Sports intenses ?</p><button class="btn" onclick="state.gpaq.li=1; gpaqQ11()">Oui</button><button class="btn" onclick="state.gpaq.li=0; gpaqQ13()">Non</button>`,85);}
+function gpaqQ11(){ render(`<p>Jours / semaine</p><input type="number" onchange="state.gpaq.li_d=this.value"><button class="btn" onclick="gpaqQ12()">Continuer</button>`,88);}
+function gpaqQ12(){ render(`<p>Minutes / jour</p><input type="number" onchange="state.gpaq.li_t=this.value"><button class="btn" onclick="gpaqQ13()">Continuer</button>`,90);}
+function gpaqQ13(){ render(`<p>Activités modérées loisirs ?</p><button class="btn" onclick="state.gpaq.lm=1; gpaqQ14()">Oui</button><button class="btn" onclick="state.gpaq.lm=0; gpaqQ16()">Non</button>`,92);}
+function gpaqQ14(){ render(`<p>Jours / semaine</p><input type="number" onchange="state.gpaq.lm_d=this.value"><button class="btn" onclick="gpaqQ15()">Continuer</button>`,94);}
+function gpaqQ15(){ render(`<p>Minutes / jour</p><input type="number" onchange="state.gpaq.lm_t=this.value"><button class="btn" onclick="gpaqQ16()">Continuer</button>`,96);}
+function gpaqQ16(){ render(`<p>Temps assis (min/jour)</p><input type="number" onchange="state.gpaq.sed=this.value"><button class="btn" onclick="finishGPAQ()">Terminer</button>`,98);}
+
+function finishGPAQ(){
+  const wi=(state.gpaq.wi_d||0)*(state.gpaq.wi_t||0);
+  const wm=(state.gpaq.wm_d||0)*(state.gpaq.wm_t||0);
+  const tr=(state.gpaq.tr_d||0)*(state.gpaq.tr_t||0);
+  const li=(state.gpaq.li_d||0)*(state.gpaq.li_t||0);
+  const lm=(state.gpaq.lm_d||0)*(state.gpaq.lm_t||0);
+  const MET = wi*8 + li*8 + (wm+tr+lm)*4;
+  state.result.met=MET;
+  state.result.niveau = MET>=3000?"très_actif":MET>=600?"moyennement_actif":"insuffisamment_actif";
+  motivation();
+}
 
 /*************************************************
- * MOTIVATION + EVA — LOGIQUE CORRIGÉE
+ * MOTIVATION — LOGIQUE CORRIGÉE
  *************************************************/
 function motivation(){
   if(state.result.niveau!=="insuffisamment_actif"){
-    render(`<p>Actif à ce niveau depuis plus de 6 mois ?</p>
+    render(`
+    <p>Êtes-vous actif à ce niveau depuis plus de 6 mois ?</p>
     <button class="btn" onclick="state.result.stade='consolidation'; evaImp()">Oui</button>
     <button class="btn" onclick="state.result.stade='action'; evaImp()">Non</button>
-    <button class="btn secondary" onclick="back()">Retour</button>`,94);
+    `,99);
   } else {
-    render(`<p>Souhaitez-vous augmenter votre activité physique dans les 30 jours ?</p>
+    render(`
+    <p>Envisagez-vous d’augmenter votre activité physique dans les 30 jours ?</p>
     <button class="btn" onclick="state.result.stade='préparation'; evaImp()">Oui</button>
-    <button class="btn" onclick="motivation6mois()">Non</button>
-    <button class="btn secondary" onclick="back()">Retour</button>`,94);
+    <button class="btn" onclick="motivation2()">Non</button>
+    `,99);
   }
 }
 
-function motivation6mois(){
-  render(`<p>Avez-vous l’intention de vous engager dans une activité physique régulière dans les 6 mois ?</p>
+function motivation2(){
+  render(`
+    <p>Avez-vous l’intention de vous engager dans une activité physique régulière dans les 6 mois ?</p>
     <button class="btn" onclick="state.result.stade='intention'; evaImp()">Oui</button>
     <button class="btn" onclick="state.result.stade='indétermination'; evaImp()">Non</button>
-    <button class="btn secondary" onclick="back()">Retour</button>`,95);
+  `,99);
 }
 
 /*************************************************
- * EVA (inchangé)
+ * EVA + FIN
  *************************************************/
 function evaImp(){
-render(`<p>Importance de l’activité physique (0–10)</p>
-<input type="range" min="0" max="10" value="5" oninput="this.nextElementSibling.innerText=this.value">
+render(`<p>Importance (0–10)</p>
+<input type="range" min="0" max="10" value="5"
+oninput="this.nextElementSibling.innerText=this.value">
 <div>5</div>
-<button class="btn" onclick="state.result.importance=document.querySelector('input').value; evaConfiance()">Continuer</button>
-<button class="btn secondary" onclick="back()">Retour</button>`,97);
+<button class="btn" onclick="state.result.importance=document.querySelector('input').value; evaConfiance()">Continuer</button>`,100);
 }
-
 function evaConfiance(){
-render(`<p>Confiance pour maintenir ou augmenter votre activité (0–10)</p>
-<input type="range" min="0" max="10" value="5" oninput="this.nextElementSibling.innerText=this.value">
+render(`<p>Confiance (0–10)</p>
+<input type="range" min="0" max="10" value="5"
+oninput="this.nextElementSibling.innerText=this.value">
 <div>5</div>
-<button class="btn" onclick="state.result.confiance=document.querySelector('input').value; final()">Terminer</button>
-<button class="btn secondary" onclick="back()">Retour</button>`,99);
+<button class="btn" onclick="state.result.confiance=document.querySelector('input').value; final()">Terminer</button>`,100);
 }
-
-/*************************************************
- * FINAL (inchangé)
- *************************************************/
 function final(){
-let html=`<h2>Conclusion</h2>
-<p><strong>Niveau d’activité :</strong> ${state.result.niveau.replace("_"," ")}
-${state.result.met?` (${state.result.met} MET-min/semaine)`:""}
-${state.result.marshall_score!==undefined?` (score ${state.result.marshall_score})`:""}</p>
-
-<h3>Détails du questionnaire</h3>
-
-<div class="section"><strong>Stade motivationnel</strong><div class="answer">${state.result.stade}</div></div>
-<div class="section"><strong>Importance (0–10)</strong><div class="answer">${state.result.importance}</div></div>
-<div class="section"><strong>Confiance (0–10)</strong><div class="answer">${state.result.confiance}</div></div>
-
-<button class="btn secondary" onclick="location.reload()">Recommencer</button>
-<p class="footer">Outil d’aide à la consultation médicale.</p>
-`;
-
-render(html,100,false);
+render(`<h2>Fin</h2><pre>${JSON.stringify(state.result,null,2)}</pre>`,100,false);
 }
 </script>
 </body>
