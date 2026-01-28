@@ -120,7 +120,7 @@ function finishMarshall(q2){
 function gpaqQ1(){
 render(`
 <h2>Activité au travail – intensité élevée</h2>
-<p>Votre travail implique-t-il des activités physiques intenses (efforts importants, respiration rapide, port de charges lourdes) ?</p>
+<p>Votre travail implique-t-il des activités physiques intenses ?</p>
 <button class="btn" onclick="state.gpaq.wi=1; gpaqQ2()">Oui</button>
 <button class="btn" onclick="state.gpaq.wi=0; gpaqQ4()">Non</button>
 <button class="btn secondary" onclick="back()">Retour</button>
@@ -242,11 +242,17 @@ render(`
 `,85);
 }
 
+/*************************************************
+ * GPAQ — SÉDENTARITÉ (MODIFIÉE)
+ *************************************************/
 function gpaqQ16(){
 render(`
 <h2>Comportement sédentaire</h2>
 <p>Combien de temps passez-vous assis ou couché par jour (hors sommeil) ?</p>
-<input type="number" min="0" max="1440" onchange="state.gpaq.sed=this.value">
+<div class="time-row">
+<input type="number" min="0" max="23" placeholder="Heures" onchange="state.gpaq.sed_h=this.value">
+<input type="number" min="0" max="59" placeholder="Minutes" onchange="state.gpaq.sed_m=this.value">
+</div>
 <button class="btn" onclick="finishGPAQ()">Terminer</button>
 <button class="btn secondary" onclick="back()">Retour</button>
 `,90);
@@ -272,7 +278,8 @@ function finishGPAQ(){
 }
 
 /*************************************************
- * MOTIVATION — LOGIQUE VALIDÉE
+ * MOTIVATION + EVA + RÉSULTAT
+ * (INCHANGÉS – GEL)
  *************************************************/
 function motivation(){
   if(state.result.niveau!=="insuffisamment_actif"){
@@ -304,9 +311,6 @@ render(`
 `,96);
 }
 
-/*************************************************
- * EVA
- *************************************************/
 function evaImportance(){
 render(`
 <h2>Importance de l’activité physique</h2>
@@ -331,9 +335,6 @@ oninput="this.nextElementSibling.innerText=this.value">
 `,98);
 }
 
-/*************************************************
- * RÉSULTAT FINAL
- *************************************************/
 function final(){
 render(`
 <h2>Résultat</h2>
