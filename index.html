@@ -10,49 +10,14 @@ body { font-family: Arial, sans-serif; background:#f6f7f8; margin:0; }
 .container { max-width:720px; margin:auto; padding:20px; background:white; min-height:100vh; }
 h1,h2,h3 { font-weight:600; margin-top:25px; }
 .section { border-top:1px solid #ddd; padding-top:15px; margin-top:20px; }
-
-.btn {
-  display:block;
-  width:100%;
-  padding:14px;
-  margin:10px 0;
-  font-size:16px;
-  border-radius:6px;
-  border:none;
-  background:#007BFF;
-  color:white;
-  cursor:pointer;
-}
+.btn { display:block; width:100%; padding:14px; margin:10px 0; font-size:16px; border-radius:6px; border:none; background:#007BFF; color:white; cursor:pointer; }
 .btn.secondary { background:#6c757d; }
-
-.progress-wrapper { margin:10px 0 20px 0; }
-.progress-label {
-  font-size:13px;
-  color:#555;
-  margin-bottom:6px;
-}
-.progress {
-  height:8px;
-  background:#ddd;
-  border-radius:4px;
-  overflow:hidden;
-}
-.progress-bar {
-  height:8px;
-  background:#4caf50;
-  width:0%;
-  transition: width 0.4s ease;
-}
-
+.progress { height:6px; background:#ddd; margin:15px 0; }
+.progress-bar { height:6px; background:#4caf50; }
 .footer { font-size:12px; color:#666; margin-top:40px; }
 .answer { margin-left:10px; margin-top:4px; }
 .rgpd { font-size:12px; color:#555; margin-top:8px; }
-
-input[type=number], input[type=range] {
-  width:100%;
-  padding:10px;
-  font-size:16px;
-}
+input[type=number], input[type=range] { width:100%; padding:10px; font-size:16px; }
 .time-row { display:flex; gap:10px; }
 </style>
 </head>
@@ -69,33 +34,25 @@ const state = {
   gpaq: {},
   marshall: {},
   result: {},
-  history: [],
-  stepLabel: ""
+  history: []
 };
 
 /*************************************************
  * RENDER + RETOUR
  *************************************************/
-function render(html, progress=0, save=true, label=""){
+function render(html, progress=0, save=true){
   if(save) state.history.push(document.getElementById("app").innerHTML);
-  state.stepLabel = label;
   document.getElementById("app").innerHTML = `
-    <div class="progress-wrapper">
-      <div class="progress-label">${state.stepLabel}</div>
-      <div class="progress">
-        <div class="progress-bar" style="width:${progress}%"></div>
-      </div>
-    </div>
+    <div class="progress"><div class="progress-bar" style="width:${progress}%"></div></div>
     ${html}
   `;
 }
-
 function back(){
   if(state.history.length>0){
     document.getElementById("app").innerHTML = state.history.pop();
   }
 }
-  
+
 /*************************************************
  * ACCUEIL
  *************************************************/
@@ -112,7 +69,7 @@ Politique de confidentialité
 
 <button class="btn" onclick="start('gpaq')">Questionnaire détaillé (GPAQ)</button>
 <button class="btn secondary" onclick="start('marshall')">Questionnaire court (Marshall)</button>
-`,0,false,"Accueil");
+`,0,false);
 
 function start(tool){
   state.tool = tool;
@@ -122,7 +79,6 @@ function start(tool){
   state.history = [];
   tool==="marshall" ? marshallQ1() : gpaqQ1();
 }
-
 
 /*************************************************
  * MARSHALL
@@ -135,7 +91,7 @@ render(`
 <button class="btn" onclick="state.marshall.q1=2; marshallQ2()">1–2 fois / semaine</button>
 <button class="btn" onclick="state.marshall.q1=0; marshallQ2()">Jamais</button>
 <button class="btn secondary" onclick="back()">Retour</button>
-`,15,true,"Questionnaire d’activité physique");
+`,15);
 }
 
 function marshallQ2(){
@@ -147,7 +103,7 @@ render(`
 <button class="btn" onclick="finishMarshall(1)">1–2 fois / semaine</button>
 <button class="btn" onclick="finishMarshall(0)">Jamais</button>
 <button class="btn secondary" onclick="back()">Retour</button>
-`,30,true,"Questionnaire d’activité physique");
+`,30);
 }
 
 function finishMarshall(q2){
@@ -333,7 +289,7 @@ function motivation(){
     <button class="btn" onclick="state.result.stade='consolidation'; evaImportance()">Oui</button>
     <button class="btn" onclick="state.result.stade='action'; evaImportance()">Non</button>
     <button class="btn secondary" onclick="back()">Retour</button>
-    `,95,true,"Motivation");
+    `,95);
   } else {
     render(`
     <h2>Motivation</h2>
@@ -341,7 +297,7 @@ function motivation(){
     <button class="btn" onclick="state.result.stade='préparation'; evaImportance()">Oui</button>
     <button class="btn" onclick="motivation2()">Non</button>
     <button class="btn secondary" onclick="back()">Retour</button>
-    `,95,true,"Motivation");
+    `,95);
   }
 }
 
