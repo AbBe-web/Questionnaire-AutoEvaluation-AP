@@ -13,11 +13,12 @@ h1,h2,h3 { font-weight:600; margin-top:25px; }
 .btn { display:block; width:100%; padding:14px; margin:10px 0; font-size:16px; border-radius:6px; border:none; background:#007BFF; color:white; cursor:pointer; }
 .btn.secondary { background:#6c757d; }
 .progress { height:6px; background:#ddd; margin:15px 0; }
-.progress-bar { height:6px; background:#4caf50; width:0%; }
+.progress-bar { height:6px; background:#4caf50; }
 .footer { font-size:12px; color:#666; margin-top:40px; }
 .answer { margin-left:10px; margin-top:4px; }
 .rgpd { font-size:12px; color:#555; margin-top:8px; }
 input[type=number], input[type=range] { width:100%; padding:10px; font-size:16px; }
+.time-row { display:flex; gap:10px; }
 </style>
 </head>
 
@@ -85,7 +86,7 @@ function start(tool){
 function marshallQ1(){
 render(`
 <h2>Marshall – Question 1</h2>
-<p>Réalisez-vous au moins 20 minutes d’activité physique intense ?</p>
+<p>Au cours d’une semaine habituelle, combien de fois pratiquez-vous une activité physique intense d’au moins 20 minutes ?</p>
 <button class="btn" onclick="state.marshall.q1=4; marshallQ2()">≥ 3 fois / semaine</button>
 <button class="btn" onclick="state.marshall.q1=2; marshallQ2()">1–2 fois / semaine</button>
 <button class="btn" onclick="state.marshall.q1=0; marshallQ2()">Jamais</button>
@@ -96,7 +97,7 @@ render(`
 function marshallQ2(){
 render(`
 <h2>Marshall – Question 2</h2>
-<p>Réalisez-vous au moins 30 minutes d’activité physique modérée ?</p>
+<p>Combien de fois par semaine pratiquez-vous une activité physique modérée ou de la marche rapide pendant au moins 30 minutes ?</p>
 <button class="btn" onclick="finishMarshall(4)">≥ 5 fois / semaine</button>
 <button class="btn" onclick="finishMarshall(2)">3–4 fois / semaine</button>
 <button class="btn" onclick="finishMarshall(1)">1–2 fois / semaine</button>
@@ -108,125 +109,226 @@ render(`
 function finishMarshall(q2){
   state.marshall.q2=q2;
   const score=state.marshall.q1+q2;
-  state.result.niveau=score>=4?"suffisamment_actif":"insuffisamment_actif";
+  state.result.niveau = score>=4 ? "suffisamment_actif" : "insuffisamment_actif";
   state.result.marshall_score=score;
   motivation();
 }
 
 /*************************************************
- * GPAQ – LOISIRS (INTENSE + MODÉRÉ)
+ * GPAQ — FLUX COMPLET
  *************************************************/
+function gpaqQ1(){
+render(`
+<h2>Activité au travail – intensité élevée</h2>
+<p>Votre travail implique-t-il des activités physiques intenses (efforts importants, respiration rapide, port de charges lourdes) ?</p>
+<button class="btn" onclick="state.gpaq.wi=1; gpaqQ2()">Oui</button>
+<button class="btn" onclick="state.gpaq.wi=0; gpaqQ4()">Non</button>
+<button class="btn secondary" onclick="back()">Retour</button>
+`,10);
+}
+
+function gpaqQ2(){
+render(`
+<h2>Activité au travail – intensité élevée</h2>
+<p>Combien de jours par semaine ?</p>
+<input type="number" min="0" max="7" onchange="state.gpaq.wi_d=this.value">
+<p>Combien de temps par jour ?</p>
+<div class="time-row">
+<input type="number" min="0" max="23" placeholder="Heures" onchange="state.gpaq.wi_h=this.value">
+<input type="number" min="0" max="59" placeholder="Minutes" onchange="state.gpaq.wi_m=this.value">
+</div>
+<button class="btn" onclick="gpaqQ4()">Continuer</button>
+<button class="btn secondary" onclick="back()">Retour</button>
+`,20);
+}
+
+function gpaqQ4(){
+render(`
+<h2>Activité au travail – intensité modérée</h2>
+<p>Votre travail implique-t-il des activités physiques modérées ?</p>
+<button class="btn" onclick="state.gpaq.wm=1; gpaqQ5()">Oui</button>
+<button class="btn" onclick="state.gpaq.wm=0; gpaqQ7()">Non</button>
+<button class="btn secondary" onclick="back()">Retour</button>
+`,30);
+}
+
+function gpaqQ5(){
+render(`
+<h2>Activité au travail – intensité modérée</h2>
+<p>Combien de jours par semaine ?</p>
+<input type="number" min="0" max="7" onchange="state.gpaq.wm_d=this.value">
+<p>Combien de temps par jour ?</p>
+<div class="time-row">
+<input type="number" min="0" max="23" placeholder="Heures" onchange="state.gpaq.wm_h=this.value">
+<input type="number" min="0" max="59" placeholder="Minutes" onchange="state.gpaq.wm_m=this.value">
+</div>
+<button class="btn" onclick="gpaqQ7()">Continuer</button>
+<button class="btn secondary" onclick="back()">Retour</button>
+`,40);
+}
+
+function gpaqQ7(){
+render(`
+<h2>Déplacements</h2>
+<p>Effectuez-vous des trajets d’au moins 10 minutes à pied ou à vélo ?</p>
+<button class="btn" onclick="state.gpaq.tr=1; gpaqQ8()">Oui</button>
+<button class="btn" onclick="state.gpaq.tr=0; gpaqQ10()">Non</button>
+<button class="btn secondary" onclick="back()">Retour</button>
+`,50);
+}
+
+function gpaqQ8(){
+render(`
+<h2>Déplacements</h2>
+<p>Combien de jours par semaine ?</p>
+<input type="number" min="0" max="7" onchange="state.gpaq.tr_d=this.value">
+<p>Combien de temps par jour ?</p>
+<div class="time-row">
+<input type="number" min="0" max="23" placeholder="Heures" onchange="state.gpaq.tr_h=this.value">
+<input type="number" min="0" max="59" placeholder="Minutes" onchange="state.gpaq.tr_m=this.value">
+</div>
+<button class="btn" onclick="gpaqQ10()">Continuer</button>
+<button class="btn secondary" onclick="back()">Retour</button>
+`,60);
+}
+
 function gpaqQ10(){
 render(`
-<h2>Activité de loisirs – intensité élevée</h2>
+<h2>Loisirs – activité intense</h2>
 <p>Pratiquez-vous des sports ou du fitness de forte intensité ?</p>
 <button class="btn" onclick="state.gpaq.li=1; gpaqQ11()">Oui</button>
 <button class="btn" onclick="state.gpaq.li=0; gpaqQ13()">Non</button>
 <button class="btn secondary" onclick="back()">Retour</button>
-`,80);
+`,70);
 }
 
 function gpaqQ11(){
 render(`
-<h2>Activité de loisirs – intensité élevée</h2>
+<h2>Loisirs – activité intense</h2>
 <p>Combien de jours par semaine ?</p>
 <input type="number" min="0" max="7" onchange="state.gpaq.li_d=this.value">
-<button class="btn" onclick="gpaqQ12()">Continuer</button>
-<button class="btn secondary" onclick="back()">Retour</button>
-`,82);
-}
-
-function gpaqQ12(){
-render(`
-<h2>Activité de loisirs – intensité élevée</h2>
-<p>Combien de temps y consacrez-vous par jour (en minutes) ?</p>
-<input type="number" min="0" max="1440" onchange="state.gpaq.li_t=this.value">
+<p>Combien de temps par jour ?</p>
+<div class="time-row">
+<input type="number" min="0" max="23" placeholder="Heures" onchange="state.gpaq.li_h=this.value">
+<input type="number" min="0" max="59" placeholder="Minutes" onchange="state.gpaq.li_m=this.value">
+</div>
 <button class="btn" onclick="gpaqQ13()">Continuer</button>
 <button class="btn secondary" onclick="back()">Retour</button>
-`,84);
+`,75);
 }
 
 function gpaqQ13(){
 render(`
-<h2>Activité de loisirs – intensité modérée</h2>
+<h2>Loisirs – activité modérée</h2>
 <p>Pratiquez-vous des activités physiques modérées en loisirs ?</p>
 <button class="btn" onclick="state.gpaq.lm=1; gpaqQ14()">Oui</button>
 <button class="btn" onclick="state.gpaq.lm=0; gpaqQ16()">Non</button>
 <button class="btn secondary" onclick="back()">Retour</button>
-`,86);
+`,80);
 }
 
 function gpaqQ14(){
 render(`
-<h2>Activité de loisirs – intensité modérée</h2>
+<h2>Loisirs – activité modérée</h2>
 <p>Combien de jours par semaine ?</p>
 <input type="number" min="0" max="7" onchange="state.gpaq.lm_d=this.value">
-<button class="btn" onclick="gpaqQ15()">Continuer</button>
+<p>Combien de temps par jour ?</p>
+<div class="time-row">
+<input type="number" min="0" max="23" placeholder="Heures" onchange="state.gpaq.lm_h=this.value">
+<input type="number" min="0" max="59" placeholder="Minutes" onchange="state.gpaq.lm_m=this.value">
+</div>
+<button class="btn" onclick="gpaqQ16()">Continuer</button>
 <button class="btn secondary" onclick="back()">Retour</button>
-`,88);
+`,85);
 }
 
-function gpaqQ15(){
+function gpaqQ16(){
 render(`
-<h2>Activité de loisirs – intensité modérée</h2>
-<p>Combien de temps y consacrez-vous par jour (en minutes) ?</p>
-<input type="number" min="0" max="1440" onchange="state.gpaq.lm_t=this.value">
-<button class="btn" onclick="gpaqQ16()">Continuer</button>
+<h2>Comportement sédentaire</h2>
+<p>Combien de temps passez-vous assis ou couché par jour (hors sommeil) ?</p>
+<input type="number" min="0" max="1440" onchange="state.gpaq.sed=this.value">
+<button class="btn" onclick="finishGPAQ()">Terminer</button>
 <button class="btn secondary" onclick="back()">Retour</button>
 `,90);
 }
 
+function minutes(h,m){ return (Number(h||0)*60)+Number(m||0); }
+
+function finishGPAQ(){
+  const wi = (state.gpaq.wi_d||0)*minutes(state.gpaq.wi_h,state.gpaq.wi_m);
+  const wm = (state.gpaq.wm_d||0)*minutes(state.gpaq.wm_h,state.gpaq.wm_m);
+  const tr = (state.gpaq.tr_d||0)*minutes(state.gpaq.tr_h,state.gpaq.tr_m);
+  const li = (state.gpaq.li_d||0)*minutes(state.gpaq.li_h,state.gpaq.li_m);
+  const lm = (state.gpaq.lm_d||0)*minutes(state.gpaq.lm_h,state.gpaq.lm_m);
+
+  const MET = wi*8 + li*8 + (wm+tr+lm)*4;
+  state.result.met = MET;
+
+  if(MET>=3000) state.result.niveau="très_actif";
+  else if(MET>=600) state.result.niveau="moyennement_actif";
+  else state.result.niveau="insuffisamment_actif";
+
+  motivation();
+}
+
 /*************************************************
- * MOTIVATION (LOGIQUE GELÉE)
+ * MOTIVATION — LOGIQUE VALIDÉE
  *************************************************/
 function motivation(){
   if(state.result.niveau!=="insuffisamment_actif"){
     render(`
+    <h2>Motivation</h2>
     <p>Êtes-vous actif à ce niveau depuis plus de 6 mois ?</p>
-    <button class="btn" onclick="state.result.stade='consolidation'; evaImp()">Oui</button>
-    <button class="btn" onclick="state.result.stade='action'; evaImp()">Non</button>
+    <button class="btn" onclick="state.result.stade='consolidation'; evaImportance()">Oui</button>
+    <button class="btn" onclick="state.result.stade='action'; evaImportance()">Non</button>
     <button class="btn secondary" onclick="back()">Retour</button>
-    `,94);
+    `,95);
   } else {
     render(`
+    <h2>Motivation</h2>
     <p>Envisagez-vous d’augmenter votre activité physique dans les 30 jours ?</p>
-    <button class="btn" onclick="state.result.stade='préparation'; evaImp()">Oui</button>
+    <button class="btn" onclick="state.result.stade='préparation'; evaImportance()">Oui</button>
     <button class="btn" onclick="motivation2()">Non</button>
     <button class="btn secondary" onclick="back()">Retour</button>
-    `,94);
+    `,95);
   }
 }
 
 function motivation2(){
 render(`
-<p>Envisagez-vous de vous engager dans une activité physique régulière dans les 6 mois ?</p>
-<button class="btn" onclick="state.result.stade='intention'; evaImp()">Oui</button>
-<button class="btn" onclick="state.result.stade='indétermination'; evaImp()">Non</button>
+<h2>Motivation</h2>
+<p>Avez-vous l’intention de vous engager dans une activité physique régulière dans les 6 mois ?</p>
+<button class="btn" onclick="state.result.stade='intention'; evaImportance()">Oui</button>
+<button class="btn" onclick="state.result.stade='indétermination'; evaImportance()">Non</button>
 <button class="btn secondary" onclick="back()">Retour</button>
-`,95);
+`,96);
 }
 
 /*************************************************
  * EVA
  *************************************************/
-function evaImp(){
+function evaImportance(){
 render(`
-<p>Quelle importance accordez-vous à l’activité physique (0–10) ?</p>
-<input type="range" min="0" max="10" value="5" oninput="this.nextElementSibling.innerText=this.value">
+<h2>Importance de l’activité physique</h2>
+<p>Quelle importance accordez-vous à l’activité physique dans votre vie ?</p>
+<input type="range" min="0" max="10" value="5"
+oninput="this.nextElementSibling.innerText=this.value">
 <div>5</div>
-<button class="btn" onclick="state.result.importance=document.querySelector('input').value; evaConf()">Continuer</button>
+<button class="btn" onclick="state.result.importance=document.querySelector('input').value; evaConfiance()">Continuer</button>
 <button class="btn secondary" onclick="back()">Retour</button>
 `,97);
 }
 
-function evaConf(){
+function evaConfiance(){
 render(`
-<p>À quel point vous sentez-vous confiant pour maintenir ou augmenter votre activité physique (0–10) ?</p>
-<input type="range" min="0" max="10" value="5" oninput="this.nextElementSibling.innerText=this.value">
+<h2>Confiance en soi</h2>
+<p>Dans quelle mesure êtes-vous confiant(e) pour réussir à augmenter ou maintenir votre niveau d’activité physique ?</p>
+<input type="range" min="0" max="10" value="5"
+oninput="this.nextElementSibling.innerText=this.value">
 <div>5</div>
 <button class="btn" onclick="state.result.confiance=document.querySelector('input').value; final()">Terminer</button>
 <button class="btn secondary" onclick="back()">Retour</button>
-`,99);
+`,98);
 }
 
 /*************************************************
@@ -234,14 +336,18 @@ render(`
  *************************************************/
 function final(){
 render(`
-<h2>Conclusion</h2>
-<p><strong>Niveau d’activité :</strong> ${state.result.niveau}</p>
-<p><strong>Stade motivationnel :</strong> ${state.result.stade}</p>
-<p><strong>Importance :</strong> ${state.result.importance}/10</p>
-<p><strong>Confiance :</strong> ${state.result.confiance}/10</p>
+<h2>Résultat</h2>
+<p><strong>Niveau d’activité :</strong> ${state.result.niveau.replace("_"," ")}
+${state.result.met?` (${state.result.met} MET-min/semaine)`:""}</p>
 
+<div class="section"><strong>Stade motivationnel</strong><div class="answer">${state.result.stade}</div></div>
+<div class="section"><strong>Importance</strong><div class="answer">${state.result.importance}/10</div></div>
+<div class="section"><strong>Confiance</strong><div class="answer">${state.result.confiance}/10</div></div>
+
+<button class="btn secondary" onclick="back()">Retour</button>
 <button class="btn secondary" onclick="location.reload()">Recommencer</button>
-<p class="footer">Outil d’aide à la consultation médicale.</p>
+
+<p class="footer">Document à apporter lors de votre consultation médicale.</p>
 `,100,false);
 }
 </script>
