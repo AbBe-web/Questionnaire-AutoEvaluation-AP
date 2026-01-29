@@ -17,7 +17,8 @@ h1,h2,h3 { font-weight:600; margin-top:25px; }
 .footer { font-size:12px; color:#666; margin-top:40px; }
 .answer { margin-left:10px; margin-top:4px; }
 .rgpd { font-size:12px; color:#555; margin-top:8px; }
-input[type=number], input[type=range] { width:100%; padding:10px; font-size:16px; }
+input[type=number], input[type=range], textarea { width:100%; padding:10px; font-size:16px; }
+textarea { min-height:80px; }
 .time-row { display:flex; gap:10px; }
 </style>
 </head>
@@ -276,40 +277,11 @@ function finishGPAQ(){
 
   motivation();
 }
+function minutes(h,m){ return (Number(h||0)*60)+Number(m||0); }
 
 /*************************************************
  * MOTIVATION + EVA
  *************************************************/
-function motivation(){
-  if(state.result.niveau!=="insuffisamment_actif"){
-    render(`
-    <h2>Motivation</h2>
-    <p>Êtes-vous actif à ce niveau depuis plus de 6 mois ?</p>
-    <button class="btn" onclick="state.result.stade='consolidation'; evaImportance()">Oui</button>
-    <button class="btn" onclick="state.result.stade='action'; evaImportance()">Non</button>
-    <button class="btn secondary" onclick="back()">Retour</button>
-    `,95);
-  } else {
-    render(`
-    <h2>Motivation</h2>
-    <p>Envisagez-vous d’augmenter votre activité physique dans les 30 jours ?</p>
-    <button class="btn" onclick="state.result.stade='préparation'; evaImportance()">Oui</button>
-    <button class="btn" onclick="motivation2()">Non</button>
-    <button class="btn secondary" onclick="back()">Retour</button>
-    `,95);
-  }
-}
-
-function motivation2(){
-render(`
-<h2>Motivation</h2>
-<p>Avez-vous l’intention de vous engager dans une activité physique régulière dans les 6 mois ?</p>
-<button class="btn" onclick="state.result.stade='intention'; evaImportance()">Oui</button>
-<button class="btn" onclick="state.result.stade='indétermination'; evaImportance()">Non</button>
-<button class="btn secondary" onclick="back()">Retour</button>
-`,96);
-}
-
 function evaImportance(){
 render(`
 <h2>Importance de l’activité physique</h2>
@@ -317,9 +289,26 @@ render(`
 <input type="range" min="0" max="10" value="5"
 oninput="this.nextElementSibling.innerText=this.value">
 <div>5</div>
-<button class="btn" onclick="state.result.importance=document.querySelector('input').value; evaConfiance()">Continuer</button>
+<button class="btn" onclick="
+state.result.importance=document.querySelector('input').value;
+evaImportanceComment();
+">Continuer</button>
 <button class="btn secondary" onclick="back()">Retour</button>
 `,97);
+}
+
+function evaImportanceComment(){
+render(`
+<h2>Votre choix</h2>
+<p>
+Pouvez-vous m’indiquer en quelques mots pour quelles raisons vous avez choisi ce chiffre ?<br>
+<em>Sinon, passez à la question suivante.</em>
+</p>
+<textarea placeholder="Votre réponse (facultative)"
+onchange="state.result.importance_comment=this.value"></textarea>
+<button class="btn" onclick="evaConfiance()">Continuer</button>
+<button class="btn secondary" onclick="back()">Retour</button>
+`,98);
 }
 
 function evaConfiance(){
@@ -335,7 +324,7 @@ oninput="this.nextElementSibling.innerText=this.value">
 <div>5</div>
 <button class="btn" onclick="state.result.confiance=document.querySelector('input').value; final()">Terminer</button>
 <button class="btn secondary" onclick="back()">Retour</button>
-`,98);
+`,99);
 }
 
 function final(){
