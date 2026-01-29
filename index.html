@@ -243,7 +243,7 @@ render(`
 }
 
 /*************************************************
- * GPAQ — SÉDENTARITÉ (MODIFIÉE)
+ * GPAQ — SÉDENTARITÉ
  *************************************************/
 function gpaqQ16(){
 render(`
@@ -278,8 +278,7 @@ function finishGPAQ(){
 }
 
 /*************************************************
- * MOTIVATION + EVA + RÉSULTAT
- * (INCHANGÉS – GEL)
+ * MOTIVATION + EVA
  *************************************************/
 function motivation(){
   if(state.result.niveau!=="insuffisamment_actif"){
@@ -324,9 +323,13 @@ oninput="this.nextElementSibling.innerText=this.value">
 }
 
 function evaConfiance(){
-render(`
+  const question = state.result.niveau==="insuffisamment_actif"
+    ? "Dans quelle mesure êtes-vous confiant(e) en vous pour réussir à augmenter votre niveau d’activité physique ?"
+    : "Dans quelle mesure êtes-vous confiant(e) en vous pour réussir à maintenir voire augmenter votre niveau d’activité physique ?";
+
+  render(`
 <h2>Confiance en soi</h2>
-<p>Dans quelle mesure êtes-vous confiant(e) pour réussir à augmenter ou maintenir votre niveau d’activité physique ?</p>
+<p>${question}</p>
 <input type="range" min="0" max="10" value="5"
 oninput="this.nextElementSibling.innerText=this.value">
 <div>5</div>
