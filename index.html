@@ -348,7 +348,24 @@ function evaConfiance(){
 <input type="range" min="0" max="10" value="5"
 oninput="this.nextElementSibling.innerText=this.value">
 <div>5</div>
-<button class="btn" onclick="state.result.confiance=document.querySelector('input').value; final()">Terminer</button>
+<button class="btn" onclick="
+state.result.confiance=document.querySelector('input').value;
+evaConfianceComment();
+">Continuer</button>
+<button class="btn secondary" onclick="back()">Retour</button>
+`,99);
+}
+
+function evaConfianceComment(){
+render(`
+<h2>Votre réponse</h2>
+<p>
+Pouvez-vous m’indiquer en quelques mots ce qui vous rend confiant(e) ou, au contraire, ce qui vous freine ?<br>
+<em>Sinon, passez à la question suivante.</em>
+</p>
+<textarea placeholder="Votre réponse (facultative)"
+onchange="state.result.confiance_comment=this.value"></textarea>
+<button class="btn" onclick="final()">Terminer</button>
 <button class="btn secondary" onclick="back()">Retour</button>
 `,99);
 }
