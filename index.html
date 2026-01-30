@@ -82,7 +82,7 @@ function start(tool){
 }
 
 /*************************************************
- * GPAQ — INTRODUCTION OMS (AJOUT UX AUTORISÉ)
+ * GPAQ — INTRODUCTION GÉNÉRALE OMS
  *************************************************/
 function gpaqIntro(){
 render(`
@@ -144,7 +144,7 @@ function finishMarshall(q2){
 }
 
 /*************************************************
- * GPAQ — FLUX COMPLET (INCHANGÉ)
+ * GPAQ — FLUX COMPLET
  *************************************************/
 function gpaqQ1(){
 render(`
@@ -176,7 +176,7 @@ render(`
 <h2>Activité au travail – intensité modérée</h2>
 <p>Votre travail implique-t-il des activités physiques modérées ?</p>
 <button class="btn" onclick="state.gpaq.wm=1; gpaqQ5()">Oui</button>
-<button class="btn" onclick="state.gpaq.wm=0; gpaqQ7()">Non</button>
+<button class="btn" onclick="state.gpaq.wm=0; gpaqIntroTransport()">Non</button>
 <button class="btn secondary" onclick="back()">Retour</button>
 `,30);
 }
@@ -191,9 +191,30 @@ render(`
 <input type="number" min="0" max="23" placeholder="Heures" onchange="state.gpaq.wm_h=this.value">
 <input type="number" min="0" max="59" placeholder="Minutes" onchange="state.gpaq.wm_m=this.value">
 </div>
-<button class="btn" onclick="gpaqQ7()">Continuer</button>
+<button class="btn" onclick="gpaqIntroTransport()">Continuer</button>
 <button class="btn secondary" onclick="back()">Retour</button>
 `,40);
+}
+
+/*************************************************
+ * GPAQ — INTRO DÉPLACEMENTS (OMS)
+ *************************************************/
+function gpaqIntroTransport(){
+render(`
+<h2>Déplacements</h2>
+
+<p>
+Les questions suivantes excluent les activités physiques dans le cadre de votre travail, que vous avez déjà mentionnées.
+</p>
+
+<p>
+Maintenant, je voudrais connaître votre façon habituelle de vous déplacer d'un endroit à l'autre ; par exemple pour aller au travail,
+faire des courses, aller au marché, aller à votre lieu consacré au culte.
+</p>
+
+<button class="btn" onclick="gpaqQ7()">Continuer</button>
+<button class="btn secondary" onclick="back()">Retour</button>
+`,45);
 }
 
 function gpaqQ7(){
