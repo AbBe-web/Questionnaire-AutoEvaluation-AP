@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Pré-consultation – Activité Physique</title>
 
+
 <style>
 body { font-family: Arial, sans-serif; background:#f6f7f8; margin:0; }
 .container { max-width:720px; margin:auto; padding:20px; background:white; min-height:100vh; }
@@ -38,6 +39,7 @@ const state = {
   history: []
 };
 
+
 /*************************************************
  * RENDER + RETOUR
  *************************************************/
@@ -53,7 +55,7 @@ function back(){
     document.getElementById("app").innerHTML = state.history.pop();
   }
 }
-
+  
 /*************************************************
  * ACCUEIL
  *************************************************/
@@ -80,6 +82,7 @@ function start(tool){
   state.history = [];
   tool==="marshall" ? marshallQ1() : gpaqIntro();
 }
+
 
 /*************************************************
  * GPAQ — INTRODUCTION GÉNÉRALE OMS
@@ -141,12 +144,12 @@ function finishMarshall(q2){
   state.result.niveau = score>=4 ? "suffisamment_actif" : "insuffisamment_actif";
   state.result.marshall_score=score;
   motivation();
-}
+}}
 
 /*************************************************
  * GPAQ — FLUX COMPLET
  *************************************************/
-function gpaqQ1(){ /* inchangé */ 
+function gpaqQ1(){
 render(`
 <h2>Activité au travail – intensité élevée</h2>
 <p>Votre travail implique-t-il des activités physiques intenses ?</p>
@@ -358,6 +361,9 @@ function finishGPAQ(){
   else if(MET>=600) state.result.niveau="moyennement_actif";
   else state.result.niveau="insuffisamment_actif";
 
+  motivation();
+}
+  
 /*************************************************
  * MOTIVATION + EVA
  *************************************************/
