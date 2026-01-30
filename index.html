@@ -78,7 +78,35 @@ function start(tool){
   state.marshall = {};
   state.result = {};
   state.history = [];
-  tool==="marshall" ? marshallQ1() : gpaqQ1();
+  tool==="marshall" ? marshallQ1() : gpaqIntro();
+}
+
+/*************************************************
+ * GPAQ — INTRODUCTION OMS (AJOUT UX AUTORISÉ)
+ *************************************************/
+function gpaqIntro(){
+render(`
+<h2>Questionnaire GPAQ – Organisation mondiale de la Santé</h2>
+
+<p>
+Je vais maintenant vous poser quelques questions sur le temps que vous consacrez à différents types d’activité physique lors d'une semaine typique.
+Veuillez répondre à ces questions même si vous ne vous considérez pas comme quelqu’un d’actif.
+</p>
+
+<p>
+Pensez tout d’abord au temps que vous y consacrez au travail, qu'il s'agisse d'un travail rémunéré ou non, de tâches ménagères,
+de cueillir ou récolter des aliments, de pêcher ou chasser, de chercher un emploi.
+</p>
+
+<p>
+Dans les questions suivantes, les activités physiques de forte intensité sont des activités nécessitant un effort physique important
+et causant une augmentation conséquente de la respiration ou du rythme cardiaque, et les activités physiques d'intensité modérée sont
+des activités qui demandent un effort physique modéré et causant une petite augmentation de la respiration ou du rythme cardiaque.
+</p>
+
+<button class="btn" onclick="gpaqQ1()">Commencer le questionnaire</button>
+<button class="btn secondary" onclick="back()">Retour</button>
+`,5);
 }
 
 /*************************************************
