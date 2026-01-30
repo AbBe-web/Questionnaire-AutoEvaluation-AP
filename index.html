@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Pré-consultation – Activité Physique</title>
 
-
 <style>
 body { font-family: Arial, sans-serif; background:#f6f7f8; margin:0; }
 .container { max-width:720px; margin:auto; padding:20px; background:white; min-height:100vh; }
@@ -39,7 +38,6 @@ const state = {
   history: []
 };
 
-
 /*************************************************
  * RENDER + RETOUR
  *************************************************/
@@ -55,7 +53,7 @@ function back(){
     document.getElementById("app").innerHTML = state.history.pop();
   }
 }
-  
+
 /*************************************************
  * ACCUEIL
  *************************************************/
@@ -82,7 +80,6 @@ function start(tool){
   state.history = [];
   tool==="marshall" ? marshallQ1() : gpaqIntro();
 }
-
 
 /*************************************************
  * GPAQ — INTRODUCTION GÉNÉRALE OMS
@@ -144,7 +141,7 @@ function finishMarshall(q2){
   state.result.niveau = score>=4 ? "suffisamment_actif" : "insuffisamment_actif";
   state.result.marshall_score=score;
   motivation();
-}}
+}
 
 /*************************************************
  * GPAQ — FLUX COMPLET
@@ -275,24 +272,9 @@ render(`
 <h2>Loisirs – activité modérée</h2>
 <p>Pratiquez-vous des activités physiques modérées en loisirs ?</p>
 <button class="btn" onclick="state.gpaq.lm=1; gpaqQ14()">Oui</button>
-<button class="btn" onclick="state.gpaq.lm=0; gpaqQ16()">Non</button>
+<button class="btn" onclick="state.gpaq.lm=0; gpaqIntroSedentaire()">Non</button>
 <button class="btn secondary" onclick="back()">Retour</button>
 `,80);
-}
-
-function gpaqQ14(){
-render(`
-<h2>Loisirs – activité modérée</h2>
-<p>Combien de jours par semaine ?</p>
-<input type="number" min="0" max="7" onchange="state.gpaq.lm_d=this.value">
-<p>Combien de temps par jour ?</p>
-<div class="time-row">
-<input type="number" min="0" max="23" placeholder="Heures" onchange="state.gpaq.lm_h=this.value">
-<input type="number" min="0" max="59" placeholder="Minutes" onchange="state.gpaq.lm_m=this.value">
-</div>
-<button class="btn" onclick="gpaqQ16()">Continuer</button>
-<button class="btn secondary" onclick="back()">Retour</button>
-`,85);
 }
 
 function gpaqQ14(){
@@ -320,11 +302,8 @@ render(`
 <p>
 La question suivante concerne le temps passé en position assise ou couchée, au travail, à la maison, en déplacement,
 à rendre visite à des amis, et inclut le temps passé assis devant un bureau, se déplacer en voiture, en bus, en train,
-à lire, jouer aux cartes ou à regarder la télévision.
-</p>
-
-<p>
-Ce temps n'inclut pas le temps passé à dormir.
+à lire, jouer aux cartes ou à regarder la télévision,
+mais n'inclut pas le temps passé à dormir.
 </p>
 
 <button class="btn" onclick="gpaqQ16()">Continuer</button>
@@ -363,7 +342,7 @@ function finishGPAQ(){
 
   motivation();
 }
-  
+
 /*************************************************
  * MOTIVATION + EVA
  *************************************************/
