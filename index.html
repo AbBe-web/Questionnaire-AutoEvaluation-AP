@@ -82,7 +82,7 @@ function start(tool){
 }
 
 /*************************************************
- * GPAQ — INTRODUCTION OMS
+ * GPAQ — INTRODUCTION GÉNÉRALE OMS (COMPLÈTE)
  *************************************************/
 function gpaqIntro(){
 render(`
@@ -91,6 +91,17 @@ render(`
 <p>
 Je vais maintenant vous poser quelques questions sur le temps que vous consacrez à différents types d’activité physique lors d'une semaine typique.
 Veuillez répondre à ces questions même si vous ne vous considérez pas comme quelqu’un d’actif.
+</p>
+
+<p>
+Pensez tout d’abord au temps que vous y consacrez au travail, qu'il s'agisse d'un travail rémunéré ou non, de tâches ménagères,
+de cueillir ou récolter des aliments, de pêcher ou chasser, de chercher un emploi.
+</p>
+
+<p>
+Dans les questions suivantes, les activités physiques de forte intensité sont des activités nécessitant un effort physique important
+et causant une augmentation conséquente de la respiration ou du rythme cardiaque, et les activités physiques d'intensité modérée
+sont des activités qui demandent un effort physique modéré et causant une petite augmentation de la respiration ou du rythme cardiaque.
 </p>
 
 <button class="btn" onclick="gpaqQ1()">Commencer le questionnaire</button>
@@ -131,7 +142,7 @@ function finishMarshall(q2){
   state.result.marshall_score=score;
   motivation();
 }
-
+  
 /*************************************************
  * GPAQ — ACTIVITÉS AU TRAVAIL
  *************************************************/
@@ -202,6 +213,46 @@ combien de temps consacrez-vous à ces activités ?
 <button class="btn" onclick="gpaqIntroTransport()">Continuer</button>
 <button class="btn secondary" onclick="back()">Retour</button>
 `,40);
+}
+
+/*************************************************
+ * GPAQ — INTRO DÉPLACEMENTS OMS
+ *************************************************/
+function gpaqIntroTransport(){
+render(`
+<h2>Se déplacer d’un endroit à l’autre</h2>
+
+<p>
+Les questions suivantes excluent les activités physiques dans le cadre de votre travail, que vous avez déjà mentionnées.
+</p>
+
+<p>
+Maintenant, je voudrais connaître votre façon habituelle de vous déplacer d'un endroit à l'autre ; par exemple pour aller au travail,
+faire des courses, aller au marché, aller à votre lieu consacré au culte.
+</p>
+
+<button class="btn" onclick="gpaqQ7()">Continuer</button>
+<button class="btn secondary" onclick="back()">Retour</button>
+`,45);
+}
+
+
+/*************************************************
+ * GPAQ — INTRO COMPORTEMENT SÉDENTAIRE OMS
+ *************************************************/
+function gpaqIntroSedentaire(){
+render(`
+<h2>Comportement sédentaire</h2>
+
+<p>
+La question suivante concerne le temps passé en position assise ou couchée, au travail, à la maison, en déplacement,
+à rendre visite à des amis, et inclut le temps passé assis devant un bureau, se déplacer en voiture, en bus, en train,
+à lire, jouer aux cartes ou à regarder la télévision, mais n'inclut pas le temps passé à dormir.
+</p>
+
+<button class="btn" onclick="gpaqQ16()">Continuer</button>
+<button class="btn secondary" onclick="back()">Retour</button>
+`,88);
 }
 
 /*************************************************
