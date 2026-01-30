@@ -146,7 +146,7 @@ function finishMarshall(q2){
 /*************************************************
  * GPAQ — FLUX COMPLET
  *************************************************/
-function gpaqQ1(){
+function gpaqQ1(){ /* inchangé */ 
 render(`
 <h2>Activité au travail – intensité élevée</h2>
 <p>Votre travail implique-t-il des activités physiques intenses ?</p>
@@ -292,6 +292,43 @@ render(`
 `,85);
 }
 
+function gpaqQ14(){
+render(`
+<h2>Loisirs – activité modérée</h2>
+<p>Combien de jours par semaine ?</p>
+<input type="number" min="0" max="7" onchange="state.gpaq.lm_d=this.value">
+<p>Combien de temps par jour ?</p>
+<div class="time-row">
+<input type="number" min="0" max="23" placeholder="Heures" onchange="state.gpaq.lm_h=this.value">
+<input type="number" min="0" max="59" placeholder="Minutes" onchange="state.gpaq.lm_m=this.value">
+</div>
+<button class="btn" onclick="gpaqIntroSedentaire()">Continuer</button>
+<button class="btn secondary" onclick="back()">Retour</button>
+`,85);
+}
+
+/*************************************************
+ * GPAQ — INTRO COMPORTEMENT SÉDENTAIRE (OMS)
+ *************************************************/
+function gpaqIntroSedentaire(){
+render(`
+<h2>Comportement sédentaire</h2>
+
+<p>
+La question suivante concerne le temps passé en position assise ou couchée, au travail, à la maison, en déplacement,
+à rendre visite à des amis, et inclut le temps passé assis devant un bureau, se déplacer en voiture, en bus, en train,
+à lire, jouer aux cartes ou à regarder la télévision.
+</p>
+
+<p>
+Ce temps n'inclut pas le temps passé à dormir.
+</p>
+
+<button class="btn" onclick="gpaqQ16()">Continuer</button>
+<button class="btn secondary" onclick="back()">Retour</button>
+`,88);
+}
+
 function gpaqQ16(){
 render(`
 <h2>Comportement sédentaire</h2>
@@ -320,9 +357,6 @@ function finishGPAQ(){
   if(MET>=3000) state.result.niveau="très_actif";
   else if(MET>=600) state.result.niveau="moyennement_actif";
   else state.result.niveau="insuffisamment_actif";
-
-  motivation();
-}
 
 /*************************************************
  * MOTIVATION + EVA
