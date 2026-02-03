@@ -12,6 +12,7 @@ h1,h2,h3 { font-weight:600; margin-top:25px; }
 .section { border-top:1px solid #ddd; padding-top:15px; margin-top:20px; }
 .btn { display:block; width:100%; padding:14px; margin:10px 0; font-size:16px; border-radius:6px; border:none; background:#007BFF; color:white; cursor:pointer; }
 .btn.secondary { background:#6c757d; }
+.btn:disabled { background:#b0b0b0; cursor:not-allowed; }
 .progress { height:6px; background:#ddd; margin:15px 0; }
 .progress-bar { height:6px; background:#4caf50; }
 .footer { font-size:12px; color:#666; margin-top:40px; }
@@ -20,6 +21,7 @@ h1,h2,h3 { font-weight:600; margin-top:25px; }
 input[type=number], input[type=range], textarea { width:100%; padding:10px; font-size:16px; }
 textarea { min-height:80px; }
 .time-row { display:flex; gap:10px; }
+.warning { font-size:13px; color:#b45309; margin-top:6px; }
 </style>
 </head>
 
@@ -38,6 +40,16 @@ const state = {
   history: []
 };
 
+/*************************************************
+ * OUTILS UX (AJOUTS UNIQUEMENT)
+ *************************************************/
+function minutes(h,m){ return (Number(h||0)*60)+Number(m||0); }
+function isFilled(...v){ return v.every(x => x!=="" && x!==undefined && !isNaN(x)); }
+function durationWarning(h,m){
+  return minutes(h,m)>720
+    ? '<div class="warning">⚠️ Vérifiez votre saisie (durée inhabituelle)</div>'
+    : '';
+} 
 /*************************************************
  * RENDER + RETOUR
  *************************************************/
@@ -160,14 +172,30 @@ function gpaqQ2(){
 render(`
 <h2>Activité au travail – intensité élevée</h2>
 <p>Lors d’une journée habituelle durant laquelle vous effectuez des activités physiques de forte intensité, combien de temps consacrez-vous à ces activités ?</p>
-<input type="number" min="0" max="7" onchange="state.gpaq.wi_d=this.value">
+<input type="number" min="0" max="7" id="d" oninput="check()">
 <p>Combien de temps par jour ?</p>
 <div class="time-row">
-<input type="number" min="0" max="23" placeholder="Heures" onchange="state.gpaq.wi_h=this.value">
-<input type="number" min="0" max="59" placeholder="Minutes" onchange="state.gpaq.wi_m=this.value">
+<input type="number" min="0" max="23" placeholder="Heures" id="h" oninput="check()">
+<input type="number" min="0" max="59" placeholder="Minutes" id="m" oninput="check()">
 </div>
-<button class="btn" onclick="gpaqQ4()">Continuer</button>
+
+<div id="warn"></div>
+
+<button class="btn" id="next" disabled onclick="
+state.gpaq.wi_d=d.value;
+state.gpaq.wi_h=h.value;
+state.gpaq.wi_m=m.value;
+gpaqQ4();
+">Continuer</button>
+
 <button class="btn secondary" onclick="back()">Retour</button>
+
+<script>
+function check(){
+  next.disabled = !isFilled(d.value,h.value,m.value);
+  warn.innerHTML = durationWarning(h.value,m.value);
+}
+</script>
 `,20);
 }
 
@@ -185,15 +213,28 @@ function gpaqQ5(){
 render(`
 <h2>Activité au travail – intensité modérée</h2>
 <p>Habituellement, combien de jours par semaine effectuez-vous des activités physiques d'intensité modérée dans le cadre de votre travail ?</p>
-<input type="number" min="0" max="7" onchange="state.gpaq.wm_d=this.value">
+<input type="number" min="0" max="7" id="d" oninput="check()">
 <p>Lors d’une journée habituelle durant laquelle vous effectuez des activités physiques d'intensité modérée, combien de temps consacrez-vous à ces activités ?</p>
 <div class="time-row">
-<input type="number" min="0" max="23" placeholder="Heures" onchange="state.gpaq.wm_h=this.value">
-<input type="number" min="0" max="59" placeholder="Minutes" onchange="state.gpaq.wm_m=this.value">
+<input type="number" min="0" max="23" placeholder="Heures" id="h" oninput="check()">
+<input type="number" min="0" max="59" placeholder="Minutes" id="m" oninput="check()">
 </div>
-<button class="btn" onclick="gpaqIntroTransport()">Continuer</button>
+
+<div id="warn"></div>
+
+<button class="btn" id="next" disabled onclick="
+state.gpaq.wm_d=d.value;
+state.gpaq.wm_h=h.value;
+state.gpaq.wm_m=m.value;
+gpaqIntroTransport();
+">Continuer</button>
+
 <button class="btn secondary" onclick="back()">Retour</button>
-`,40);
+
+<script>
+function check(){
+  next.disabled = !isFilled(d.value,h.value,m.value);
+  warn.innerHTML = durationWarning(h.value,m.value);
 }
 
 /*************************************************
@@ -231,14 +272,30 @@ function gpaqQ8(){
 render(`
 <h2>Déplacements</h2>
 <p>Habituellement, combien de jours par semaine effectuez-vous des trajets d’au moins 10 minutes à pied ou à vélo ?</p>
-<input type="number" min="0" max="7" onchange="state.gpaq.tr_d=this.value">
+<input type="number" min="0" max="7" id="d" oninput="check()">
 <p>Lors d’une journée habituelle, combien de temps consacrez-vous à vos déplacements à pied ou à vélo ?</p>
 <div class="time-row">
-<input type="number" min="0" max="23" placeholder="Heures" onchange="state.gpaq.tr_h=this.value">
-<input type="number" min="0" max="59" placeholder="Minutes" onchange="state.gpaq.tr_m=this.value">
+<input type="number" min="0" max="23" placeholder="Heures" id="h" oninput="check()">
+<input type="number" min="0" max="59" placeholder="Minutes" id="m" oninput="check()">
 </div>
-<button class="btn" onclick="gpaqQ10()">Continuer</button>
+
+<div id="warn"></div>
+
+<button class="btn" id="next" disabled onclick="
+state.gpaq.tr_d=d.value;
+state.gpaq.tr_h=h.value;
+state.gpaq.tr_m=m.value;
+gpaqQ10();
+">Continuer</button>
+
 <button class="btn secondary" onclick="back()">Retour</button>
+
+<script>
+function check(){
+  next.disabled = !isFilled(d.value,h.value,m.value);
+  warn.innerHTML = durationWarning(h.value,m.value);
+}
+</script>
 `,60);
 }
 
@@ -256,17 +313,32 @@ function gpaqQ11(){
 render(`
 <h2>Loisirs – activité intense</h2>
 <p>Habituellement, combien de jours par semaine pratiquez-vous une activité sportive, du fitness ou d'autres activités de loisirs de forte intensité ?</p>
-<input type="number" min="0" max="7" onchange="state.gpaq.li_d=this.value">
+<input type="number" min="0" max="7" id="d" oninput="check()">
 <p>Lors d’une journée habituelle, combien de temps y consacrez-vous ?</p>
 <div class="time-row">
-<input type="number" min="0" max="23" placeholder="Heures" onchange="state.gpaq.li_h=this.value">
-<input type="number" min="0" max="59" placeholder="Minutes" onchange="state.gpaq.li_m=this.value">
+<input type="number" min="0" max="23" placeholder="Heures" id="h" oninput="check()">
+<input type="number" min="0" max="59" placeholder="Minutes" id="m" oninput="check()">
 </div>
-<button class="btn" onclick="gpaqQ13()">Continuer</button>
+
+<div id="warn"></div>
+
+<button class="btn" id="next" disabled onclick="
+state.gpaq.li_d=d.value;
+state.gpaq.li_h=h.value;
+state.gpaq.li_m=m.value;
+gpaqQ13();
+">Continuer</button>
+
 <button class="btn secondary" onclick="back()">Retour</button>
+
+<script>
+function check(){
+  next.disabled = !isFilled(d.value,h.value,m.value);
+  warn.innerHTML = durationWarning(h.value,m.value);
+}
+</script>
 `,75);
 }
-
 function gpaqQ13(){
 render(`
 <h2>Loisirs – activité modérée</h2>
@@ -281,17 +353,32 @@ function gpaqQ14(){
 render(`
 <h2>Loisirs – activité modérée</h2>
 <p>Habituellement, combien de jours par semaine pratiquez-vous une activité sportive, du fitness ou d'autres activités de loisirs d'intensité modérée ?</p>
-<input type="number" min="0" max="7" onchange="state.gpaq.lm_d=this.value">
+<input type="number" min="0" max="7" id="d" oninput="check()">
 <p>Lors d’une journée habituelle, combien de temps y consacrez-vous ?</p>
 <div class="time-row">
-<input type="number" min="0" max="23" placeholder="Heures" onchange="state.gpaq.lm_h=this.value">
-<input type="number" min="0" max="59" placeholder="Minutes" onchange="state.gpaq.lm_m=this.value">
+<input type="number" min="0" max="23" placeholder="Heures" id="h" oninput="check()">
+<input type="number" min="0" max="59" placeholder="Minutes" id="m" oninput="check()">
 </div>
-<button class="btn" onclick="gpaqIntroSedentaire()">Continuer</button>
+
+<div id="warn"></div>
+
+<button class="btn" id="next" disabled onclick="
+state.gpaq.lm_d=d.value;
+state.gpaq.lm_h=h.value;
+state.gpaq.lm_m=m.value;
+gpaqIntroSedentaire();
+">Continuer</button>
+
 <button class="btn secondary" onclick="back()">Retour</button>
+
+<script>
+function check(){
+  next.disabled = !isFilled(d.value,h.value,m.value);
+  warn.innerHTML = durationWarning(h.value,m.value);
+}
+</script>
 `,85);
 }
-
 /*************************************************
  * GPAQ — INTRO COMPORTEMENT SÉDENTAIRE (OMS)
  *************************************************/
