@@ -74,6 +74,30 @@ function checkDurationGuard(hSel, mSel, guardId){
   if(!guard) return;
   guard.style.display = (h + m/60) > 12 ? "block" : "none";
 }
+  
+function checkRequiredDuration(btnId, daySel, hSel, mSel){
+  const btn = document.getElementById(btnId);
+  if(!btn) return;
+
+  const d = document.querySelector(daySel)?.value;
+  const h = document.querySelector(hSel)?.value;
+  const m = document.querySelector(mSel)?.value;
+
+  const hasDay = d !== "";
+  const hasTime = (h !== "" && Number(h) > 0) || (m !== "" && Number(m) > 0);
+
+  btn.disabled = !(hasDay && hasTime);
+}
+
+function checkRequiredTimeOnly(btnId, hSel, mSel){
+  const btn = document.getElementById(btnId);
+  if(!btn) return;
+
+  const h = document.querySelector(hSel)?.value;
+  const m = document.querySelector(mSel)?.value;
+
+  btn.disabled = (h === "" && m === "");
+}
 
 /*************************************************
  * ACCUEIL
