@@ -6,116 +6,22 @@
 <title>Pré-consultation – Activité Physique</title>
 
 <style>
-/* === BASE === */
-body {
-  font-family: Arial, sans-serif;
-  background:#f6f7f8;
-  margin:0;
-}
-.container {
-  max-width:720px;
-  margin:auto;
-  padding:24px;
-  background:white;
-  min-height:100vh;
-}
-h1,h2 {
-  font-weight:600;
-  margin-top:0;
-}
-h2 {
-  margin-bottom:10px;
-}
-p {
-  line-height:1.5;
-}
-
-/* === STRUCTURATION UX NIVEAU 2 === */
-.question-block {
-  margin-top:24px;
-}
-.question-text {
-  font-size:16px;
-  font-weight:500;
-  margin-bottom:16px;
-}
-.answer-block {
-  background:#f9fafb;
-  padding:16px;
-  border-radius:8px;
-  margin-bottom:20px;
-}
-.actions {
-  margin-top:20px;
-}
-.actions .btn {
-  margin-top:12px;
-}
-.guard {
-  font-size:13px;
-  color:#d97706;
-  margin-top:8px;
-}
-
-/* === COMPOSANTS === */
-.btn {
-  display:block;
-  width:100%;
-  padding:14px;
-  font-size:16px;
-  border-radius:6px;
-  border:none;
-  background:#007BFF;
-  color:white;
-  cursor:pointer;
-}
-.btn.secondary {
-  background:#6c757d;
-}
-.btn:disabled {
-  background:#b0b0b0;
-  cursor:not-allowed;
-}
-.progress {
-  height:6px;
-  background:#ddd;
-  margin-bottom:20px;
-}
-.progress-bar {
-  height:6px;
-  background:#4caf50;
-}
-input[type=number], input[type=range], textarea {
-  width:100%;
-  padding:10px;
-  font-size:16px;
-}
-textarea {
-  min-height:80px;
-}
-.time-row {
-  display:flex;
-  gap:12px;
-}
-.footer {
-  font-size:12px;
-  color:#666;
-  margin-top:40px;
-}
-.section {
-  border-top:1px solid #ddd;
-  padding-top:15px;
-  margin-top:20px;
-}
-.answer {
-  margin-left:10px;
-  margin-top:4px;
-}
-.rgpd {
-  font-size:12px;
-  color:#555;
-  margin-top:12px;
-}
+body { font-family: Arial, sans-serif; background:#f6f7f8; margin:0; }
+.container { max-width:720px; margin:auto; padding:20px; background:white; min-height:100vh; }
+h1,h2,h3 { font-weight:600; margin-top:25px; }
+.section { border-top:1px solid #ddd; padding-top:15px; margin-top:20px; }
+.btn { display:block; width:100%; padding:14px; margin:10px 0; font-size:16px; border-radius:6px; border:none; background:#007BFF; color:white; cursor:pointer; }
+.btn.secondary { background:#6c757d; }
+.btn:disabled { background:#b0b0b0; cursor:not-allowed; }
+.progress { height:6px; background:#ddd; margin:15px 0; }
+.progress-bar { height:6px; background:#4caf50; }
+.footer { font-size:12px; color:#666; margin-top:40px; }
+.answer { margin-left:10px; margin-top:4px; }
+.rgpd { font-size:12px; color:#555; margin-top:8px; }
+input[type=number], input[type=range], textarea { width:100%; padding:10px; font-size:16px; }
+textarea { min-height:80px; }
+.time-row { display:flex; gap:10px; }
+.guard { font-size:13px; color:#d97706; margin-top:6px; }
 </style>
 </head>
 
@@ -154,6 +60,13 @@ function back(){
 /*************************************************
  * UX — UTILITAIRES (NON CLINIQUES)
  *************************************************/
+function checkRequired(btnId, selectors){
+  const btn = document.getElementById(btnId);
+  if(!btn) return;
+  const ok = selectors.every(s => document.querySelector(s)?.value !== "");
+  btn.disabled = !ok;
+}
+
 function checkDurationGuard(hSel, mSel, guardId){
   const h = Number(document.querySelector(hSel)?.value || 0);
   const m = Number(document.querySelector(mSel)?.value || 0);
@@ -161,21 +74,28 @@ function checkDurationGuard(hSel, mSel, guardId){
   if(!guard) return;
   guard.style.display = (h + m/60) > 12 ? "block" : "none";
 }
+  
 function checkRequiredDuration(btnId, daySel, hSel, mSel){
   const btn = document.getElementById(btnId);
   if(!btn) return;
+
   const d = document.querySelector(daySel)?.value;
   const h = document.querySelector(hSel)?.value;
   const m = document.querySelector(mSel)?.value;
+
   const hasDay = d !== "";
   const hasTime = (h !== "" && Number(h) > 0) || (m !== "" && Number(m) > 0);
+
   btn.disabled = !(hasDay && hasTime);
 }
+
 function checkRequiredTimeOnly(btnId, hSel, mSel){
   const btn = document.getElementById(btnId);
   if(!btn) return;
+
   const h = document.querySelector(hSel)?.value;
   const m = document.querySelector(mSel)?.value;
+
   btn.disabled = (h === "" && m === "");
 }
 
