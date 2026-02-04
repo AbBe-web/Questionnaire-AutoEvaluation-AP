@@ -555,7 +555,8 @@ oninput="state.gpaq.sed_m=this.value; checkRequiredTimeOnly('c6','#h6','#m6'); c
 function minutes(h,m){ return (Number(h||0)*60)+Number(m||0); }
 
 function finishGPAQ(){
-  advanceProgress(1); // Sédentarité terminée
+  advanceProgress(1); // sédentarité = 1 point
+
   const wi = (state.gpaq.wi_d||0)*minutes(state.gpaq.wi_h,state.gpaq.wi_m);
   const wm = (state.gpaq.wm_d||0)*minutes(state.gpaq.wm_h,state.gpaq.wm_m);
   const tr = (state.gpaq.tr_d||0)*minutes(state.gpaq.tr_h,state.gpaq.tr_m);
@@ -565,9 +566,10 @@ function finishGPAQ(){
   const MET = wi*8 + li*8 + (wm+tr+lm)*4;
   state.result.met = MET;
 
-    if(MET>=3000) state.result.niveau="très_actif";
+  if(MET>=3000) state.result.niveau="très_actif";
   else if(MET>=600) state.result.niveau="moyennement_actif";
   else state.result.niveau="insuffisamment_actif";
+
   motivation();
 }
 
