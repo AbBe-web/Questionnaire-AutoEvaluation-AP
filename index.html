@@ -133,6 +133,14 @@ textarea {
   color:#d97706;
   margin-top:6px;
 }
+
+.back-info {
+  font-size:12px;
+  color:#666;
+  margin-top:6px;
+  text-align:center;
+}
+
 </style>
 </head>
 
@@ -291,6 +299,7 @@ render(`
 <button class="btn" onclick="state.marshall.q1=2; advanceProgress(1); marshallQ2()">1–2 fois / semaine</button>
 <button class="btn" onclick="state.marshall.q1=0; advanceProgress(1); marshallQ2()">Jamais</button>
 <button class="btn secondary" onclick="back()">Retour</button>
+<div class="back-info">Les réponses déjà saisies sont conservées.</div>
 `,15);
 }
 
@@ -303,6 +312,7 @@ render(`
 <button class="btn" onclick="advanceProgress(1); finishMarshall(1)">1–2 fois / semaine</button>
 <button class="btn" onclick="advanceProgress(1); finishMarshall(0)">Jamais</button>
 <button class="btn secondary" onclick="back()">Retour</button>
+<div class="back-info">Les réponses déjà saisies sont conservées.</div>
 `,30);
 }
 
@@ -324,6 +334,7 @@ render(`
 <button class="btn" onclick="state.gpaq.wi=1; gpaqQ2()">Oui</button>
 <button class="btn" onclick="state.gpaq.wi=0; gpaqQ4()">Non</button>
 <button class="btn secondary" onclick="back()">Retour</button>
+<div class="back-info">Les réponses déjà saisies sont conservées.</div>
 `,10);
 }
 
@@ -350,6 +361,7 @@ oninput="state.gpaq.wi_m=this.value; checkRequiredDuration('c1','#d1','#h1','#m1
 
 <button class="btn" id="c1" disabled onclick="gpaqQ4()">Continuer</button>
 <button class="btn secondary" onclick="back()">Retour</button>
+<div class="back-info">Les réponses déjà saisies sont conservées.</div>
 `,20);
 }
 
@@ -361,6 +373,7 @@ advanceProgress(1); // fin bloc "travail intense"
 <button class="btn" onclick="state.gpaq.wm=1; gpaqQ5()">Oui</button>
 <button class="btn" onclick="state.gpaq.wm=0; gpaqIntroTransport()">Non</button>
 <button class="btn secondary" onclick="back()">Retour</button>
+<div class="back-info">Les réponses déjà saisies sont conservées.</div>
 `,30);
 }
 
@@ -387,6 +400,7 @@ oninput="state.gpaq.wm_m=this.value; checkRequiredDuration('c2','#d2','#h2','#m2
 
 <button class="btn" id="c2" disabled onclick="gpaqIntroTransport()">Continuer</button>
 <button class="btn secondary" onclick="back()">Retour</button>
+<div class="back-info">Les réponses déjà saisies sont conservées.</div>
 `,40);
 }
 
@@ -409,6 +423,7 @@ faire des courses, aller au marché, aller à votre lieu consacré au culte.
 
 <button class="btn" onclick="gpaqQ7()">Continuer</button>
 <button class="btn secondary" onclick="back()">Retour</button>
+<div class="back-info">Les réponses déjà saisies sont conservées.</div>
 `,45);
 }
 
@@ -419,6 +434,7 @@ render(`
 <button class="btn" onclick="state.gpaq.tr=1; gpaqQ8()">Oui</button>
 <button class="btn" onclick="state.gpaq.tr=0; gpaqQ10()">Non</button>
 <button class="btn secondary" onclick="back()">Retour</button>
+<div class="back-info">Les réponses déjà saisies sont conservées.</div>
 `,50);
 }
 
@@ -445,6 +461,7 @@ oninput="state.gpaq.tr_m=this.value; checkRequiredDuration('c3','#d3','#h3','#m3
 
 <button class="btn" id="c3" disabled onclick="gpaqQ10()">Continuer</button>
 <button class="btn secondary" onclick="back()">Retour</button>
+<div class="back-info">Les réponses déjà saisies sont conservées.</div>
 `,60);
 }
 
@@ -456,6 +473,7 @@ advanceProgress(1); // fin bloc "déplacements"
 <button class="btn" onclick="state.gpaq.li=1; gpaqQ11()">Oui</button>
 <button class="btn" onclick="state.gpaq.li=0; gpaqQ13()">Non</button>
 <button class="btn secondary" onclick="back()">Retour</button>
+<div class="back-info">Les réponses déjà saisies sont conservées.</div>
 `,70);
 }
 
@@ -482,6 +500,7 @@ oninput="state.gpaq.li_m=this.value; checkRequiredDuration('c4','#d4','#h4','#m4
 
 <button class="btn" id="c4" disabled onclick="gpaqQ13()">Continuer</button>
 <button class="btn secondary" onclick="back()">Retour</button>
+<div class="back-info">Les réponses déjà saisies sont conservées.</div>
 `,75);
 }
 
@@ -493,6 +512,7 @@ function gpaqQ13(){
 <button class="btn" onclick="state.gpaq.lm=1; gpaqQ14()">Oui</button>
 <button class="btn" onclick="state.gpaq.lm=0; gpaqIntroSedentaire()">Non</button>
 <button class="btn secondary" onclick="back()">Retour</button>
+<div class="back-info">Les réponses déjà saisies sont conservées.</div>
 `,80);
 }
 
@@ -519,6 +539,7 @@ oninput="state.gpaq.lm_m=this.value; checkRequiredDuration('c5','#d5','#h5','#m5
 
 <button class="btn" id="c5" disabled onclick="gpaqIntroSedentaire()">Continuer</button>
 <button class="btn secondary" onclick="back()">Retour</button>
+<div class="back-info">Les réponses déjà saisies sont conservées.</div>
 `,85);
 }
 
@@ -539,6 +560,7 @@ mais n'inclut pas le temps passé à dormir.
 
 <button class="btn" onclick="gpaqQ16()">Continuer</button>
 <button class="btn secondary" onclick="back()">Retour</button>
+<div class="back-info">Les réponses déjà saisies sont conservées.</div>
 `,88);
 }
 function gpaqQ16(){
@@ -559,6 +581,7 @@ oninput="state.gpaq.sed_m=this.value; checkRequiredTimeOnly('c6','#h6','#m6'); c
 
 <button class="btn" id="c6" disabled onclick="finishGPAQ()">Terminer</button>
 <button class="btn secondary" onclick="back()">Retour</button>
+<div class="back-info">Les réponses déjà saisies sont conservées.</div>
 `,90);
 }
 
@@ -595,6 +618,7 @@ function motivation(){
     <button class="btn" onclick="advanceProgress(2); state.result.stade='consolidation'; evaImportance()">Oui</button>
 <button class="btn" onclick="advanceProgress(2); state.result.stade='action'; evaImportance()">Non</button>
     <button class="btn secondary" onclick="back()">Retour</button>
+    <div class="back-info">Les réponses déjà saisies sont conservées.</div>
     `,95);
   } else {
     render(`
@@ -603,6 +627,7 @@ function motivation(){
     <button class="btn" onclick="advanceProgress(2); state.result.stade='préparation'; evaImportance()">Oui</button>
 <button class="btn" onclick="motivation2()">Non</button>
     <button class="btn secondary" onclick="back()">Retour</button>
+    <div class="back-info">Les réponses déjà saisies sont conservées.</div>
     `,95);
   }
 }
@@ -614,6 +639,7 @@ render(`
 <button class="btn" onclick="advanceProgress(2); state.result.stade='intention'; evaImportance()">Oui</button>
 <button class="btn" onclick="advanceProgress(2); state.result.stade='indétermination'; evaImportance()">Non</button>
 <button class="btn secondary" onclick="back()">Retour</button>
+<div class="back-info">Les réponses déjà saisies sont conservées.</div>
 `,96);
 }
 
@@ -630,6 +656,7 @@ state.result.importance=document.querySelector('input').value;
 evaImportanceComment();
 ">Continuer</button>
 <button class="btn secondary" onclick="back()">Retour</button>
+<div class="back-info">Les réponses déjà saisies sont conservées.</div>
 `,97);
 }
 
@@ -644,6 +671,7 @@ Pouvez-vous m’indiquer en quelques mots pour quelles raisons vous avez choisi 
 onchange="state.result.importance_comment=this.value"></textarea>
 <button class="btn" onclick="advanceProgress(1); evaConfiance()">Continuer</button>
 <button class="btn secondary" onclick="back()">Retour</button>
+<div class="back-info">Les réponses déjà saisies sont conservées.</div>
 `,98);
 }
 
@@ -664,6 +692,7 @@ state.result.confiance=document.querySelector('input').value;
 evaConfianceComment();
 ">Continuer</button>
 <button class="btn secondary" onclick="back()">Retour</button>
+<div class="back-info">Les réponses déjà saisies sont conservées.</div>
 `,99);
 }
 
@@ -676,9 +705,23 @@ Pouvez-vous m’indiquer en quelques mots ce qui vous rend confiant(e) ou, au co
 </p>
 <textarea placeholder="Votre réponse (facultative)"
 onchange="state.result.confiance_comment=this.value"></textarea>
-<button class="btn" onclick="advanceProgress(1); final()">Terminer</button>
+<button class="btn" onclick="advanceProgress(1); endTransition()">Terminer</button>
 <button class="btn secondary" onclick="back()">Retour</button>
+<div class="back-info">Les réponses déjà saisies sont conservées.</div>
 `,99);
+}
+  
+function endTransition(){
+  render(`
+<h2>Merci</h2>
+<p>Vos réponses ont bien été prises en compte.</p>
+
+<p>
+Vous allez maintenant voir un résumé à apporter à votre consultation.
+</p>
+
+<button class="btn" onclick="final()">Voir le résumé</button>
+`,99,false);
 }
 
 function final(){
