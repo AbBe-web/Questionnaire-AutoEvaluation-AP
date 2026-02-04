@@ -348,7 +348,7 @@ oninput="state.gpaq.wi_m=this.value; checkRequiredDuration('c1','#d1','#h1','#m1
 ⚠️ Vérifiez votre saisie (durée inhabituelle)
 </div>
 
-<button class="btn" id="c1" disabled onclick="gpaqQ4()">Continuer</button>
+<button class="btn" id="c1" disabled onclick="advanceProgress(1); gpaqQ4()">Continuer</button>
 <button class="btn secondary" onclick="back()">Retour</button>
 `,20);
 }
@@ -383,7 +383,7 @@ oninput="state.gpaq.wm_m=this.value; checkRequiredDuration('c2','#d2','#h2','#m2
 ⚠️ Vérifiez votre saisie (durée inhabituelle)
 </div>
 
-<button class="btn" id="c2" disabled onclick="gpaqIntroTransport()">Continuer</button>
+<button class="btn" id="c2" disabled onclick="advanceProgress(1); gpaqIntroTransport()">Continuer</button>
 <button class="btn secondary" onclick="back()">Retour</button>
 `,40);
 }
@@ -439,7 +439,7 @@ oninput="state.gpaq.tr_m=this.value; checkRequiredDuration('c3','#d3','#h3','#m3
 ⚠️ Vérifiez votre saisie (durée inhabituelle)
 </div>
 
-<button class="btn" id="c3" disabled onclick="gpaqQ10()">Continuer</button>
+<button class="btn" id="c3" disabled onclick="advanceProgress(1); gpaqQ10()">Continuer</button>
 <button class="btn secondary" onclick="back()">Retour</button>
 `,60);
 }
@@ -474,7 +474,7 @@ oninput="state.gpaq.li_m=this.value; checkRequiredDuration('c4','#d4','#h4','#m4
 ⚠️ Vérifiez votre saisie (durée inhabituelle)
 </div>
 
-<button class="btn" id="c4" disabled onclick="gpaqQ13()">Continuer</button>
+<button class="btn" id="c4" disabled onclick="advanceProgress(1); gpaqQ13()">Continuer</button>
 <button class="btn secondary" onclick="back()">Retour</button>
 `,75);
 }
@@ -509,7 +509,7 @@ oninput="state.gpaq.lm_m=this.value; checkRequiredDuration('c5','#d5','#h5','#m5
 ⚠️ Vérifiez votre saisie (durée inhabituelle)
 </div>
 
-<button class="btn" id="c5" disabled onclick="gpaqIntroSedentaire()">Continuer</button>
+<button class="btn" id="c5" disabled onclick="advanceProgress(1); gpaqIntroSedentaire()">Continuer</button>
 <button class="btn secondary" onclick="back()">Retour</button>
 `,85);
 }
@@ -556,6 +556,7 @@ oninput="state.gpaq.sed_m=this.value; checkRequiredTimeOnly('c6','#h6','#m6'); c
 function minutes(h,m){ return (Number(h||0)*60)+Number(m||0); }
 
 function finishGPAQ(){
+  advanceProgress(1); // Sédentarité terminée
   const wi = (state.gpaq.wi_d||0)*minutes(state.gpaq.wi_h,state.gpaq.wi_m);
   const wm = (state.gpaq.wm_d||0)*minutes(state.gpaq.wm_h,state.gpaq.wm_m);
   const tr = (state.gpaq.tr_d||0)*minutes(state.gpaq.tr_h,state.gpaq.tr_m);
