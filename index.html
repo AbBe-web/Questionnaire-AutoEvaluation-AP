@@ -183,17 +183,19 @@ render(`
 <p>Lors d’une journée habituelle durant laquelle vous effectuez des activités physiques de forte intensité, combien de temps consacrez-vous à ces activités ?</p>
 
 <input type="number" id="d1" min="0" max="7"
-oninput="state.gpaq.wi_d=this.value; checkRequired('c1',['#d1','#h1','#m1'])">
+oninput="state.gpaq.wi_d=this.value; checkRequiredDuration('c1','#d1','#h1','#m1')">
 
 <p>Combien de temps par jour ?</p>
 <div class="time-row">
 <input type="number" id="h1" min="0" max="23" placeholder="Heures"
-oninput="state.gpaq.wi_h=this.value; checkRequired('c1',['#d1','#h1','#m1']); checkDurationGuard('#h1','#m1','g1')">
+oninput="state.gpaq.wi_h=this.value; checkRequiredDuration('c1','#d1','#h1','#m1'); checkDurationGuard('#h1','#m1','g1')">
 <input type="number" id="m1" min="0" max="59" placeholder="Minutes"
-oninput="state.gpaq.wi_m=this.value; checkRequired('c1',['#d1','#h1','#m1']); checkDurationGuard('#h1','#m1','g1')">
+oninput="state.gpaq.wi_m=this.value; checkRequiredDuration('c1','#d1','#h1','#m1'); checkDurationGuard('#h1','#m1','g1')">
 </div>
 
-<div id="g1" class="guard" style="display:none;">⚠️ Vérifiez votre saisie (durée inhabituelle)</div>
+<div id="g1" class="guard" style="display:none;">
+⚠️ Vérifiez votre saisie (durée inhabituelle)
+</div>
 
 <button class="btn" id="c1" disabled onclick="gpaqQ4()">Continuer</button>
 <button class="btn secondary" onclick="back()">Retour</button>
@@ -216,17 +218,19 @@ render(`
 <p>Habituellement, combien de jours par semaine effectuez-vous des activités physiques d'intensité modérée dans le cadre de votre travail ?</p>
 
 <input type="number" id="d2" min="0" max="7"
-oninput="state.gpaq.wm_d=this.value; checkRequired('c2',['#d2','#h2','#m2'])">
+oninput="state.gpaq.wm_d=this.value; checkRequiredDuration('c2','#d2','#h2','#m2')">
 
 <p>Lors d’une journée habituelle durant laquelle vous effectuez des activités physiques d'intensité modérée, combien de temps consacrez-vous à ces activités ?</p>
 <div class="time-row">
 <input type="number" id="h2" min="0" max="23" placeholder="Heures"
-oninput="state.gpaq.wm_h=this.value; checkRequired('c2',['#d2','#h2','#m2']); checkDurationGuard('#h2','#m2','g2')">
+oninput="state.gpaq.wm_h=this.value; checkRequiredDuration('c2','#d2','#h2','#m2'); checkDurationGuard('#h2','#m2','g2')">
 <input type="number" id="m2" min="0" max="59" placeholder="Minutes"
-oninput="state.gpaq.wm_m=this.value; checkRequired('c2',['#d2','#h2','#m2']); checkDurationGuard('#h2','#m2','g2')">
+oninput="state.gpaq.wm_m=this.value; checkRequiredDuration('c2','#d2','#h2','#m2'); checkDurationGuard('#h2','#m2','g2')">
 </div>
 
-<div id="g2" class="guard" style="display:none;">⚠️ Vérifiez votre saisie (durée inhabituelle)</div>
+<div id="g2" class="guard" style="display:none;">
+⚠️ Vérifiez votre saisie (durée inhabituelle)
+</div>
 
 <button class="btn" id="c2" disabled onclick="gpaqIntroTransport()">Continuer</button>
 <button class="btn secondary" onclick="back()">Retour</button>
@@ -270,14 +274,14 @@ render(`
 
 <p>Habituellement, combien de jours par semaine effectuez-vous des trajets d’au moins 10 minutes à pied ou à vélo ?</p>
 <input type="number" id="d3" min="0" max="7"
-oninput="state.gpaq.tr_d=this.value; checkRequired('c3',['#d3','#h3','#m3'])">
+oninput="state.gpaq.tr_d=this.value; checkRequiredDuration('c3','#d3','#h3','#m3')">
 
 <p>Lors d’une journée habituelle, combien de temps consacrez-vous à vos déplacements à pied ou à vélo ?</p>
 <div class="time-row">
 <input type="number" id="h3" min="0" max="23" placeholder="Heures"
-oninput="state.gpaq.tr_h=this.value; checkRequired('c3',['#d3','#h3','#m3']); checkDurationGuard('#h3','#m3','g3')">
+oninput="state.gpaq.tr_h=this.value; checkRequiredDuration('c3','#d3','#h3','#m3'); checkDurationGuard('#h3','#m3','g3')">
 <input type="number" id="m3" min="0" max="59" placeholder="Minutes"
-oninput="state.gpaq.tr_m=this.value; checkRequired('c3',['#d3','#h3','#m3']); checkDurationGuard('#h3','#m3','g3')">
+oninput="state.gpaq.tr_m=this.value; checkRequiredDuration('c3','#d3','#h3','#m3'); checkDurationGuard('#h3','#m3','g3')">
 </div>
 
 <div id="g3" class="guard" style="display:none;">
@@ -288,7 +292,6 @@ oninput="state.gpaq.tr_m=this.value; checkRequired('c3',['#d3','#h3','#m3']); ch
 <button class="btn secondary" onclick="back()">Retour</button>
 `,60);
 }
-
 
 function gpaqQ10(){
 render(`
@@ -306,14 +309,14 @@ render(`
 
 <p>Habituellement, combien de jours par semaine pratiquez-vous une activité sportive, du fitness ou d'autres activités de loisirs de forte intensité ?</p>
 <input type="number" id="d4" min="0" max="7"
-oninput="state.gpaq.li_d=this.value; checkRequired('c4',['#d4','#h4','#m4'])">
+oninput="state.gpaq.li_d=this.value; checkRequiredDuration('c4','#d4','#h4','#m4')">
 
 <p>Lors d’une journée habituelle, combien de temps y consacrez-vous ?</p>
 <div class="time-row">
 <input type="number" id="h4" min="0" max="23" placeholder="Heures"
-oninput="state.gpaq.li_h=this.value; checkRequired('c4',['#d4','#h4','#m4']); checkDurationGuard('#h4','#m4','g4')">
+oninput="state.gpaq.li_h=this.value; checkRequiredDuration('c4','#d4','#h4','#m4'); checkDurationGuard('#h4','#m4','g4')">
 <input type="number" id="m4" min="0" max="59" placeholder="Minutes"
-oninput="state.gpaq.li_m=this.value; checkRequired('c4',['#d4','#h4','#m4']); checkDurationGuard('#h4','#m4','g4')">
+oninput="state.gpaq.li_m=this.value; checkRequiredDuration('c4','#d4','#h4','#m4'); checkDurationGuard('#h4','#m4','g4')">
 </div>
 
 <div id="g4" class="guard" style="display:none;">
@@ -341,14 +344,14 @@ render(`
 
 <p>Habituellement, combien de jours par semaine pratiquez-vous une activité sportive, du fitness ou d'autres activités de loisirs d'intensité modérée ?</p>
 <input type="number" id="d5" min="0" max="7"
-oninput="state.gpaq.lm_d=this.value; checkRequired('c5',['#d5','#h5','#m5'])">
+oninput="state.gpaq.lm_d=this.value; checkRequiredDuration('c5','#d5','#h5','#m5')">
 
 <p>Lors d’une journée habituelle, combien de temps y consacrez-vous ?</p>
 <div class="time-row">
 <input type="number" id="h5" min="0" max="23" placeholder="Heures"
-oninput="state.gpaq.lm_h=this.value; checkRequired('c5',['#d5','#h5','#m5']); checkDurationGuard('#h5','#m5','g5')">
+oninput="state.gpaq.lm_h=this.value; checkRequiredDuration('c5','#d5','#h5','#m5'); checkDurationGuard('#h5','#m5','g5')">
 <input type="number" id="m5" min="0" max="59" placeholder="Minutes"
-oninput="state.gpaq.lm_m=this.value; checkRequired('c5',['#d5','#h5','#m5']); checkDurationGuard('#h5','#m5','g5')">
+oninput="state.gpaq.lm_m=this.value; checkRequiredDuration('c5','#d5','#h5','#m5'); checkDurationGuard('#h5','#m5','g5')">
 </div>
 
 <div id="g5" class="guard" style="display:none;">
@@ -385,9 +388,9 @@ render(`
 <p>Combien de temps passez-vous assis ou couché par jour (hors sommeil) lors d'une journée habituelle ?</p>
 <div class="time-row">
 <input type="number" id="h6" min="0" max="23" placeholder="Heures"
-oninput="state.gpaq.sed_h=this.value; checkRequired('c6',['#h6','#m6']); checkDurationGuard('#h6','#m6','g6')">
+oninput="state.gpaq.sed_h=this.value; checkRequiredTimeOnly('c6','#h6','#m6'); checkDurationGuard('#h6','#m6','g6')">
 <input type="number" id="m6" min="0" max="59" placeholder="Minutes"
-oninput="state.gpaq.sed_m=this.value; checkRequired('c6',['#h6','#m6']); checkDurationGuard('#h6','#m6','g6')">
+oninput="state.gpaq.sed_m=this.value; checkRequiredTimeOnly('c6','#h6','#m6'); checkDurationGuard('#h6','#m6','g6')">
 </div>
 
 <div id="g6" class="guard" style="display:none;">
