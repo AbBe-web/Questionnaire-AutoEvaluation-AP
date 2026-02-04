@@ -161,8 +161,9 @@ function render(html, progress=0, save=true){
     <div class="progress">
   <div class="progress-bar" style="width:${
     state.progress.total
-      ? Math.round((state.progress.current / state.progress.total) * 100)
-      : 0
+      ? state.progress.total > 0
+  ? Math.round((state.progress.current / state.progress.total) * 100)
+  : 0
   }%"></div>
 </div>
 <div class="progress-step">
