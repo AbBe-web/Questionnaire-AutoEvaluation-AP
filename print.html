@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Résumé activité physique – Pré-consultation</title>
+
+<style>
+body {
+  font-family: Arial, sans-serif;
+  margin: 40px;
+  color: #000;
+}
+
+h1 {
+  font-size: 22px;
+  margin-bottom: 5px;
+}
+
+h2 {
+  font-size: 18px;
+  margin-top: 30px;
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 4px;
+}
+
+h3 {
+  font-size: 15px;
+  margin-top: 20px;
+}
+
+p {
+  margin: 6px 0;
+}
+
+.section {
+  margin-top: 15px;
+}
+
+.small {
+  font-size: 12px;
+  color: #555;
+}
+
+.block {
+  margin-left: 15px;
+}
+
+.verbatim {
+  font-style: italic;
+  margin-left: 15px;
+}
+
+@media print {
+  body {
+    margin: 20mm;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<h1>Résumé d’activité physique – Pré-consultation</h1>
+<p class="small">
+Questionnaire d’auto-évaluation rempli par le patient – à discuter avec le médecin<br>
+Date : <span id="date"></span>
+</p>
+
+<div id="content"></div>
+
+<script>
+function getJSONFromURL(){
+  const params = new URLSearchParams(window.location.search);
+  const data = params.get("data");
+  if(!data) return null;
+  return JSON.parse(decodeURIComponent(data));
+}
+
+const data = getJSONFromURL();
+document.getElementById("date").innerText = new Date().toLocaleDateString();
+
+if(!data){
+  document.getElementById("content").innerHTML =
+    "<p>Données indisponibles.</p>";
+} else {
+
+  document.getElementById("content").innerHTML = `
+
+  <h2>1. Synthèse</h2>
+  <p><strong>Niveau d’activité :</strong> ${data.resultats.niveau_activite.replace("_"," ")}</p>
+  <p><strong>Volume estimé :</strong> ${data.resultats.met_minutes_semaine} MET-min / semaine</p>
+
+  <h2>2. Motivation et ressenti</h2>
+
+  <div class="section">
+    <p><strong>Stade motivationnel :</strong> ${data.motivation.stade}</p>
+
+    <p><strong>Importance de l’activité physique :</strong> ${data.motivation.importance_eva_0_10}/10</p>
+    ${data.motivation.importance_commentaire
+      ? `<p class="verbatim">“${data.motivation.importance_commentaire}”</p>`
+      : ""
+    }
+
+    <p><strong>Confiance :</strong> ${data.motivation.confiance_eva_0_10}/10</p>
+    ${data.motivation.confiance_commentaire
+      ? `<p class="verbatim">“${data.motivation.confiance_commentaire}”</p>`
+      : ""
+    }
+  </div>
+
+  <h2>3. Questionnaire GPAQ – Détail</h2>
+
+  <h3>Travail</h3>
+  <div class="block">
+    <p><strong>Activité intense :</strong> ${data.questionnaires.gpaq.travail.intense.oui_non ? "Oui" : "Non"}</p>
+    ${data.questionnaires.gpaq.travail.intense.jours_par_semaine !== null ? `
+      <p>${data.questionnaires.gpaq.travail.intense.jours_par_semaine} jours / semaine –
+      ${data.questionnaires.gpaq.travail.intense.heures_par_jour || 0} h
+      ${data.questionnaires.gpaq.travail.intense.minutes_par_jour || 0} min / jour</p>
+    ` : ""}
+
+    <p><strong>Activité modérée :</strong> ${data.questionnaires.gpaq.travail.moderee.oui_non ? "Oui" : "Non"}</p>
+    ${data.questionnaires.gpaq.travail.moderee.jours_par_semaine !== null ? `
+      <p>${data.questionnaires.gpaq.travail.moderee.jours_par_semaine} jours / semaine –
+      ${data.questionnaires.gpaq.travail.moderee.heures_par_jour || 0} h
+      ${data.questionnaires.gpaq.travail.moderee.minutes_par_jour || 0} min / jour</p>
+    ` : ""}
+  </div>
+
+  <h3>Déplacements</h3>
+  <div class="block">
+    <p><strong>Marche / vélo ≥ 10 min :</strong> ${data.questionnaires.gpaq.deplacements.oui_non ? "Oui" : "Non"}</p>
+    ${data.questionnaires.gpaq.deplacements.jours_par_semaine !== null ? `
+      <p>${data.questionnaires.gpaq.deplacements.jours_par_semaine} jours / semaine –
+      ${data.questionnaires.gpaq.deplacements.heures_par_jour || 0} h
+      ${data.questionnaires.gpaq.deplacements.minutes_par_jour || 0} min / jour</p>
+    ` : ""}
+  </div>
+
+  <h3>Loisirs</h3>
+  <div class="block">
+    <p><strong>Activité intense :</strong> ${data.questionnaires.gpaq.loisirs.intense.oui_non ? "Oui" : "Non"}</p>
+    ${data.questionnaires.gpaq.loisirs.intense.jours_par_semaine !== null ? `
+      <p>${data.questionnaires.gpaq.loisirs.intense.jours_par_semaine} jours / semaine –
+      ${data.questionnaires.gpaq.loisirs.intense.heures_par_jour || 0} h
+      ${data.questionnaires.gpaq.loisirs.intense.minutes_par_jour || 0} min / jour</p>
+    ` : ""}
+
+    <p><strong>Activité modérée :</strong> ${data.questionnaires.gpaq.loisirs.moderee.oui_non ? "Oui" : "Non"}</p>
+    ${data.questionnaires.gpaq.loisirs.moderee.jours_par_semaine !== null ? `
+      <p>${data.questionnaires.gpaq.loisirs.moderee.jours_par_semaine} jours / semaine –
+      ${data.questionnaires.gpaq.loisirs.moderee.heures_par_jour || 0} h
+      ${data.questionnaires.gpaq.loisirs.moderee.minutes_par_jour || 0} min / jour</p>
+    ` : ""}
+  </div>
+
+  <h3>Comportement sédentaire</h3>
+  <div class="block">
+    <p>${data.questionnaires.gpaq.sedentarite.heures_par_jour || 0} h
+    ${data.questionnaires.gpaq.sedentarite.minutes_par_jour || 0} min / jour</p>
+  </div>
+
+  <h2>4. Questionnaire Marshall</h2>
+  <p>Score : ${ (data.questionnaires.marshall.q1 || 0) + (data.questionnaires.marshall.q2 || 0) }</p>
+
+  <p class="small" style="margin-top:40px;">
+  Ce document est destiné à être discuté avec votre médecin.
+  </p>
+  `;
+}
+</script>
+
+</body>
+</html>
