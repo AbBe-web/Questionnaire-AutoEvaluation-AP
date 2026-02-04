@@ -333,6 +333,7 @@ render(`
 <p>Lors d’une journée habituelle durant laquelle vous effectuez des activités physiques de forte intensité, combien de temps consacrez-vous à ces activités ?</p>
 
 <input type="number" id="d1" min="0" max="7"
+placeholder="Nombre de jours par semaine (ex. : 3)"
 oninput="state.gpaq.wi_d=this.value; checkRequiredDuration('c1','#d1','#h1','#m1')">
 
 <p>Combien de temps par jour ?</p>
@@ -369,6 +370,7 @@ render(`
 <p>Habituellement, combien de jours par semaine effectuez-vous des activités physiques d'intensité modérée dans le cadre de votre travail ?</p>
 
 <input type="number" id="d2" min="0" max="7"
+placeholder="Nombre de jours par semaine (ex. : 3)"
 oninput="state.gpaq.wm_d=this.value; checkRequiredDuration('c2','#d2','#h2','#m2')">
 
 <p>Lors d’une journée habituelle durant laquelle vous effectuez des activités physiques d'intensité modérée, combien de temps consacrez-vous à ces activités ?</p>
@@ -426,6 +428,7 @@ render(`
 
 <p>Habituellement, combien de jours par semaine effectuez-vous des trajets d’au moins 10 minutes à pied ou à vélo ?</p>
 <input type="number" id="d3" min="0" max="7"
+placeholder="Nombre de jours par semaine (ex. : 3)"
 oninput="state.gpaq.tr_d=this.value; checkRequiredDuration('c3','#d3','#h3','#m3')">
 
 <p>Lors d’une journée habituelle, combien de temps consacrez-vous à vos déplacements à pied ou à vélo ?</p>
@@ -462,6 +465,7 @@ render(`
 
 <p>Habituellement, combien de jours par semaine pratiquez-vous une activité sportive, du fitness ou d'autres activités de loisirs de forte intensité ?</p>
 <input type="number" id="d4" min="0" max="7"
+placeholder="Nombre de jours par semaine (ex. : 3)"
 oninput="state.gpaq.li_d=this.value; checkRequiredDuration('c4','#d4','#h4','#m4')">
 
 <p>Lors d’une journée habituelle, combien de temps y consacrez-vous ?</p>
@@ -498,6 +502,7 @@ render(`
 
 <p>Habituellement, combien de jours par semaine pratiquez-vous une activité sportive, du fitness ou d'autres activités de loisirs d'intensité modérée ?</p>
 <input type="number" id="d5" min="0" max="7"
+placeholder="Nombre de jours par semaine (ex. : 3)"
 oninput="state.gpaq.lm_d=this.value; checkRequiredDuration('c5','#d5','#h5','#m5')">
 
 <p>Lors d’une journée habituelle, combien de temps y consacrez-vous ?</p>
