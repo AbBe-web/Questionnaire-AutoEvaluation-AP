@@ -71,19 +71,6 @@ p + p {
   cursor:not-allowed;
 }
 
-.progress-wrapper {
-  display:flex;
-  align-items:center;
-  gap:10px;
-  margin:15px 0;
-}
-
-.progress-step {
-  font-size:12px;
-  color:#777;
-  white-space:nowrap;
-}
-
 /* ========================= */
 
 .section {
@@ -166,16 +153,8 @@ const state = {
  *************************************************/
 function render(html, progress=0, save=true){
   if(save) state.history.push(document.getElementById("app").innerHTML);
-
-  const step = Math.round(progress / 100 * 14);
-
   document.getElementById("app").innerHTML = `
-    <div class="progress-wrapper">
-      <div class="progress">
-        <div class="progress-bar" style="width:${progress}%"></div>
-      </div>
-      <div class="progress-step">${step} / 14</div>
-    </div>
+    <div class="progress"><div class="progress-bar" style="width:${progress}%"></div></div>
     ${html}
   `;
 }
