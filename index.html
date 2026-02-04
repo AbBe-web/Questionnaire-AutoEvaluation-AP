@@ -796,7 +796,17 @@ function buildExportJSON(){
     }
   };
 }
+function openPrintable(){
+  const json = encodeURIComponent(
+    JSON.stringify(state.exportJSON)
+  );
 
+  window.open(
+    "print.html?data=" + json,
+    "_blank"
+  );
+}
+  
 function final(){
 
   state.exportJSON = buildExportJSON();
@@ -811,12 +821,16 @@ ${state.result.met?` (${state.result.met} MET-min/semaine)`:""}</p>
 <div class="section"><strong>Importance</strong><div class="answer">${state.result.importance}/10</div></div>
 <div class="section"><strong>Confiance</strong><div class="answer">${state.result.confiance}/10</div></div>
 
+<button class="btn secondary" onclick="openPrintable()">
+  Voir la version imprimable
+</button>
+
 <button class="btn secondary" onclick="back()">Retour</button>
 <button class="btn secondary" onclick="location.reload()">Recommencer</button>
 
 <p class="footer">Document à apporter lors de votre consultation médicale.</p>
 `,100,false);
-}
+
 </script>
 </body>
 </html>
