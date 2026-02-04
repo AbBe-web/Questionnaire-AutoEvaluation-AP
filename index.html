@@ -724,8 +724,85 @@ Vous allez maintenant voir un résumé à apporter à votre consultation.
 `,99,false);
 }
 
+function buildExportJSON(){
+  return {
+    meta: {
+      outil: "preconsultation-activite-physique",
+      version: "v0.x",
+      date: new Date().toISOString(),
+      questionnaires: state.tool === "gpaq" ? "GPAQ" : "Marshall",
+      donnees_enregistrees: false
+    },
+
+    questionnaires: {
+      marshall: state.marshall,
+
+      gpaq: {
+        travail: {
+          intense: {
+            oui_non: state.gpaq.wi ?? null,
+            jours_par_semaine: state.gpaq.wi_d ?? null,
+            heures_par_jour: state.gpaq.wi_h ?? null,
+            minutes_par_jour: state.gpaq.wi_m ?? null
+          },
+          moderee: {
+            oui_non: state.gpaq.wm ?? null,
+            jours_par_semaine: state.gpaq.wm_d ?? null,
+            heures_par_jour: state.gpaq.wm_h ?? null,
+            minutes_par_jour: state.gpaq.wm_m ?? null
+          }
+        },
+
+        deplacements: {
+          oui_non: state.gpaq.tr ?? null,
+          jours_par_semaine: state.gpaq.tr_d ?? null,
+          heures_par_jour: state.gpaq.tr_h ?? null,
+          minutes_par_jour: state.gpaq.tr_m ?? null
+        },
+
+        loisirs: {
+          intense: {
+            oui_non: state.gpaq.li ?? null,
+            jours_par_semaine: state.gpaq.li_d ?? null,
+            heures_par_jour: state.gpaq.li_h ?? null,
+            minutes_par_jour: state.gpaq.li_m ?? null
+          },
+          moderee: {
+            oui_non: state.gpaq.lm ?? null,
+            jours_par_semaine: state.gpaq.lm_d ?? null,
+            heures_par_jour: state.gpaq.lm_h ?? null,
+            minutes_par_jour: state.gpaq.lm_m ?? null
+          }
+        },
+
+        sedentarite: {
+          heures_par_jour: state.gpaq.sed_h ?? null,
+          minutes_par_jour: state.gpaq.sed_m ?? null
+        }
+      }
+    },
+
+    resultats: {
+      met_minutes_semaine: state.result.met ?? null,
+      niveau_activite: state.result.niveau ?? null
+    },
+
+    motivation: {
+      stade: state.result.stade ?? null,
+      importance_eva_0_10: state.result.importance ?? null,
+      importance_commentaire: state.result.importance_comment ?? null,
+      confiance_eva_0_10: state.result.confiance ?? null,
+      confiance_commentaire: state.result.confiance_comment ?? null
+    }
+  };
+}
+
 function final(){
-render(`
+
+  state.exportJSON = buildExportJSON();
+  console.log("EXPORT JSON", state.exportJSON);
+
+  render(`
 <h2>Résultat</h2>
 <p><strong>Niveau d’activité :</strong> ${state.result.niveau.replace("_"," ")}
 ${state.result.met?` (${state.result.met} MET-min/semaine)`:""}</p>
