@@ -797,6 +797,8 @@ function buildExportJSON(){
   };
 }
 function openPrintable(){
+  if(!state.exportJSON) return;
+
   const json = encodeURIComponent(
     JSON.stringify(state.exportJSON)
   );
@@ -825,11 +827,12 @@ ${state.result.met?` (${state.result.met} MET-min/semaine)`:""}</p>
   Voir la version imprimable
 </button>
 
-<button class="btn secondary" onclick="back()">Retour</button>
 <button class="btn secondary" onclick="location.reload()">Recommencer</button>
+<button class="btn secondary" onclick="back()">Retour</button>
 
 <p class="footer">Document à apporter lors de votre consultation médicale.</p>
 `,100,false);
+}
 
 </script>
 </body>
