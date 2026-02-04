@@ -111,6 +111,20 @@ th {
     display: none;
   }
 }
+@media print {
+
+  h2 {
+    page-break-before: always;
+  }
+
+  h2:first-of-type {
+    page-break-before: auto;
+  }
+
+  table {
+    page-break-inside: avoid;
+  }
+}
 
 </style>
 </head>
@@ -278,7 +292,6 @@ if(!data){
   <button onclick="window.print()">Télécharger (PDF)</button>
   <button onclick="copyContent()">Copier le contenu</button>
 </div>
-
   <p class="small" style="margin-top:40px;">
   Ce document est destiné à être discuté avec votre médecin.
   </p>
