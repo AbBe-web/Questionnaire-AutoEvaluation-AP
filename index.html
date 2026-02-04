@@ -145,7 +145,11 @@ const state = {
   gpaq: {},
   marshall: {},
   result: {},
-  history: []
+  history: [], 
+  progress: {
+  current: 0,
+  total: 0
+}
 };
 
 /*************************************************
@@ -154,7 +158,11 @@ const state = {
 function render(html, progress=0, save=true){
   if(save) state.history.push(document.getElementById("app").innerHTML);
   document.getElementById("app").innerHTML = `
-    <div class="progress"><div class="progress-bar" style="width:${progress}%"></div></div>
+    <div class="progress">
+  <div class="progress-bar" style="width:${
+    Math.round((state.progress.current / state.progress.total) * 100)
+  }%"></div>
+</div>
     ${html}
   `;
 }
@@ -197,7 +205,12 @@ function checkDurationGuard(hSel, mSel, guardId){
   if(!guard) return;
   guard.style.display = (h + m/60) > 12 ? "block" : "none";
 }
-
+function advanceProgress(points){
+  state.progress.current += points;
+  if(state.progress.current > state.progress.total){
+    state.progress.current = state.progress.total;
+  }
+}
 /*************************************************
  * ACCUEIL
  *************************************************/
@@ -222,6 +235,10 @@ function start(tool){
   state.marshall = {};
   state.result = {};
   state.history = [];
+
+  state.progress.current = 0;
+  state.progress.total = (tool === "marshall") ? 8 : 6;
+
   tool==="marshall" ? marshallQ1() : gpaqIntro();
 }
 
@@ -260,9 +277,9 @@ function marshallQ1(){
 render(`
 <h2>Marshall – Question 1</h2>
 <p>Au cours d’une semaine habituelle, combien de fois pratiquez-vous une activité physique intense d’au moins 20 minutes ?</p>
-<button class="btn" onclick="state.marshall.q1=4; marshallQ2()">≥ 3 fois / semaine</button>
-<button class="btn" onclick="state.marshall.q1=2; marshallQ2()">1–2 fois / semaine</button>
-<button class="btn" onclick="state.marshall.q1=0; marshallQ2()">Jamais</button>
+<button class="btn" onclick="state.marshall.q1=4; advanceProgress(1); marshallQ2()">≥ 3 fois / semaine</button>
+<button class="btn" onclick="state.marshall.q1=2; advanceProgress(1); marshallQ2()">1–2 fois / semaine</button>
+<button class="btn" onclick="state.marshall.q1=0; advanceProgress(1); marshallQ2()">Jamais</button>
 <button class="btn secondary" onclick="back()">Retour</button>
 `,15);
 }
@@ -271,10 +288,10 @@ function marshallQ2(){
 render(`
 <h2>Marshall – Question 2</h2>
 <p>Combien de fois par semaine pratiquez-vous une activité physique modérée ou de la marche rapide pendant au moins 30 minutes ?</p>
-<button class="btn" onclick="finishMarshall(4)">≥ 5 fois / semaine</button>
-<button class="btn" onclick="finishMarshall(2)">3–4 fois / semaine</button>
-<button class="btn" onclick="finishMarshall(1)">1–2 fois / semaine</button>
-<button class="btn" onclick="finishMarshall(0)">Jamais</button>
+<button class="btn" onclick="advanceProgress(1); finishMarshall(4)">≥ 5 fois / semaine</button>
+<button class="btn" onclick="advanceProgress(1); finishMarshall(2)">3–4 fois / semaine</button>
+<button class="btn" onclick="advanceProgress(1); finishMarshall(1)">1–2 fois / semaine</button>
+<button class="btn" onclick="advanceProgress(1); finishMarshall(0)">Jamais</button>
 <button class="btn secondary" onclick="back()">Retour</button>
 `,30);
 }
@@ -552,16 +569,16 @@ function motivation(){
     render(`
     <h2>Motivation</h2>
     <p>Êtes-vous actif à ce niveau depuis plus de 6 mois ?</p>
-    <button class="btn" onclick="state.result.stade='consolidation'; evaImportance()">Oui</button>
-    <button class="btn" onclick="state.result.stade='action'; evaImportance()">Non</button>
+    <button class="btn" onclick="advanceProgress(2); state.result.stade='consolidation'; evaImportance()">Oui</button>
+<button class="btn" onclick="advanceProgress(2); state.result.stade='action'; evaImportance()">Non</button>
     <button class="btn secondary" onclick="back()">Retour</button>
     `,95);
   } else {
     render(`
     <h2>Motivation</h2>
     <p>Envisagez-vous d’augmenter votre activité physique dans les 30 jours ?</p>
-    <button class="btn" onclick="state.result.stade='préparation'; evaImportance()">Oui</button>
-    <button class="btn" onclick="motivation2()">Non</button>
+    <button class="btn" onclick="advanceProgress(2); state.result.stade='préparation'; evaImportance()">Oui</button>
+<button class="btn" onclick="motivation2()">Non</button>
     <button class="btn secondary" onclick="back()">Retour</button>
     `,95);
   }
@@ -571,8 +588,8 @@ function motivation2(){
 render(`
 <h2>Motivation</h2>
 <p>Avez-vous l’intention de vous engager dans une activité physique régulière dans les 6 mois ?</p>
-<button class="btn" onclick="state.result.stade='intention'; evaImportance()">Oui</button>
-<button class="btn" onclick="state.result.stade='indétermination'; evaImportance()">Non</button>
+<button class="btn" onclick="advanceProgress(2); state.result.stade='intention'; evaImportance()">Oui</button>
+<button class="btn" onclick="advanceProgress(2); state.result.stade='indétermination'; evaImportance()">Non</button>
 <button class="btn secondary" onclick="back()">Retour</button>
 `,96);
 }
@@ -585,6 +602,7 @@ render(`
 oninput="this.nextElementSibling.innerText=this.value">
 <div>5</div>
 <button class="btn" onclick="
+advanceProgress(1);
 state.result.importance=document.querySelector('input').value;
 evaImportanceComment();
 ">Continuer</button>
@@ -601,7 +619,7 @@ Pouvez-vous m’indiquer en quelques mots pour quelles raisons vous avez choisi 
 </p>
 <textarea placeholder="Votre réponse (facultative)"
 onchange="state.result.importance_comment=this.value"></textarea>
-<button class="btn" onclick="evaConfiance()">Continuer</button>
+<button class="btn" onclick="advanceProgress(1); evaConfiance()">Continuer</button>
 <button class="btn secondary" onclick="back()">Retour</button>
 `,98);
 }
@@ -618,6 +636,7 @@ function evaConfiance(){
 oninput="this.nextElementSibling.innerText=this.value">
 <div>5</div>
 <button class="btn" onclick="
+advanceProgress(1);
 state.result.confiance=document.querySelector('input').value;
 evaConfianceComment();
 ">Continuer</button>
@@ -634,7 +653,7 @@ Pouvez-vous m’indiquer en quelques mots ce qui vous rend confiant(e) ou, au co
 </p>
 <textarea placeholder="Votre réponse (facultative)"
 onchange="state.result.confiance_comment=this.value"></textarea>
-<button class="btn" onclick="final()">Terminer</button>
+<button class="btn" onclick="advanceProgress(1); final()">Terminer</button>
 <button class="btn secondary" onclick="back()">Retour</button>
 `,99);
 }
