@@ -68,6 +68,25 @@ p {
     margin: 20mm;
   }
 }
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 8px;
+  margin-bottom: 15px;
+}
+
+th, td {
+  border: 1px solid #ccc;
+  padding: 6px 8px;
+  font-size: 13px;
+  vertical-align: top;
+}
+
+th {
+  background: #f2f2f2;
+  font-weight: bold;
+}
+
 </style>
 </head>
 
@@ -123,22 +142,37 @@ if(!data){
 
   <h2>3. Questionnaire GPAQ – Détail</h2>
 
-  <h3>Travail</h3>
-  <div class="block">
-    <p><strong>Activité intense :</strong> ${data.questionnaires.gpaq.travail.intense.oui_non ? "Oui" : "Non"}</p>
-    ${data.questionnaires.gpaq.travail.intense.jours_par_semaine !== null ? `
-      <p>${data.questionnaires.gpaq.travail.intense.jours_par_semaine} jours / semaine –
-      ${data.questionnaires.gpaq.travail.intense.heures_par_jour || 0} h
-      ${data.questionnaires.gpaq.travail.intense.minutes_par_jour || 0} min / jour</p>
-    ` : ""}
+ <h3>Travail</h3>
 
-    <p><strong>Activité modérée :</strong> ${data.questionnaires.gpaq.travail.moderee.oui_non ? "Oui" : "Non"}</p>
-    ${data.questionnaires.gpaq.travail.moderee.jours_par_semaine !== null ? `
-      <p>${data.questionnaires.gpaq.travail.moderee.jours_par_semaine} jours / semaine –
-      ${data.questionnaires.gpaq.travail.moderee.heures_par_jour || 0} h
-      ${data.questionnaires.gpaq.travail.moderee.minutes_par_jour || 0} min / jour</p>
-    ` : ""}
-  </div>
+<table>
+  <tr>
+    <th>Intensité</th>
+    <th>Fréquence</th>
+    <th>Durée par jour</th>
+  </tr>
+
+  <tr>
+    <td>Intense</td>
+    <td>
+      ${data.questionnaires.gpaq.travail.intense.jours_par_semaine ?? "—"} jours / semaine
+    </td>
+    <td>
+      ${(data.questionnaires.gpaq.travail.intense.heures_par_jour || 0)} h
+      ${(data.questionnaires.gpaq.travail.intense.minutes_par_jour || 0)} min
+    </td>
+  </tr>
+
+  <tr>
+    <td>Modérée</td>
+    <td>
+      ${data.questionnaires.gpaq.travail.moderee.jours_par_semaine ?? "—"} jours / semaine
+    </td>
+    <td>
+      ${(data.questionnaires.gpaq.travail.moderee.heures_par_jour || 0)} h
+      ${(data.questionnaires.gpaq.travail.moderee.minutes_par_jour || 0)} min
+    </td>
+  </tr>
+</table>
 
   <h3>Déplacements</h3>
   <div class="block">
