@@ -247,7 +247,7 @@ function start(tool){
   state.history = [];
 
   state.progress.current = 0;
-  state.progress.total = (tool === "marshall") ? 8 : 6;
+  state.progress.total = (tool === "marshall") ? 8 : 12;
 
   tool==="marshall" ? marshallQ1() : gpaqIntro();
 }
