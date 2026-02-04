@@ -175,37 +175,71 @@ if(!data){
 </table>
 
   <h3>Déplacements</h3>
-  <div class="block">
-    <p><strong>Marche / vélo ≥ 10 min :</strong> ${data.questionnaires.gpaq.deplacements.oui_non ? "Oui" : "Non"}</p>
-    ${data.questionnaires.gpaq.deplacements.jours_par_semaine !== null ? `
-      <p>${data.questionnaires.gpaq.deplacements.jours_par_semaine} jours / semaine –
-      ${data.questionnaires.gpaq.deplacements.heures_par_jour || 0} h
-      ${data.questionnaires.gpaq.deplacements.minutes_par_jour || 0} min / jour</p>
-    ` : ""}
-  </div>
 
-  <h3>Loisirs</h3>
-  <div class="block">
-    <p><strong>Activité intense :</strong> ${data.questionnaires.gpaq.loisirs.intense.oui_non ? "Oui" : "Non"}</p>
-    ${data.questionnaires.gpaq.loisirs.intense.jours_par_semaine !== null ? `
-      <p>${data.questionnaires.gpaq.loisirs.intense.jours_par_semaine} jours / semaine –
-      ${data.questionnaires.gpaq.loisirs.intense.heures_par_jour || 0} h
-      ${data.questionnaires.gpaq.loisirs.intense.minutes_par_jour || 0} min / jour</p>
-    ` : ""}
+<table>
+  <tr>
+    <th>Type</th>
+    <th>Fréquence</th>
+    <th>Durée par jour</th>
+  </tr>
 
-    <p><strong>Activité modérée :</strong> ${data.questionnaires.gpaq.loisirs.moderee.oui_non ? "Oui" : "Non"}</p>
-    ${data.questionnaires.gpaq.loisirs.moderee.jours_par_semaine !== null ? `
-      <p>${data.questionnaires.gpaq.loisirs.moderee.jours_par_semaine} jours / semaine –
-      ${data.questionnaires.gpaq.loisirs.moderee.heures_par_jour || 0} h
-      ${data.questionnaires.gpaq.loisirs.moderee.minutes_par_jour || 0} min / jour</p>
-    ` : ""}
-  </div>
+  <tr>
+    <td>Marche / vélo ≥ 10 min</td>
+    <td>
+      ${data.questionnaires.gpaq.deplacements.jours_par_semaine ?? "—"} jours / semaine
+    </td>
+    <td>
+      ${(data.questionnaires.gpaq.deplacements.heures_par_jour || 0)} h
+      ${(data.questionnaires.gpaq.deplacements.minutes_par_jour || 0)} min
+    </td>
+  </tr>
+</table>
+
+ <h3>Loisirs</h3>
+
+<table>
+  <tr>
+    <th>Intensité</th>
+    <th>Fréquence</th>
+    <th>Durée par jour</th>
+  </tr>
+
+  <tr>
+    <td>Intense</td>
+    <td>
+      ${data.questionnaires.gpaq.loisirs.intense.jours_par_semaine ?? "—"} jours / semaine
+    </td>
+    <td>
+      ${(data.questionnaires.gpaq.loisirs.intense.heures_par_jour || 0)} h
+      ${(data.questionnaires.gpaq.loisirs.intense.minutes_par_jour || 0)} min
+    </td>
+  </tr>
+
+  <tr>
+    <td>Modérée</td>
+    <td>
+      ${data.questionnaires.gpaq.loisirs.moderee.jours_par_semaine ?? "—"} jours / semaine
+    </td>
+    <td>
+      ${(data.questionnaires.gpaq.loisirs.moderee.heures_par_jour || 0)} h
+      ${(data.questionnaires.gpaq.loisirs.moderee.minutes_par_jour || 0)} min
+    </td>
+  </tr>
+</table>
 
   <h3>Comportement sédentaire</h3>
-  <div class="block">
-    <p>${data.questionnaires.gpaq.sedentarite.heures_par_jour || 0} h
-    ${data.questionnaires.gpaq.sedentarite.minutes_par_jour || 0} min / jour</p>
-  </div>
+
+<table>
+  <tr>
+    <th>Temps assis / couché (hors sommeil)</th>
+  </tr>
+  <tr>
+    <td>
+      ${(data.questionnaires.gpaq.sedentarite.heures_par_jour || 0)} h
+      ${(data.questionnaires.gpaq.sedentarite.minutes_par_jour || 0)} min / jour
+    </td>
+  </tr>
+</table>
 
   <h2>4. Questionnaire Marshall</h2>
   <p>Score : ${ (data.questionnaires.marshall.q1 || 0) + (data.questionnaires.marshall.q2 || 0) }</p>
