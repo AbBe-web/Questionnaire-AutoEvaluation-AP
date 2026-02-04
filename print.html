@@ -6,7 +6,8 @@
 <title>Résumé activité physique – Pré-consultation</title>
 
 <style>
-  
+
+
 @page {
   size: A4;
   margin: 20mm;
@@ -85,6 +86,30 @@ th, td {
 th {
   background: #f2f2f2;
   font-weight: bold;
+}
+.actions {
+  margin-top: 30px;
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+}
+
+.actions button {
+  padding: 8px 14px;
+  font-size: 13px;
+  border: 1px solid #999;
+  background: #f5f5f5;
+  cursor: pointer;
+}
+
+.actions button:hover {
+  background: #eaeaea;
+}
+
+@media print {
+  .actions {
+    display: none;
+  }
 }
 
 </style>
@@ -248,6 +273,12 @@ if(!data){
   <h2>4. Questionnaire Marshall</h2>
   <p>Score : ${ (data.questionnaires.marshall.q1 || 0) + (data.questionnaires.marshall.q2 || 0) }</p>
 
+<div class="actions">
+  <button onclick="window.print()">Imprimer</button>
+  <button onclick="window.print()">Télécharger (PDF)</button>
+  <button onclick="copyContent()">Copier le contenu</button>
+</div>
+
   <p class="small" style="margin-top:40px;">
   Ce document est destiné à être discuté avec votre médecin.
   </p>
@@ -261,6 +292,12 @@ if(!data){
 if (data.meta.questionnaires === "GPAQ") {
   const marshall = document.getElementById("marshall-section");
   if (marshall) marshall.style.display = "none";
+}
+function copyContent(){
+  const text = document.getElementById("content").innerText;
+  navigator.clipboard.writeText(text)
+    .then(() => alert("Contenu copié dans le presse-papiers"))
+    .catch(() => alert("Impossible de copier le contenu"));
 }
 
 }
