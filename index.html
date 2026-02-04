@@ -89,7 +89,11 @@ p + p {
   height:6px;
   background:#4caf50;
 }
-
+.progress-step {
+  font-size:12px;
+  color:#777;
+  margin-bottom:10px;
+}
 .footer {
   font-size:12px;
   color:#666;
@@ -160,10 +164,10 @@ function render(html, progress=0, save=true){
   document.getElementById("app").innerHTML = `
     <div class="progress">
   <div class="progress-bar" style="width:${
-    state.progress.total
-      ? state.progress.total > 0
+    state.progress.total > 0
   ? Math.round((state.progress.current / state.progress.total) * 100)
   : 0
+
   }%"></div>
 </div>
 <div class="progress-step">
@@ -573,6 +577,7 @@ function finishGPAQ(){
 function motivation(){
   if(state.result.niveau!=="insuffisamment_actif"){
     render(`
+    
     <h2>Motivation</h2>
     <p>Êtes-vous actif à ce niveau depuis plus de 6 mois ?</p>
     <button class="btn" onclick="advanceProgress(2); state.result.stade='consolidation'; evaImportance()">Oui</button>
