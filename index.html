@@ -160,8 +160,13 @@ function render(html, progress=0, save=true){
   document.getElementById("app").innerHTML = `
     <div class="progress">
   <div class="progress-bar" style="width:${
-    Math.round((state.progress.current / state.progress.total) * 100)
+    state.progress.total
+      ? Math.round((state.progress.current / state.progress.total) * 100)
+      : 0
   }%"></div>
+</div>
+<div class="progress-step">
+  Étape ${state.progress.current} / ${state.progress.total}
 </div>
     ${html}
   `;
