@@ -242,6 +242,8 @@ if(!data){
   </tr>
 </table>
 
+</div>
+
 <div id="marshall-section">
   <h2>4. Questionnaire Marshall</h2>
   <p>Score : ${ (data.questionnaires.marshall.q1 || 0) + (data.questionnaires.marshall.q2 || 0) }</p>
@@ -249,6 +251,7 @@ if(!data){
   <p class="small" style="margin-top:40px;">
   Ce document est destiné à être discuté avec votre médecin.
   </p>
+  </div>
   `;
   if (data.meta.questionnaires === "Marshall") {
   const gpaq = document.getElementById("gpaq-section");
