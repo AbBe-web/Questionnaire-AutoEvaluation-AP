@@ -169,12 +169,49 @@ table th {
   font-weight: 600;
 }
   
+.actions {
+  margin-top: 30px;
+  text-align: center;
+}
+
+/* Ligne de boutons */
+.actions-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+}
+
+/* Boutons identiques */
+.actions-buttons button {
+  width: 240px;
+  padding: 10px 14px;
+  font-size: 14px;
+  border: 1px solid #999;
+  background: #f5f5f5;
+  cursor: pointer;
+}
+
+.actions-buttons button:hover {
+  background: #eaeaea;
+}
+
+/* Texte explicatif sous les boutons */
 .actions-note {
-  margin-top: 6px;
-  text-align: right;
+  margin-top: 8px;
   font-size: 11px;
   color: #777;
+  max-width: 520px;
+  margin-left: auto;
+  margin-right: auto;
 }
+
+/* Toujours masqué à l'impression */
+@media print {
+  .actions {
+    display: none;
+  }
+}
+
 
 </style>
 </head>
@@ -363,21 +400,18 @@ ${data.motivation.confiance_commentaire
   </p>
   </div>
 
-  <div class="actions">
-  <p class="small">Actions sur le document</p>
-
-  <button onclick="window.print()">
-    Imprimer / Enregistrer en PDF
-  </button>
-
-  <button onclick="copyContent()">
-    Copier le contenu
-  </button>
+ <div class="actions">
+  <div class="actions-buttons">
+    <button onclick="window.print()">Imprimer / Enregistrer en PDF</button>
+    <button onclick="copyContent()">Copier le contenu</button>
+  </div>
 
   <p class="small actions-note">
-  Ces actions n’altèrent pas vos réponses.
-  Le document peut être imprimé, enregistré en PDF ou copié pour un usage médical.
-</p>
+    Ces actions n’altèrent pas vos réponses.<br>
+    Le document peut être imprimé, enregistré en PDF ou copié pour un usage médical.
+  </p>
+</div>
+
 </div>
 
   `;
