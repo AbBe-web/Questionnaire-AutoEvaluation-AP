@@ -114,15 +114,13 @@ th {
 @media print {
 
   h2 {
-    page-break-before: always;
-  }
-
-  h2:first-of-type {
-    page-break-before: auto;
+    page-break-after: avoid;
+    break-after: avoid;
   }
 
   table {
     page-break-inside: avoid;
+    break-inside: avoid;
   }
 }
 
