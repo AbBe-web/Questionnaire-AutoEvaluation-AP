@@ -162,9 +162,11 @@ if(!data){
 
   document.getElementById("content").innerHTML = `
 
-  <h2>1. Synthèse</h2>
-  <p><strong>Niveau d’activité :</strong> ${data.resultats.niveau_activite.replace("_"," ")}</p>
-  <p><strong>Volume estimé :</strong> ${data.resultats.met_minutes_semaine} MET-min / semaine</p>
+<h2>1. Synthèse</h2>
+<p>
+<strong>Niveau d’activité :</strong> ${data.resultats.niveau_activite.replace("_"," ")}
+<span class="small">(volume estimé : ${data.resultats.met_minutes_semaine} MET-min / semaine)</span>
+</p>
 
   <h2>2. Motivation et ressenti</h2>
 
@@ -177,7 +179,10 @@ if(!data){
       : ""
     }
 
-    <p><strong>Confiance :</strong> ${data.motivation.confiance_eva_0_10}/10</p>
+  <p>
+<strong>Confiance en soi pour augmenter / maintenir son niveau d’activité physique :</strong>
+${data.motivation.confiance_eva_0_10}/10
+</p>
     ${data.motivation.confiance_commentaire
       ? `<p class="verbatim">“${data.motivation.confiance_commentaire}”</p>`
       : ""
