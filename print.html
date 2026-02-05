@@ -218,7 +218,7 @@ ${data.motivation.confiance_commentaire
   <tr>
     <td>Intense</td>
     <td>
-      ${data.questionnaires.gpaq.travail.intense.jours_par_semaine ?? "—"} jours / semaine
+      ${data.questionnaires.gpaq.travail.intense.jours_par_semaine ?? 0} jours / semaine
     </td>
     <td>
       ${(data.questionnaires.gpaq.travail.intense.heures_par_jour || 0)} h
@@ -229,7 +229,7 @@ ${data.motivation.confiance_commentaire
   <tr>
     <td>Modérée</td>
     <td>
-      ${data.questionnaires.gpaq.travail.moderee.jours_par_semaine ?? "—"} jours / semaine
+      ${data.questionnaires.gpaq.travail.moderee.jours_par_semaine ?? 0} jours / semaine
     </td>
     <td>
       ${(data.questionnaires.gpaq.travail.moderee.heures_par_jour || 0)} h
@@ -250,7 +250,7 @@ ${data.motivation.confiance_commentaire
   <tr>
     <td>Marche / vélo ≥ 10 min</td>
     <td>
-      ${data.questionnaires.gpaq.deplacements.jours_par_semaine ?? "—"} jours / semaine
+      ${data.questionnaires.gpaq.deplacements.jours_par_semaine ?? 0} jours / semaine
     </td>
     <td>
       ${(data.questionnaires.gpaq.deplacements.heures_par_jour || 0)} h
@@ -271,7 +271,7 @@ ${data.motivation.confiance_commentaire
   <tr>
     <td>Intense</td>
     <td>
-      ${data.questionnaires.gpaq.loisirs.intense.jours_par_semaine ?? "—"} jours / semaine
+      ${data.questionnaires.gpaq.loisirs.intense.jours_par_semaine ?? 0} jours / semaine
     </td>
     <td>
       ${(data.questionnaires.gpaq.loisirs.intense.heures_par_jour || 0)} h
@@ -282,7 +282,7 @@ ${data.motivation.confiance_commentaire
   <tr>
     <td>Modérée</td>
     <td>
-      ${data.questionnaires.gpaq.loisirs.moderee.jours_par_semaine ?? "—"} jours / semaine
+      ${data.questionnaires.gpaq.loisirs.moderee.jours_par_semaine ?? 0} jours / semaine
     </td>
     <td>
       ${(data.questionnaires.gpaq.loisirs.moderee.heures_par_jour || 0)} h
