@@ -132,6 +132,9 @@ th {
 <body>
 
 <h1>Résumé d’activité physique – Pré-consultation</h1>
+
+<p id="questionnaire-type" class="small"></p>
+
 <p class="small">
 Questionnaire d’auto-évaluation rempli par le patient – à discuter avec le médecin<br>
 Date : <span id="date"></span>
@@ -149,6 +152,10 @@ function getJSONFromURL(){
 
 const data = getJSONFromURL();
 document.getElementById("date").innerText = new Date().toLocaleDateString();
+const typeEl = document.getElementById("questionnaire-type");
+if (typeEl && data?.meta?.questionnaires) {
+  typeEl.innerText = "Questionnaire rempli : " + data.meta.questionnaires;
+}
 
 if(!data){
   document.getElementById("content").innerHTML =
