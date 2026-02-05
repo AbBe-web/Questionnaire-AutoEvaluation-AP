@@ -128,27 +128,46 @@ th {
     break-inside: avoid;
   }
 }
-/* Alignement homogène des tableaux GPAQ */
+/* === Harmonisation complète des tableaux GPAQ === */
 table {
   table-layout: fixed;
+  width: 100%;
 }
 
+/* Colonnes : mêmes largeurs partout */
 table th:nth-child(1),
 table td:nth-child(1) {
-  width: 40%;
+  width: 42%;
+  text-align: left;
 }
 
 table th:nth-child(2),
 table td:nth-child(2) {
-  width: 30%;
+  width: 29%;
   text-align: center;
+  white-space: nowrap;
 }
 
 table th:nth-child(3),
 table td:nth-child(3) {
-  width: 30%;
+  width: 29%;
   text-align: center;
+  white-space: nowrap;
 }
+
+/* Alignement vertical homogène */
+table th,
+table td {
+  vertical-align: middle;
+  line-height: 1.3;
+}
+
+/* En-têtes plus discrets */
+table th {
+  background: #f3f3f3;
+  font-weight: 600;
+}
+
 
 </style>
 </head>
