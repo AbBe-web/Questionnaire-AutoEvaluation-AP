@@ -128,31 +128,32 @@ th {
     break-inside: avoid;
   }
 }
-/* === Harmonisation complète des tableaux GPAQ === */
+/* === Tableaux GPAQ : colonnes strictement identiques === */
 table {
   table-layout: fixed;
   width: 100%;
 }
 
-/* Colonnes : mêmes largeurs partout */
-table th:nth-child(1),
-table td:nth-child(1) {
-  width: 42%;
+/* 3 colonnes = 1/3 chacune */
+table th,
+table td {
+  width: 33.33%;
+  text-align: center;
+  vertical-align: middle;
+  line-height: 1.3;
+  white-space: nowrap;
+}
+
+/* Première colonne (texte) alignée à gauche */
+table th:first-child,
+table td:first-child {
   text-align: left;
 }
 
-table th:nth-child(2),
-table td:nth-child(2) {
-  width: 29%;
-  text-align: center;
-  white-space: nowrap;
-}
-
-table th:nth-child(3),
-table td:nth-child(3) {
-  width: 29%;
-  text-align: center;
-  white-space: nowrap;
+/* En-têtes discrets */
+table th {
+  background: #f3f3f3;
+  font-weight: 600;
 }
 
 /* Alignement vertical homogène */
