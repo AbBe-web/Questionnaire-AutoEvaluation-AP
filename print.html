@@ -318,15 +318,21 @@ ${data.motivation.confiance_commentaire
 
   <div class="actions">
   <p class="small">Actions sur le document</p>
-  <button onclick="window.print()">Imprimer</button>
-  <button onclick="window.print()">Télécharger en PDF</button>
-  <button onclick="copyContent()">Copier le contenu</button>
+
+  <button onclick="window.print()">
+    Imprimer / Enregistrer en PDF
+  </button>
+
+  <button onclick="copyContent()">
+    Copier le contenu
+  </button>
 
   <p class="small">
     Ces actions n’altèrent pas vos réponses.  
     Le document peut être imprimé, enregistré en PDF ou copié pour un usage médical.
   </p>
 </div>
+
   `;
   if (data.meta.questionnaires === "GPAQ") {
   const gpaqTitle = document.getElementById("gpaq-title");
