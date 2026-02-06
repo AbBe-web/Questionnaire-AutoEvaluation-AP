@@ -183,6 +183,9 @@ const state = {
 }
 };
 
+  // Sécurité : écran vide avant décision load
+document.getElementById("app").innerHTML = "";
+
 /*************************************************
  * RENDER + RETOUR
  *************************************************/
@@ -821,6 +824,14 @@ function openPrintable() {
     "print.html?data=" + json,
     "_blank"
   );
+}
+
+// 🔐 Copie de secours (utilisée si partage / mail échoue)
+function copyFallback(text) {
+  navigator.clipboard.writeText(text)
+    .catch(() => {
+      console.warn("Copie de secours impossible");
+    });
 }
 
 function shareToDoctor() {
