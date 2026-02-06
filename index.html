@@ -804,7 +804,7 @@ function openPrintable(){
   );
 
   window.open(
-    "print.html?data=" + json,
+    "print.html?from=final&data=" + json,
     "_blank"
   );
 }
@@ -893,7 +893,11 @@ ${state.result.met?` (${state.result.met} MET-min/semaine)`:""}</p>
 <p class="footer">Document à apporter lors de votre consultation médicale.</p>
 `,100,false);
 }
-
+window.addEventListener("load", () => {
+  if (window.location.hash === "#final") {
+    final();
+  }
+});
 </script>
 </body>
 </html>
