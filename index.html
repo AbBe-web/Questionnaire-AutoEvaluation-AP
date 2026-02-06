@@ -894,7 +894,7 @@ render(`
 
 <p>
   <strong>Niveau d’activité :</strong>
-  ${state.result.niveau.replace("_"," ")}
+${state.result.niveau ? state.result.niveau.replace("_"," ") : "non disponible"}
   ${state.result.met ? ` (${state.result.met} MET-min/semaine)` : ""}
 </p>
 
@@ -934,7 +934,7 @@ render(`
 </p>
 `, 100);
 }
-  
+
 window.addEventListener("load", () => {
   const saved = sessionStorage.getItem("preconsultation_final");
 
@@ -952,6 +952,7 @@ window.addEventListener("load", () => {
 
       final();
       return; // ⛔️ empêche le render accueil
+
     } catch (e) {
       console.warn("Erreur restauration session :", e);
       sessionStorage.removeItem("preconsultation_final");
@@ -974,6 +975,7 @@ window.addEventListener("load", () => {
     <button class="btn secondary" onclick="start('marshall')">Questionnaire court (Marshall)</button>
   `, 0, false);
 });
+
 function copyContent() {
 const data = state.exportJSON || buildExportJSON();
 if (!data) {
