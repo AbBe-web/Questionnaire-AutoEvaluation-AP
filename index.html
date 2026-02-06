@@ -872,6 +872,11 @@ function goFinal() {
 function final(){
 
   state.exportJSON = buildExportJSON();
+  sessionStorage.setItem(
+  "preconsultation_final",
+  JSON.stringify(state.exportJSON)
+);
+
   console.log("EXPORT JSON", state.exportJSON);
 
   render(`
@@ -898,10 +903,24 @@ ${state.result.met?` (${state.result.met} MET-min/semaine)`:""}</p>
 `,100);
 }
 window.addEventListener("load", () => {
-  if (window.location.hash === "#final") {
+  const saved = sessionStorage.getItem("preconsultation_final");
+
+  if (saved) {
+    state.exportJSON = JSON.parse(saved);
+
+    // reconstruire les infos minimales nécessaires
+    state.result = {
+      niveau: state.exportJSON.resultats.niveau_activite,
+      met: state.exportJSON.resultats.met_minutes_semaine,
+      stade: state.exportJSON.motivation.stade,
+      importance: state.exportJSON.motivation.importance_eva_0_10,
+      confiance: state.exportJSON.motivation.confiance_eva_0_10
+    };
+
     final();
   }
 });
+
 </script>
 </body>
 </html>
