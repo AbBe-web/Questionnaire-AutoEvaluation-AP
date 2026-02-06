@@ -889,10 +889,11 @@ function final(){
 
   console.log("EXPORT JSON", state.exportJSON);
 
-  render(`
+render(`
 <h2>Résultat</h2>
 
-<p><strong>Niveau d’activité :</strong>
+<p>
+  <strong>Niveau d’activité :</strong>
   ${state.result.niveau.replace("_"," ")}
   ${state.result.met ? ` (${state.result.met} MET-min/semaine)` : ""}
 </p>
@@ -912,8 +913,8 @@ function final(){
   <div class="answer">${state.result.confiance}/10</div>
 </div>
 
-<button class="btn" onclick="shareToDoctor()">
-  Transmettre au médecin
+<button class="btn" onclick="copyContent()">
+  Copier le résumé (texte)
 </button>
 
 <button class="btn" onclick="openPrintable()">
@@ -932,7 +933,6 @@ function final(){
   Document à apporter lors de votre consultation médicale.
 </p>
 `, 100);
-}
   
 window.addEventListener("load", () => {
   const saved = sessionStorage.getItem("preconsultation_final");
