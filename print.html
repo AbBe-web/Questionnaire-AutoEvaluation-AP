@@ -291,6 +291,26 @@ table th {
     max-width: 100%;
   }
 }
+/* Bouton retour depuis la version imprimable */
+.nav-back {
+  margin-bottom: 15px;
+}
+
+.nav-back button {
+  background: none;
+  border: none;
+  color: #007BFF;
+  font-size: 14px;
+  padding: 6px 0;
+  cursor: pointer;
+}
+
+/* Jamais affiché à l’impression */
+@media print {
+  .nav-back {
+    display: none;
+  }
+}
 
 </style>
 </head>
