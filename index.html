@@ -1049,11 +1049,13 @@ function copyContent() {
     output += "2. QUESTIONNAIRE GPAQ\n";
   }
 
-  navigator.clipboard.writeText(output)
-  .then(() => {
-    showCopyToast();
-  })
-  .catch(() => console.warn("Copie impossible"));
+ navigator.clipboard.writeText(output)
+  .catch(() => {
+    console.warn("Copie impossible");
+  });
+
+// Feedback utilisateur immédiat (indépendant du navigateur)
+showCopyToast();
 
 }
 
