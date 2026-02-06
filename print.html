@@ -194,7 +194,6 @@ table th {
   }
 }
 
-
 /* Correctif iOS / écrans étroits : éviter chevauchement dans tableaux */
 @media screen and (max-width: 600px) {
 
@@ -233,6 +232,36 @@ table th {
   .actions-note {
     margin-top: 12px;          /* espace clair sous les boutons */
     text-align: center;        /* centré (plus joli sur mobile) */
+  }
+}
+/* Correctif impression iOS : forcer 1 page A4 */
+@media print and (max-width: 600px) {
+
+  body {
+    font-size: 13px;          /* très léger */
+    line-height: 1.25;
+    margin: 18mm;             /* réduit légèrement vs PC */
+  }
+
+  h1 {
+    font-size: 18px;
+    margin-bottom: 3px;
+  }
+
+  h2 {
+    margin-top: 16px;
+  }
+
+  h3 {
+    margin-top: 10px;
+  }
+
+  table {
+    margin-bottom: 10px;
+  }
+
+  p {
+    margin: 3px 0;
   }
 }
 
