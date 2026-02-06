@@ -973,6 +973,77 @@ window.addEventListener("load", () => {
     <button class="btn secondary" onclick="start('marshall')">Questionnaire court (Marshall)</button>
   `, 0, false);
 });
+function copyContent() {
+  if (!data) {
+    console.warn("Aucune donnée à copier");
+    return;
+  }
+
+  let output = "";
+
+  // Titre global
+  output += "RÉSUMÉ DE LA PRÉ-CONSULTATION D'ACTIVITÉ PHYSIQUE\n";
+  output += "================================================\n\n";
+
+  // 1. Synthèse
+  output += "1. SYNTHÈSE\n";
+  output += "-----------\n";
+  output += `Niveau d’activité physique : ${data.resultats.niveau_activite.replace("_"," ")}\n`;
+  output += `Volume estimé : ${data.resultats.met_minutes_semaine} MET-min / semaine\n`;
+  output += `Stade motivationnel : ${data.motivation.stade}\n`;
+  output += `Importance de l’activité physique : ${data.motivation.importance_eva_0_10}/10\n`;
+
+  if (data.motivation.importance_commentaire) {
+    output += `Commentaire (importance) : "${data.motivation.importance_commentaire}"\n`;
+  }
+
+  output += `Confiance : ${data.motivation.confiance_eva_0_10}/10\n`;
+
+  if (data.motivation.confiance_commentaire) {
+    output += `Commentaire (confiance) : "${data.motivation.confiance_commentaire}"\n`;
+  }
+
+  output += "\n";
+
+  // 2. Questionnaire
+  if (data.meta.questionnaires === "GPAQ") {
+    output += "2. QUESTIONNAIRE GPAQ – DÉTAIL\n";
+    output += "-----------------------------\n";
+
+    output += `Travail – activité intense : ${data.questionnaires.gpaq.travail.intense.jours_par_semaine ?? 0} j/sem, `;
+    output += `${data.questionnaires.gpaq.travail.intense.heures_par_jour || 0} h `;
+    output += `${data.questionnaires.gpaq.travail.intense.minutes_par_jour || 0} min/j\n`;
+
+    output += `Travail – activité modérée : ${data.questionnaires.gpaq.travail.moderee.jours_par_semaine ?? 0} j/sem, `;
+    output += `${data.questionnaires.gpaq.travail.moderee.heures_par_jour || 0} h `;
+    output += `${data.questionnaires.gpaq.travail.moderee.minutes_par_jour || 0} min/j\n`;
+
+    output += `Déplacements : ${data.questionnaires.gpaq.deplacements.jours_par_semaine ?? 0} j/sem, `;
+    output += `${data.questionnaires.gpaq.deplacements.heures_par_jour || 0} h `;
+    output += `${data.questionnaires.gpaq.deplacements.minutes_par_jour || 0} min/j\n`;
+
+    output += `Loisirs – activité intense : ${data.questionnaires.gpaq.loisirs.intense.jours_par_semaine ?? 0} j/sem, `;
+    output += `${data.questionnaires.gpaq.loisirs.intense.heures_par_jour || 0} h `;
+    output += `${data.questionnaires.gpaq.loisirs.intense.minutes_par_jour || 0} min/j\n`;
+
+    output += `Loisirs – activité modérée : ${data.questionnaires.gpaq.loisirs.moderee.jours_par_semaine ?? 0} j/sem, `;
+    output += `${data.questionnaires.gpaq.loisirs.moderee.heures_par_jour || 0} h `;
+    output += `${data.questionnaires.gpaq.loisirs.moderee.minutes_par_jour || 0} min/j\n`;
+
+    output += `Comportement sédentaire : ${data.questionnaires.gpaq.sedentarite.heures_par_jour || 0} h `;
+    output += `${data.questionnaires.gpaq.sedentarite.minutes_par_jour || 0} min/j\n`;
+  }
+
+  if (data.meta.questionnaires === "Marshall") {
+    output += "2. QUESTIONNAIRE MARSHALL\n";
+    output += "------------------------\n";
+    output += `Score total : ${(data.questionnaires.marshall.q1 || 0) + (data.questionnaires.marshall.q2 || 0)}\n`;
+  }
+
+  navigator.clipboard.writeText(output)
+    .then(() => console.log("Résumé copié dans le presse-papiers"))
+    .catch(() => console.warn("Copie impossible"));
+}
 
 </script>
 </body>
