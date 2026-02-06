@@ -881,23 +881,27 @@ function final(){
   console.log("EXPORT JSON", state.exportJSON);
 
   render(`
-
-  state.exportJSON = buildExportJSON();
-  sessionStorage.setItem(
-  "preconsultation_final",
-  JSON.stringify(state.exportJSON)
-);
-
-  console.log("EXPORT JSON", state.exportJSON);
-
-  render(`
 <h2>Résultat</h2>
-<p><strong>Niveau d’activité :</strong> ${state.result.niveau.replace("_"," ")}
-${state.result.met?` (${state.result.met} MET-min/semaine)`:""}</p>
 
-<div class="section"><strong>Stade motivationnel</strong><div class="answer">${state.result.stade}</div></div>
-<div class="section"><strong>Importance</strong><div class="answer">${state.result.importance}/10</div></div>
-<div class="section"><strong>Confiance</strong><div class="answer">${state.result.confiance}/10</div></div>
+<p><strong>Niveau d’activité :</strong>
+  ${state.result.niveau.replace("_"," ")}
+  ${state.result.met ? ` (${state.result.met} MET-min/semaine)` : ""}
+</p>
+
+<div class="section">
+  <strong>Stade motivationnel</strong>
+  <div class="answer">${state.result.stade}</div>
+</div>
+
+<div class="section">
+  <strong>Importance</strong>
+  <div class="answer">${state.result.importance}/10</div>
+</div>
+
+<div class="section">
+  <strong>Confiance</strong>
+  <div class="answer">${state.result.confiance}/10</div>
+</div>
 
 <button class="btn" onclick="shareToDoctor()">
   Transmettre au médecin
@@ -907,20 +911,30 @@ ${state.result.met?` (${state.result.met} MET-min/semaine)`:""}</p>
   Voir la version imprimable
 </button>
 
-<button class="btn secondary" onclick="location.reload()">Recommencer</button>
-<button class="btn secondary" onclick="back()">Retour</button>
+<button class="btn secondary" onclick="location.reload()">
+  Recommencer
+</button>
 
-<p class="footer">Document à apporter lors de votre consultation médicale.</p>
-`,100);
+<button class="btn secondary" onclick="back()">
+  Retour
+</button>
+
+<p class="footer">
+  Document à apporter lors de votre consultation médicale.
+</p>
+`, 100);
 }
 
 window.addEventListener("load", () => {
   const saved = sessionStorage.getItem("preconsultation_final");
 
-  if (saved) {
+  if (
+    saved &&
+    typeof document.referrer === "string" &&
+    document.referrer.includes("print.html")
+  ) {
     state.exportJSON = JSON.parse(saved);
 
-    // reconstruire les infos minimales nécessaires
     state.result = {
       niveau: state.exportJSON.resultats.niveau_activite,
       met: state.exportJSON.resultats.met_minutes_semaine,
