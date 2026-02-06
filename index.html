@@ -797,18 +797,27 @@ function buildExportJSON(){
     }
   };
 }
-function openPrintable(){
-  if(!state.exportJSON) return;
+function openPrintable() {
+  // Sécurité : toujours reconstruire l’export
+  state.exportJSON = buildExportJSON();
 
+  // Stockage fiable pour le retour iOS
+  sessionStorage.setItem(
+    "preconsultation_final",
+    JSON.stringify(state.exportJSON)
+  );
+
+  // Passage optionnel des données à print.html
   const json = encodeURIComponent(
     JSON.stringify(state.exportJSON)
   );
 
   window.open(
-    "print.html?from=final&data=" + json,
+    "print.html?data=" + json,
     "_blank"
   );
 }
+
 function shareToDoctor() {
 
   if (!state.exportJSON) {
@@ -925,27 +934,45 @@ function final(){
 </p>
 `, 100);
 }
-
+  
 window.addEventListener("load", () => {
   const saved = sessionStorage.getItem("preconsultation_final");
 
-  if (
-    saved &&
-    typeof document.referrer === "string" &&
-    document.referrer.includes("print.html")
-  ) {
-    state.exportJSON = JSON.parse(saved);
+  if (saved) {
+    try {
+      state.exportJSON = JSON.parse(saved);
 
-    state.result = {
-      niveau: state.exportJSON.resultats.niveau_activite,
-      met: state.exportJSON.resultats.met_minutes_semaine,
-      stade: state.exportJSON.motivation.stade,
-      importance: state.exportJSON.motivation.importance_eva_0_10,
-      confiance: state.exportJSON.motivation.confiance_eva_0_10
-    };
+      state.result = {
+        niveau: state.exportJSON.resultats?.niveau_activite ?? null,
+        met: state.exportJSON.resultats?.met_minutes_semaine ?? null,
+        stade: state.exportJSON.motivation?.stade ?? null,
+        importance: state.exportJSON.motivation?.importance_eva_0_10 ?? null,
+        confiance: state.exportJSON.motivation?.confiance_eva_0_10 ?? null
+      };
 
-    final();
+      final();
+      return; // ⛔️ empêche le render accueil
+    } catch (e) {
+      console.warn("Erreur restauration session :", e);
+      sessionStorage.removeItem("preconsultation_final");
+    }
   }
+
+  /* fallback sûr */
+  render(`
+    <h1>Activité physique</h1>
+    <p>Questionnaire destiné à préparer votre consultation médicale.<br>
+    Aucune donnée n’est enregistrée.</p>
+
+    <div class="rgpd">
+      <a href="https://abbe-web.github.io/Questionnaire-AutoEvaluation-AP/politique-confidentialite.html" target="_blank">
+        Politique de confidentialité
+      </a>
+    </div>
+
+    <button class="btn" onclick="start('gpaq')">Questionnaire détaillé (GPAQ)</button>
+    <button class="btn secondary" onclick="start('marshall')">Questionnaire court (Marshall)</button>
+  `, 0, false);
 });
 
 </script>
