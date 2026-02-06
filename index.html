@@ -860,11 +860,6 @@ setTimeout(() => {
 copyFallback(mailTitle + "\n\n" + mailBody);
 }
   
-function goFinal() {
-  history.pushState(null, "", "#final");
-  final();
-}
-
 function final(){
 
   state.exportJSON = buildExportJSON();
@@ -979,7 +974,12 @@ if (!data) {
   // 1. Synthèse
   output += "1. SYNTHÈSE\n";
   output += "-----------\n";
-  output += `Niveau d’activité physique : ${data.resultats.niveau_activite.replace("_"," ")}\n`;
+  const niveau = data.resultats.niveau_activite
+  ? data.resultats.niveau_activite.replace("_"," ")
+  : "non disponible";
+
+output += `Niveau d’activité physique : ${niveau}\n`;
+
   output += `Volume estimé : ${data.resultats.met_minutes_semaine} MET-min / semaine\n`;
   output += `Stade motivationnel : ${data.motivation.stade}\n`;
   output += `Importance de l’activité physique : ${data.motivation.importance_eva_0_10}/10\n`;
