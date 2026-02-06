@@ -863,7 +863,12 @@ setTimeout(() => {
 /* Copie systématique de secours */
 copyFallback(mailTitle + "\n\n" + mailBody);
 }
-
+  
+function goFinal() {
+  history.pushState(null, "", "#final");
+  final();
+}
+  
 function final(){
 
   state.exportJSON = buildExportJSON();
@@ -887,8 +892,7 @@ ${state.result.met?` (${state.result.met} MET-min/semaine)`:""}</p>
 </button>
 
 <button class="btn secondary" onclick="location.reload()">Recommencer</button>
-<button class="btn secondary" onclick="back()">Retour</button>
-
+<button class="btn secondary" onclick="goFinal()">Retour</button>
 
 <p class="footer">Document à apporter lors de votre consultation médicale.</p>
 `,100,false);
