@@ -168,22 +168,21 @@ table th {
   background: #f3f3f3;
   font-weight: 600;
 }
-  
+/* Bloc actions : vertical */
 .actions {
   margin-top: 30px;
   text-align: center;
 }
 
-/* Ligne de boutons */
+/* Boutons sur une même ligne */
 .actions-buttons {
-  display: flex;
-  justify-content: center;
+  display: inline-flex;        /* clé : inline-flex */
   gap: 12px;
 }
 
-/* Boutons identiques */
+/* Boutons harmonisés */
 .actions-buttons button {
-  width: 240px;
+  width: 220px;                /* plus fin, passe partout */
   padding: 10px 14px;
   font-size: 14px;
   border: 1px solid #999;
@@ -195,9 +194,9 @@ table th {
   background: #eaeaea;
 }
 
-/* Texte explicatif sous les boutons */
+/* Texte TOUJOURS en dessous */
 .actions-note {
-  margin-top: 8px;
+  margin-top: 10px;
   font-size: 11px;
   color: #777;
   max-width: 520px;
@@ -205,12 +204,14 @@ table th {
   margin-right: auto;
 }
 
-/* Toujours masqué à l'impression */
+/* Impression : masqué */
 @media print {
   .actions {
     display: none;
   }
 }
+
+
 /* Correctif iOS / écrans étroits : éviter chevauchement dans tableaux */
 @media screen and (max-width: 600px) {
 
