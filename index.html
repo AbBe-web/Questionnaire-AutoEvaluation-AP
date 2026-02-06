@@ -232,20 +232,7 @@ function advanceProgress(points){
 /*************************************************
  * ACCUEIL
  *************************************************/
-render(`
-<h1>Activité physique</h1>
-<p>Questionnaire destiné à préparer votre consultation médicale.<br>
-Aucune donnée n’est enregistrée.</p>
 
-<div class="rgpd">
-<a href="https://abbe-web.github.io/Questionnaire-AutoEvaluation-AP/politique-confidentialite.html" target="_blank">
-Politique de confidentialité
-</a>
-</div>
-
-<button class="btn" onclick="start('gpaq')">Questionnaire détaillé (GPAQ)</button>
-<button class="btn secondary" onclick="start('marshall')">Questionnaire court (Marshall)</button>
-`,0,false);
 
 function start(tool){
   state.tool = tool;
