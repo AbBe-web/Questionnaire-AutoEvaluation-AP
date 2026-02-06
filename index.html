@@ -808,7 +808,6 @@ function openPrintable(){
     "_blank"
   );
 }
-  
 function shareToDoctor() {
 
   if (!state.exportJSON) {
@@ -816,21 +815,14 @@ function shareToDoctor() {
     return;
   }
 
-  const dataText =
-`Auto-évaluation de l’activité physique – données pour la consultation
+  const mailTitle = "Auto-évaluation de l’activité physique – consultation médicale";
 
-Ces informations peuvent être copiées et intégrées dans le compte-rendu médical.
-
---- DÉBUT DES DONNÉES ---
+  const dataBlock =
+`--- DÉBUT DES DONNÉES ---
 ${JSON.stringify(state.exportJSON, null, 2)}
---- FIN DES DONNÉES ---
-`;
+--- FIN DES DONNÉES ---`;
 
-  const subject = encodeURIComponent(
-    "Auto-évaluation de l’activité physique – consultation médicale"
-  );
-
-  const body = encodeURIComponent(
+  const mailBody =
 `Bonjour,
 
 Vous trouverez ci-dessous les informations issues de mon questionnaire
@@ -838,38 +830,29 @@ d’auto-évaluation de l’activité physique, rempli en amont de la consultati
 
 Ces données peuvent être copiées et intégrées dans votre compte-rendu médical.
 
-Cordialement,
+${dataBlock}`;
 
-${dataText}`
-  );
+  const subject = encodeURIComponent(mailTitle);
+  const body = encodeURIComponent(mailBody);
 
-  /* 1️⃣ Si partage natif disponible (mobile moderne) */
-  if (navigator.share) {
+  /* 📱 Mobile → partage natif */
+  const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+
+  if (isMobile && navigator.share) {
     navigator.share({
-      title: "Auto-évaluation de l’activité physique",
-      text: dataText
+      title: mailTitle,
+      text: mailTitle + "\n\n" + mailBody
     }).catch(() => {
-      copyFallback(dataText);
+      copyFallback(mailTitle + "\n\n" + mailBody);
     });
     return;
   }
 
-  /* 2️⃣ Sinon : ouverture du mail par défaut */
-  const mailto = `mailto:?subject=${subject}&body=${body}`;
-  window.location.href = mailto;
+  /* 🖥️ PC → client mail par défaut (Outlook / Exchange) */
+  window.location.href = `mailto:?subject=${subject}&body=${body}`;
 
-  /* 3️⃣ Fallback silencieux : copie */
-  copyFallback(dataText);
-}
-
-function copyFallback(text) {
-  navigator.clipboard.writeText(text)
-    .then(() => {
-      alert("Les données ont été copiées. Vous pouvez les transmettre à votre médecin.");
-    })
-    .catch(() => {
-      alert("Impossible de copier automatiquement les données.");
-    });
+  /* 📋 Fallback copie */
+  copyFallback(mailTitle + "\n\n" + mailBody);
 }
 
 function final(){
