@@ -974,7 +974,8 @@ window.addEventListener("load", () => {
   `, 0, false);
 });
 function copyContent() {
-  if (!data) {
+const data = state.exportJSON || buildExportJSON();
+if (!data) {
     console.warn("Aucune donnée à copier");
     return;
   }
