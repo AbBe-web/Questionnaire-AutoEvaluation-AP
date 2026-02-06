@@ -851,8 +851,17 @@ ${dataBlock}`;
   /* 🖥️ PC → client mail par défaut (Outlook / Exchange) */
   window.location.href = `mailto:?subject=${subject}&body=${body}`;
 
-  /* 📋 Fallback copie */
-  copyFallback(mailTitle + "\n\n" + mailBody);
+/* Aide explicite pour les webmails */
+setTimeout(() => {
+  alert(
+    "Si aucun nouveau message ne s’est ouvert automatiquement, " +
+    "les données ont été copiées.\n\n" +
+    "Vous pouvez les coller manuellement dans un email à destination de votre médecin."
+  );
+}, 500);
+
+/* Copie systématique de secours */
+copyFallback(mailTitle + "\n\n" + mailBody);
 }
 
 function final(){
