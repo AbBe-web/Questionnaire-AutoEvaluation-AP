@@ -333,25 +333,23 @@ Date : <span id="date"></span>
 
 <script>
 function goBack() {
-  const params = new URLSearchParams(window.location.search);
-  const from = params.get("from");
-
-  if (from === "final") {
-    // Retour explicite vers l’écran de fin du questionnaire
-    window.location.href = "index.html#final";
-  } else if (window.history.length > 1) {
-    history.back();
-  } else {
-    window.close();
-  }
+  window.location.href = "index.html";
 }
-
+}
+  
 function getJSONFromURL(){
   const params = new URLSearchParams(window.location.search);
   const data = params.get("data");
-  if(!data) return null;
-  return JSON.parse(decodeURIComponent(data));
+  if (!data) return null;
+
+  try {
+    return JSON.parse(decodeURIComponent(data));
+  } catch (e) {
+    console.warn("Données URL invalides", e);
+    return null;
+  }
 }
+
 
 const data = getJSONFromURL();
 document.getElementById("date").innerText = new Date().toLocaleDateString();
@@ -555,9 +553,10 @@ if (data.meta.questionnaires === "GPAQ") {
 }
 function copyContent(){
   const text = document.getElementById("content").innerText;
-  navigator.clipboard.writeText(text)
-    .then(() => alert("Contenu copié dans le presse-papiers"))
-    .catch(() => alert("Impossible de copier le contenu"));
+
+navigator.clipboard.writeText(text)
+  .then(() => console.log("Contenu copié"))
+  .catch(() => console.warn("Copie impossible"));
 }
 
 }
