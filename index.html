@@ -933,7 +933,7 @@ ${state.result.niveau ? state.result.niveau.replace("_"," ") : "non disponible"}
   Voir la version imprimable
 </button>
 
-<button class="btn secondary" onclick="location.reload()">
+<button class="btn secondary" onclick="restart()">
   Recommencer
 </button>
 
@@ -945,6 +945,11 @@ ${state.result.niveau ? state.result.niveau.replace("_"," ") : "non disponible"}
   Document à apporter lors de votre consultation médicale.
 </p>
 `, 100);
+}
+
+function restart() {
+  sessionStorage.removeItem("preconsultation_final");
+  location.reload();
 }
 
 window.addEventListener("load", () => {
