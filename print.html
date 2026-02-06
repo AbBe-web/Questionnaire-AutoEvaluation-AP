@@ -228,7 +228,29 @@ table th {
     white-space: normal;
   }
 }
+/* Correctif iOS / mobile pour les boutons d’actions */
+@media screen and (max-width: 600px) {
 
+  .actions {
+    margin-top: 40px; /* descend légèrement le bloc */
+  }
+
+  .actions-buttons {
+    flex-wrap: wrap;           /* autorise retour à la ligne si besoin */
+    gap: 10px;
+  }
+
+  .actions-buttons button {
+    width: 100%;               /* boutons pleine largeur sur mobile */
+    max-width: 320px;          /* mais pas trop larges */
+    font-size: 14px;
+  }
+
+  .actions-note {
+    margin-top: 12px;          /* espace clair sous les boutons */
+    text-align: center;        /* centré (plus joli sur mobile) */
+  }
+}
 
 </style>
 </head>
