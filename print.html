@@ -211,6 +211,23 @@ table th {
     display: none;
   }
 }
+/* Correctif iOS / écrans étroits : éviter chevauchement dans tableaux */
+@media screen and (max-width: 600px) {
+
+  table {
+    table-layout: fixed;
+  }
+
+  th, td {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+  }
+
+  /* Colonne "Intensité / Type" autorise le retour à la ligne */
+  td:first-child {
+    white-space: normal;
+  }
+}
 
 
 </style>
