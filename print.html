@@ -264,6 +264,33 @@ table th {
     margin: 3px 0;
   }
 }
+/* === Correctif final iOS : marges latérales trop grandes à l’impression === */
+@media print and (max-width: 600px) {
+
+  @page {
+    size: A4;
+    margin: 12mm;              /* clé : réduire les marges */
+  }
+
+  html, body {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    font-size: 13px;
+    line-height: 1.25;
+    padding: 12mm;             /* contrôle réel des marges */
+    box-sizing: border-box;
+  }
+
+  /* Tables : éviter qu’elles élargissent la page */
+  table {
+    width: 100%;
+    max-width: 100%;
+  }
+}
 
 </style>
 </head>
