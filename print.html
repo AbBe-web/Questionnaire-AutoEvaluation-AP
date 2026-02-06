@@ -7,7 +7,6 @@
 
 <style>
 
-
 @page {
   size: A4;
   margin: 20mm;
@@ -316,7 +315,11 @@ table th {
 </head>
 
 <body>
-
+  
+<div class="nav-back">
+    <button onclick="goBack()">← Retour au questionnaire</button>
+  </div>
+  
 <h1>Résumé d’activité physique – Pré-consultation</h1>
 
 <p id="questionnaire-type" class="small"></p>
@@ -329,6 +332,14 @@ Date : <span id="date"></span>
 <div id="content"></div>
 
 <script>
+ function goBack() {
+    if (window.history.length > 1) {
+      history.back();
+    } else {
+      window.close();
+    }
+  }
+
 function getJSONFromURL(){
   const params = new URLSearchParams(window.location.search);
   const data = params.get("data");
