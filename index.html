@@ -809,6 +809,69 @@ function openPrintable(){
   );
 }
   
+function shareToDoctor() {
+
+  if (!state.exportJSON) {
+    alert("Données indisponibles.");
+    return;
+  }
+
+  const dataText =
+`Auto-évaluation de l’activité physique – données pour la consultation
+
+Ces informations peuvent être copiées et intégrées dans le compte-rendu médical.
+
+--- DÉBUT DES DONNÉES ---
+${JSON.stringify(state.exportJSON, null, 2)}
+--- FIN DES DONNÉES ---
+`;
+
+  const subject = encodeURIComponent(
+    "Auto-évaluation de l’activité physique – consultation médicale"
+  );
+
+  const body = encodeURIComponent(
+`Bonjour,
+
+Vous trouverez ci-dessous les informations issues de mon questionnaire
+d’auto-évaluation de l’activité physique, rempli en amont de la consultation.
+
+Ces données peuvent être copiées et intégrées dans votre compte-rendu médical.
+
+Cordialement,
+
+${dataText}`
+  );
+
+  /* 1️⃣ Si partage natif disponible (mobile moderne) */
+  if (navigator.share) {
+    navigator.share({
+      title: "Auto-évaluation de l’activité physique",
+      text: dataText
+    }).catch(() => {
+      copyFallback(dataText);
+    });
+    return;
+  }
+
+  /* 2️⃣ Sinon : ouverture du mail par défaut */
+  const mailto = `mailto:?subject=${subject}&body=${body}`;
+  window.location.href = mailto;
+
+  /* 3️⃣ Fallback silencieux : copie */
+  copyFallback(dataText);
+}
+
+function copyFallback(text) {
+  navigator.clipboard.writeText(text)
+    .then(() => {
+      alert("Les données ont été copiées. Vous pouvez les transmettre à votre médecin.");
+    })
+    .catch(() => {
+      alert("Impossible de copier automatiquement les données.");
+    });
+}
+
 function final(){
 
   state.exportJSON = buildExportJSON();
@@ -822,6 +885,10 @@ ${state.result.met?` (${state.result.met} MET-min/semaine)`:""}</p>
 <div class="section"><strong>Stade motivationnel</strong><div class="answer">${state.result.stade}</div></div>
 <div class="section"><strong>Importance</strong><div class="answer">${state.result.importance}/10</div></div>
 <div class="section"><strong>Confiance</strong><div class="answer">${state.result.confiance}/10</div></div>
+
+<button class="btn" onclick="shareToDoctor()">
+  Transmettre au médecin
+</button>
 
 <button class="btn" onclick="openPrintable()">
   Voir la version imprimable
