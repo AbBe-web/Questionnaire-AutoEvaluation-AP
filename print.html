@@ -332,13 +332,19 @@ Date : <span id="date"></span>
 <div id="content"></div>
 
 <script>
- function goBack() {
-    if (window.history.length > 1) {
-      history.back();
-    } else {
-      window.close();
-    }
+function goBack() {
+  const params = new URLSearchParams(window.location.search);
+  const from = params.get("from");
+
+  if (from === "final") {
+    // Retour explicite vers l’écran de fin du questionnaire
+    window.location.href = "index.html#final";
+  } else if (window.history.length > 1) {
+    history.back();
+  } else {
+    window.close();
   }
+}
 
 function getJSONFromURL(){
   const params = new URLSearchParams(window.location.search);
