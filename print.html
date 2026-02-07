@@ -348,9 +348,7 @@ function getJSONFromURL(){
     return null;
   }
 }
-
-
-let data = null;
+let data = getJSONFromURL();
 
 try {
   const stored = sessionStorage.getItem("preconsultation_final");
