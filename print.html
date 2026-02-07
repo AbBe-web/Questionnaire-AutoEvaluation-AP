@@ -370,6 +370,8 @@ const typeEl = document.getElementById("questionnaire-type");
 if (typeEl && data?.meta?.questionnaires) {
   typeEl.innerText = "Questionnaire rempli : " + data.meta.questionnaires;
 }
+const hasGPAQ = data.meta?.questionnaires === "GPAQ";
+const hasMarshall = data.meta?.questionnaires === "Marshall";
 
 if(!data){
   document.getElementById("content").innerHTML =
