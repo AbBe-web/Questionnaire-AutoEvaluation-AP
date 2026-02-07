@@ -522,7 +522,7 @@ ${data.motivation.confiance_commentaire
  <div class="actions">
   <div class="actions-buttons">
     <button onclick="window.print()">Imprimer / Enregistrer en PDF</button>
-    <button onclick="copyContent()">Copier le contenu</button>
+ <button onclick="copyContent(event)">Copier le contenu</button>
   </div>
 
   <p class="small actions-note">
@@ -557,12 +557,21 @@ if (data.meta.questionnaires === "GPAQ") {
   if (marshall) marshall.style.display = "none";
 }
   
-function copyContent(){
+function copyContent(event){
   const text = document.getElementById("content").innerText;
+  const btn = event.target;
+  const originalText = btn.innerText;
 
   navigator.clipboard.writeText(text)
+    .then(() => {
+      btn.innerText = "Copié ✔";
+      setTimeout(() => {
+        btn.innerText = originalText;
+      }, 1500);
+    })
     .catch(() => console.warn("Copie impossible"));
 }
+
 
 
 </script>
