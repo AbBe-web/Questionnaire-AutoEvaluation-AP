@@ -350,13 +350,15 @@ function getJSONFromURL(){
 }
 let data = getJSONFromURL();
 
-try {
-  const stored = sessionStorage.getItem("preconsultation_final");
-  if (stored) {
-    data = JSON.parse(stored);
+if (typeof window.sessionStorage !== "undefined") {
+  try {
+    const stored = sessionStorage.getItem("preconsultation_final");
+    if (stored) {
+      data = JSON.parse(stored);
+    }
+  } catch (e) {
+    console.warn("Impossible de lire les données de session", e);
   }
-} catch (e) {
-  console.warn("Impossible de lire les données de session", e);
 }
 
 if (!data) {
