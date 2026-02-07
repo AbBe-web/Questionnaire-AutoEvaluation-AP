@@ -140,6 +140,25 @@ textarea {
   margin-top:6px;
   text-align:center;
 }
+.copy-toast {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #323232;
+  color: #fff;
+  padding: 10px 18px;
+  border-radius: 6px;
+  font-size: 14px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+  z-index: 9999;
+}
+
+.copy-toast.show {
+  opacity: 1;
+}
 
 </style>
 </head>
@@ -719,7 +738,7 @@ Vous allez maintenant voir un résumé à apporter à votre consultation.
 
 <button class="btn" onclick="final()">Voir le résumé</button>
 <button class="btn secondary" onclick="back()">Retour</button>
-`,99, true);
+`,99,false);
 }
 
 function buildExportJSON(){
@@ -926,7 +945,7 @@ ${state.result.niveau ? state.result.niveau.replace("_"," ") : "non disponible"}
   Recommencer
 </button>
 
-<button class="btn secondary" onclick="endTransition()">
+<button class="btn secondary" onclick="safeBack()">
   Retour
 </button>
 
@@ -982,6 +1001,24 @@ window.addEventListener("load", () => {
   `, 0, false);
 });
 
+function showCopyToast() {
+  const toast = document.getElementById("copy-toast");
+  if (!toast) return;
+
+  toast.classList.add("show");
+
+  setTimeout(() => {
+    toast.classList.remove("show");
+  }, 2000);
+}
+
+function copyContent() {
+  const data = state.exportJSON || buildExportJSON();
+  if (!data) {
+    console.warn("Aucune donnée à copier");
+    return;
+  }
+
   let output = "";
 
   // Titre global
@@ -1030,7 +1067,15 @@ window.addEventListener("load", () => {
     console.warn("Copie impossible");
   });
 
+// Feedback utilisateur immédiat (indépendant du navigateur)
+showCopyToast();
+
 }
+
+</script>
+  <div id="copy-toast" class="copy-toast">
+  Résumé copié ✔
+</div>
 
 </body>
 </html>
