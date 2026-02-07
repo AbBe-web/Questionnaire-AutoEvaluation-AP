@@ -373,6 +373,9 @@ document.getElementById("content").innerHTML = `
 <p class="synthese-line">
   <strong>Niveau d’activité physique :</strong>
   ${data.resultats.niveau_activite.replace("_"," ")}
+  <span class="small">
+    (volume estimé : ${data.resultats.met_minutes_semaine} MET-min / semaine)
+  </span>
 </p>
 
 <p class="synthese-line">
@@ -385,13 +388,146 @@ document.getElementById("content").innerHTML = `
   ${data.motivation.importance_eva_0_10}/10
 </p>
 
+${data.motivation.importance_commentaire
+  ? `<p class="verbatim small">“${data.motivation.importance_commentaire}”</p>`
+  : ""
+}
+
 <p class="synthese-line">
-  <strong>Confiance :</strong>
+  <strong>Confiance en soi pour augmenter / maintenir son niveau d’activité :</strong>
   ${data.motivation.confiance_eva_0_10}/10
 </p>
 
+${data.motivation.confiance_commentaire
+  ? `<p class="verbatim small">“${data.motivation.confiance_commentaire}”</p>`
+  : ""
+}
+
 <div id="gpaq-section">
   <h2 id="gpaq-title">Questionnaire GPAQ – Détail</h2>
+
+  <h3>Travail</h3>
+
+  <table>
+    <tr>
+      <th>Intensité</th>
+      <th>Fréquence</th>
+      <th>Durée par jour</th>
+    </tr>
+
+    <tr>
+      <td>Intense</td>
+      <td>
+        ${data.questionnaires.gpaq?.travail?.intense?.jours_par_semaine ?? 0} jours / semaine
+      </td>
+      <td>
+        ${(data.questionnaires.gpaq?.travail?.intense?.heures_par_jour || 0)} h
+        ${(data.questionnaires.gpaq?.travail?.intense?.minutes_par_jour || 0)} min
+      </td>
+    </tr>
+
+    <tr>
+      <td>Modérée</td>
+      <td>
+        ${data.questionnaires.gpaq?.travail?.moderee?.jours_par_semaine ?? 0} jours / semaine
+      </td>
+      <td>
+        ${(data.questionnaires.gpaq?.travail?.moderee?.heures_par_jour || 0)} h
+        ${(data.questionnaires.gpaq?.travail?.moderee?.minutes_par_jour || 0)} min
+      </td>
+    </tr>
+  </table>
+
+  <h3>Déplacements</h3>
+
+  <table>
+    <tr>
+      <th>Type</th>
+      <th>Fréquence</th>
+      <th>Durée par jour</th>
+    </tr>
+
+    <tr>
+      <td>Marche / vélo ≥ 10 min</td>
+      <td>
+        ${data.questionnaires.gpaq?.deplacements?.jours_par_semaine ?? 0} jours / semaine
+      </td>
+      <td>
+        ${(data.questionnaires.gpaq?.deplacements?.heures_par_jour || 0)} h
+        ${(data.questionnaires.gpaq?.deplacements?.minutes_par_jour || 0)} min
+      </td>
+    </tr>
+  </table>
+
+  <h3>Loisirs</h3>
+
+  <table>
+    <tr>
+      <th>Intensité</th>
+      <th>Fréquence</th>
+      <th>Durée par jour</th>
+    </tr>
+
+    <tr>
+      <td>Intense</td>
+      <td>
+        ${data.questionnaires.gpaq?.loisirs?.intense?.jours_par_semaine ?? 0} jours / semaine
+      </td>
+      <td>
+        ${(data.questionnaires.gpaq?.loisirs?.intense?.heures_par_jour || 0)} h
+        ${(data.questionnaires.gpaq?.loisirs?.intense?.minutes_par_jour || 0)} min
+      </td>
+    </tr>
+
+    <tr>
+      <td>Modérée</td>
+      <td>
+        ${data.questionnaires.gpaq?.loisirs?.moderee?.jours_par_semaine ?? 0} jours / semaine
+      </td>
+      <td>
+        ${(data.questionnaires.gpaq?.loisirs?.moderee?.heures_par_jour || 0)} h
+        ${(data.questionnaires.gpaq?.loisirs?.moderee?.minutes_par_jour || 0)} min
+      </td>
+    </tr>
+  </table>
+
+  <h3>Comportement sédentaire</h3>
+
+  <table>
+    <tr>
+      <th>Temps assis / couché (hors sommeil)</th>
+    </tr>
+    <tr>
+      <td>
+        ${(data.questionnaires.gpaq?.sedentarite?.heures_par_jour || 0)} h
+        ${(data.questionnaires.gpaq?.sedentarite?.minutes_par_jour || 0)} min / jour
+      </td>
+    </tr>
+  </table>
+</div>
+
+<div id="marshall-section">
+  <h2 id="marshall-title">2. Questionnaire Marshall</h2>
+  <p>
+    Score :
+    ${(data.questionnaires.marshall?.q1 || 0) + (data.questionnaires.marshall?.q2 || 0)}
+  </p>
+
+  <p class="small" style="margin-top:40px;">
+    Ce document est destiné à être discuté avec votre médecin.
+  </p>
+</div>
+
+<div class="actions">
+  <div class="actions-buttons">
+    <button onclick="window.print()">Imprimer / Enregistrer en PDF</button>
+    <button onclick="copyContent()">Copier le contenu</button>
+  </div>
+
+  <p class="small actions-note">
+    Ces actions n’altèrent pas vos réponses.<br>
+    Le document peut être imprimé, enregistré en PDF ou copié pour un usage médical.
+  </p>
 </div>
 
 `;
