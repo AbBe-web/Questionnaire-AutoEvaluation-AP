@@ -312,9 +312,15 @@ table th {
 
 /* Jamais affiché à l’impression */
 @media print {
-  .actions {
+  .actions,
+  .copy-toast {
     display: none;
   }
+}
+
+/* === Toast UX "Copié" — écran uniquement === */
+@media screen {
+
 }
 
 </style>
@@ -520,12 +526,17 @@ ${data.motivation.confiance_commentaire
   </div>
 
  <div class="actions">
-  <button type="button" onclick="copyContent(this)">Copier le contenu</button>
+  <div class="actions-buttons">
+    <button onclick="window.print()">Imprimer / Enregistrer en PDF</button>
+    <button onclick="copyContent()">Copier le contenu</button>
+  </div>
 
   <p class="small actions-note">
     Ces actions n’altèrent pas vos réponses.<br>
     Le document peut être imprimé, enregistré en PDF ou copié pour un usage médical.
   </p>
+</div>
+
 </div>
 
   `;
@@ -552,23 +563,11 @@ if (data.meta.questionnaires === "GPAQ") {
   if (marshall) marshall.style.display = "none";
 }
   
-function copyContent(btn){
+function copyContent(){
   const text = document.getElementById("content").innerText;
-  const originalText = btn.innerText;
 
   navigator.clipboard.writeText(text)
-    .then(() => {
-      btn.innerText = "Copié ✔";
-      btn.disabled = true;
-
-      setTimeout(() => {
-        btn.innerText = originalText;
-        btn.disabled = false;
-      }, 1500);
-    })
-    .catch(() => {
-      console.warn("Copie impossible");
-    });
+    .catch(() => console.warn("Copie impossible"));
 }
 
 
