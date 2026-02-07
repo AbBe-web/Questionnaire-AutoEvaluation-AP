@@ -167,6 +167,13 @@ textarea {
 <div class="container" id="app"></div>
 
 <script>
+  
+app
+
+if (!app) {
+  console.error("Erreur critique : conteneur #app introuvable");
+  throw new Error("App container missing");
+}
 
 /*************************************************
  * ÉTAT GLOBAL
@@ -184,31 +191,45 @@ const state = {
 };
 
   // Sécurité : écran vide avant décision load
-document.getElementById("app").innerHTML = "";
+app.innerHTML = "";
 
 /*************************************************
  * RENDER + RETOUR
  *************************************************/
-function render(html, progress=0, save=true){
-  if(save) state.history.push(document.getElementById("app").innerHTML);
-  document.getElementById("app").innerHTML = `
-    <div class="progress">
-  <div class="progress-bar" style="width:${
-    state.progress.total > 0
-  ? Math.round((state.progress.current / state.progress.total) * 100)
-  : 0
+function render(html, progress = 0, save = true) {
+  try {
+    if (save) {
+      state.history.push(app.innerHTML);
+    }
 
-  }%"></div>
-</div>
-<div class="progress-step">
-  Étape ${state.progress.current} / ${state.progress.total}
-</div>
-    ${html}
-  `;
+    const percent =
+      state.progress.total > 0
+        ? Math.round(
+            (state.progress.current / state.progress.total) * 100
+          )
+        : 0;
+
+    app.innerHTML = `
+      <div class="progress">
+        <div class="progress-bar" style="width:${percent}%"></div>
+      </div>
+      <div class="progress-step">
+        Étape ${state.progress.current} / ${state.progress.total}
+      </div>
+      ${html}
+    `;
+  } catch (e) {
+    console.error("Erreur render()", e);
+    app.innerHTML = `
+      <p>Une erreur est survenue.
+      Veuillez recharger la page.</p>
+    `;
+  }
 }
+
 function back(){
   if(state.history.length>0){
-    document.getElementById("app").innerHTML = state.history.pop();
+    app.innerHTML = state.history.pop();
   }
 }
 function safeBack(){
@@ -813,19 +834,25 @@ function buildExportJSON(){
     }
   };
 }
-function openPrintable() {
-  // Sécurité : toujours reconstruire l’export
-  state.exportJSON = buildExportJSON();
 
-  // Stockage fiable pour le retour iOS
+function freezeExportJSON() {
+  const frozen = buildExportJSON();
+
+  state.exportJSON = frozen;
+
   sessionStorage.setItem(
     "preconsultation_final",
-    JSON.stringify(state.exportJSON)
+    JSON.stringify(frozen)
   );
 
-  // Passage optionnel des données à print.html
+  return frozen;
+}
+
+function openPrintable() {
+  const frozen = freezeExportJSON();
+
   const json = encodeURIComponent(
-    JSON.stringify(state.exportJSON)
+    JSON.stringify(frozen)
   );
 
   window.open(
@@ -834,8 +861,15 @@ function openPrintable() {
   );
 }
 
+
+// 🔐 Copie de secours (utilisée si partage / mail échoue)
 // 🔐 Copie de secours (utilisée si partage / mail échoue)
 function copyFallback(text) {
+  if (!navigator.clipboard || !navigator.clipboard.writeText) {
+    console.warn("Clipboard indisponible");
+    return;
+  }
+
   navigator.clipboard.writeText(text)
     .catch(() => {
       console.warn("Copie de secours impossible");
@@ -843,8 +877,9 @@ function copyFallback(text) {
 }
 
 function shareToDoctor() {
+  const frozen = freezeExportJSON();
 
-  if (!state.exportJSON) {
+  if (!frozen) {
     alert("Données indisponibles.");
     return;
   }
@@ -853,7 +888,7 @@ function shareToDoctor() {
 
   const dataBlock =
 `--- DÉBUT DES DONNÉES ---
-${JSON.stringify(state.exportJSON, null, 2)}
+${JSON.stringify(frozen, null, 2)}
 --- FIN DES DONNÉES ---`;
 
   const mailBody =
@@ -920,18 +955,23 @@ ${state.result.niveau ? state.result.niveau.replace("_"," ") : "non disponible"}
 
 <div class="section">
   <strong>Stade motivationnel</strong>
-  <div class="answer">${state.result.stade}</div>
+  <div class="answer">${state.result.stade ?? "non renseigné"}</div>
 </div>
 
 <div class="section">
   <strong>Importance</strong>
-  <div class="answer">${state.result.importance}/10</div>
+  <div class="answer">
+    ${state.result.importance != null ? state.result.importance + "/10" : "non renseignée"}
+  </div>
 </div>
 
 <div class="section">
   <strong>Confiance</strong>
-  <div class="answer">${state.result.confiance}/10</div>
+  <div class="answer">
+    ${state.result.confiance != null ? state.result.confiance + "/10" : "non renseignée"}
+  </div>
 </div>
+
 
 <button class="btn" onclick="shareToDoctor()">
   Transmettre au médecin
@@ -965,7 +1005,18 @@ window.addEventListener("load", () => {
 
   if (saved) {
     try {
-      state.exportJSON = JSON.parse(saved);
+    const parsed = JSON.parse(saved);
+
+if (
+  !parsed ||
+  typeof parsed !== "object" ||
+  !parsed.resultats ||
+  !parsed.motivation
+) {
+  throw new Error("Export JSON invalide");
+}
+
+state.exportJSON = parsed;
 
       state.result = {
         niveau: state.exportJSON.resultats?.niveau_activite ?? null,
