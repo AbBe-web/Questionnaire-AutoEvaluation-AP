@@ -550,15 +550,32 @@ if (data.meta.questionnaires === "GPAQ") {
   const marshall = document.getElementById("marshall-section");
   if (marshall) marshall.style.display = "none";
 }
-function copyContent(){
-  const text = document.getElementById("content").innerText;
+  
+function copyContent() {
+  const el = document.getElementById("content");
+  if (!el) return;
 
-navigator.clipboard.writeText(text)
-  .then(() => console.log("Contenu copié"))
-  .catch(() => console.warn("Copie impossible"));
+  const text = el.innerText;
+
+  if (!navigator.clipboard || !navigator.clipboard.writeText) {
+    alert("La copie automatique n’est pas disponible sur ce navigateur.");
+    return;
+  }
+
+  navigator.clipboard.writeText(text)
+    .catch(() => {
+      alert("Copie impossible.");
+    });
 }
 
-}
+// 🔒 Safari macOS : figer le DOM après construction complète
+setTimeout(() => {
+  try {
+    window.onbeforeunload = null;
+  } catch (e) {}
+}, 0);
+
+
 </script>
 
 </body>
