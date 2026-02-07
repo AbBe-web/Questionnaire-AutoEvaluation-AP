@@ -348,18 +348,18 @@ function getJSONFromURL(){
     return null;
   }
 }
-let data = getJSONFromURL();
+const rawData = getJSONFromURL();
+let storedData = null;
 
 if (typeof window.sessionStorage !== "undefined") {
   try {
-    const stored = sessionStorage.getItem("preconsultation_final");
-    if (stored) {
-      data = JSON.parse(stored);
-    }
+    storedData = sessionStorage.getItem("preconsultation_final");
   } catch (e) {
     console.warn("Impossible de lire les données de session", e);
   }
 }
+
+const data = storedData ? JSON.parse(storedData) : rawData;
 
 if (!data) {
   document.getElementById("content").innerHTML =
