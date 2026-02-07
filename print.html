@@ -367,7 +367,28 @@ if (!data) {
 }
 
 document.getElementById("content").innerHTML = `
-  <p>TEST OK</p>
+
+<h2>1. Synthèse</h2>
+
+<p class="synthese-line">
+  <strong>Niveau d’activité physique :</strong>
+  ${data.resultats.niveau_activite.replace("_"," ")}
+</p>
+
+<p class="synthese-line">
+  <strong>Stade motivationnel :</strong>
+  ${data.motivation.stade}
+</p>
+
+<p class="synthese-line">
+  <strong>Importance de l’activité physique :</strong>
+  ${data.motivation.importance_eva_0_10}/10
+</p>
+
+<p class="synthese-line">
+  <strong>Confiance :</strong>
+  ${data.motivation.confiance_eva_0_10}/10
+</p>
 `;
 
   if (data.meta.questionnaires === "GPAQ") {
