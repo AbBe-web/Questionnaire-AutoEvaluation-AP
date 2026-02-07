@@ -211,6 +211,13 @@ function back(){
     document.getElementById("app").innerHTML = state.history.pop();
   }
 }
+function safeBack(){
+  if(state.history && state.history.length > 0){
+    back();
+  } else {
+    endTransition();
+  }
+}
 
 /*************************************************
  * UX — UTILITAIRES (NON CLINIQUES)
@@ -938,7 +945,7 @@ ${state.result.niveau ? state.result.niveau.replace("_"," ") : "non disponible"}
   Recommencer
 </button>
 
-<button class="btn secondary" onclick="back()">
+<button class="btn secondary" onclick="safeBack()">
   Retour
 </button>
 
