@@ -368,7 +368,10 @@ if(!data){
 
 <p class="synthese-line">
   <strong>Niveau d’activité physique :</strong>
-  ${data.resultats.niveau_activite.replace("_"," ")}
+  ${data.resultats.niveau_activite
+  ? data.resultats.niveau_activite.replace("_"," ")
+  : "non disponible"}
+
   <span class="small">
     (volume estimé : ${data.resultats.met_minutes_semaine} MET-min / semaine)
   </span>
