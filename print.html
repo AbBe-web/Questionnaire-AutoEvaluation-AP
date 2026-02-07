@@ -320,7 +320,7 @@ table th {
     <button onclick="goBack()">← Retour au questionnaire</button>
   </div>
   
-<h1>Résumé de l'évaluation de la pré-consultation d'activité physique</h1>
+<h1>Résumé d’activité physique – Pré-consultation</h1>
 
 <p id="questionnaire-type" class="small"></p>
 
@@ -348,31 +348,14 @@ function getJSONFromURL(){
     return null;
   }
 }
-let data = getJSONFromURL();
 
-if (typeof window.sessionStorage !== "undefined") {
-  try {
-    const stored = sessionStorage.getItem("preconsultation_final");
-    if (stored) {
-      data = JSON.parse(stored);
-    }
-  } catch (e) {
-    console.warn("Impossible de lire les données de session", e);
-  }
-}
 
-if (!data) {
-  document.getElementById("content").innerHTML =
-    "<p>Données indisponibles.</p>";
-}
-
+const data = getJSONFromURL();
 document.getElementById("date").innerText = new Date().toLocaleDateString();
 const typeEl = document.getElementById("questionnaire-type");
 if (typeEl && data?.meta?.questionnaires) {
   typeEl.innerText = "Questionnaire rempli : " + data.meta.questionnaires;
 }
-const hasGPAQ = data.meta?.questionnaires === "GPAQ";
-const hasMarshall = data.meta?.questionnaires === "Marshall";
 
 if(!data){
   document.getElementById("content").innerHTML =
@@ -385,10 +368,7 @@ if(!data){
 
 <p class="synthese-line">
   <strong>Niveau d’activité physique :</strong>
-  ${data.resultats.niveau_activite
-  ? data.resultats.niveau_activite.replace("_"," ")
-  : "non disponible"}
-
+  ${data.resultats.niveau_activite.replace("_"," ")}
   <span class="small">
     (volume estimé : ${data.resultats.met_minutes_semaine} MET-min / semaine)
   </span>
@@ -396,16 +376,12 @@ if(!data){
 
 <p class="synthese-line">
   <strong>Stade motivationnel :</strong>
-  ${data.motivation?.stade
-    ? data.motivation.stade.replace("_", " ")
-    : "non renseigné"}
+  ${data.motivation.stade}
 </p>
 
 <p class="synthese-line">
   <strong>Importance de l’activité physique :</strong>
-  ${data.motivation?.importance_eva_0_10 != null
-    ? data.motivation.importance_eva_0_10 + "/10"
-    : "non renseignée"}
+  ${data.motivation.importance_eva_0_10}/10
 </p>
 
 ${data.motivation.importance_commentaire
@@ -415,9 +391,7 @@ ${data.motivation.importance_commentaire
 
 <p class="synthese-line">
   <strong>Confiance en soi pour augmenter / maintenir son niveau d’activité :</strong>
-  ${data.motivation?.confiance_eva_0_10 != null
-    ? data.motivation.confiance_eva_0_10 + "/10"
-    : "non renseignée"}
+  ${data.motivation.confiance_eva_0_10}/10
 </p>
 
 ${data.motivation.confiance_commentaire
@@ -551,6 +525,8 @@ ${data.motivation.confiance_commentaire
   </p>
 </div>
 
+</div>
+
   `;
   if (data.meta.questionnaires === "GPAQ") {
   const gpaqTitle = document.getElementById("gpaq-title");
@@ -574,32 +550,15 @@ if (data.meta.questionnaires === "GPAQ") {
   const marshall = document.getElementById("marshall-section");
   if (marshall) marshall.style.display = "none";
 }
-  
-function copyContent() {
-  const el = document.getElementById("content");
-  if (!el) return;
+function copyContent(){
+  const text = document.getElementById("content").innerText;
 
-  const text = el.innerText;
-
-  if (!navigator.clipboard || !navigator.clipboard.writeText) {
-    alert("La copie automatique n’est pas disponible sur ce navigateur.");
-    return;
-  }
-
-  navigator.clipboard.writeText(text)
-    .catch(() => {
-      alert("Copie impossible.");
-    });
+navigator.clipboard.writeText(text)
+  .then(() => console.log("Contenu copié"))
+  .catch(() => console.warn("Copie impossible"));
 }
 
-// 🔒 Safari macOS : figer le DOM après construction complète
-setTimeout(() => {
-  try {
-    window.onbeforeunload = null;
-  } catch (e) {}
-}, 0);
-
-
+}
 </script>
 
 </body>
