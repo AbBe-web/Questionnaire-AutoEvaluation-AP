@@ -7,12 +7,6 @@
 
 <style>
 
-/* Sécurité iOS Safari : éviter le tronquage du contenu */
-html, body {
-  height: auto;
-  overflow: auto;
-}
-
 @page {
   size: A4;
   margin: 20mm;
@@ -312,15 +306,9 @@ table th {
 
 /* Jamais affiché à l’impression */
 @media print {
-  .actions,
-  .copy-toast {
+  .nav-back {
     display: none;
   }
-}
-
-/* === Toast UX "Copié" — écran uniquement === */
-@media screen {
-
 }
 
 </style>
@@ -332,7 +320,7 @@ table th {
     <button onclick="goBack()">← Retour au questionnaire</button>
   </div>
   
-<h1>Résumé d'évaluation pré-consultation d'activité physique</h1>
+<h1>Résumé d’activité physique – Pré-consultation</h1>
 
 <p id="questionnaire-type" class="small"></p>
 
@@ -562,16 +550,16 @@ if (data.meta.questionnaires === "GPAQ") {
   const marshall = document.getElementById("marshall-section");
   if (marshall) marshall.style.display = "none";
 }
-  
 function copyContent(){
   const text = document.getElementById("content").innerText;
 
-  navigator.clipboard.writeText(text)
-    .catch(() => console.warn("Copie impossible"));
+navigator.clipboard.writeText(text)
+  .then(() => console.log("Contenu copié"))
+  .catch(() => console.warn("Copie impossible"));
 }
 
-
+}
 </script>
-  
+
 </body>
 </html>
