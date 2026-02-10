@@ -194,9 +194,20 @@ const state = {
 const savedNav = sessionStorage.getItem("nav_stack");
 if (savedNav) {
   try {
-    state.navStack = JSON.parse(savedNav) || [];
+    const parsed = JSON.parse(savedNav);
+
+    // 🔒 Sécurité DSR :
+    // un navStack < 2 est inutilisable pour le back → on le neutralise
+    if (Array.isArray(parsed) && parsed.length >= 2) {
+      state.navStack = parsed;
+    } else {
+      state.navStack = [];
+      sessionStorage.removeItem("nav_stack");
+    }
+
   } catch (e) {
     state.navStack = [];
+    sessionStorage.removeItem("nav_stack");
   }
 }
 
