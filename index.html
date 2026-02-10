@@ -1042,7 +1042,7 @@ render(`
 
 <p>
   <strong>Niveau d’activité :</strong>
-${state.result.niveau ? state.result.niveau.replace("_"," ") : "non disponible"}
+  ${state.result.niveau ? state.result.niveau.replace("_"," ") : "non disponible"}
   ${state.result.met ? ` (${state.result.met} MET-min/semaine)` : ""}
 </p>
 
@@ -1065,31 +1065,15 @@ ${state.result.niveau ? state.result.niveau.replace("_"," ") : "non disponible"}
   </div>
 </div>
 
-
-<button class="btn" onclick="shareToDoctor()">
-  Transmettre au médecin
-</button>
-
-<button class="btn" onclick="openPrintable()">
-  Voir la version imprimable
-</button>
-
-<button class="btn secondary" onclick="restart()">
-  Recommencer
-</button>
-
-<button class="btn secondary" onclick="safeBack()">
-  Retour
-</button>
+<button class="btn" onclick="shareToDoctor()">Transmettre au médecin</button>
+<button class="btn" onclick="openPrintable()">Voir la version imprimable</button>
+<button class="btn secondary" onclick="restart()">Recommencer</button>
+<button class="btn secondary" onclick="safeBack()">Retour</button>
 
 <p class="footer">
   Document à apporter lors de votre consultation médicale.
 </p>
-`, 100, true,
-  state.tool === "marshall"
-    ? "MAR-SUMMARY_FINAL"
-    : "GPAQ-SUMMARY"
-);
+`, 100, false);
 }
 
 function restart() {
