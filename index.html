@@ -211,9 +211,6 @@ if (savedNav) {
   }
 }
 
-  // Sécurité : écran vide avant décision load
-app.innerHTML = "";
-
 /*************************************************
  * RENDER + RETOUR
  *************************************************/
@@ -221,9 +218,9 @@ function render(html, progress = 0, save = true, screenId = null) {
   try {
 
     // 1️⃣ Historique DOM pour les écrans non déclaratifs (questions)
-    if (save) {
-      state.history.push(app.innerHTML);
-    }
+if (save && app.innerHTML.trim() !== "") {
+  state.history.push(app.innerHTML);
+}
 
     // 2️⃣ Navigation déclarative pour écrans critiques
     if (screenId) {
