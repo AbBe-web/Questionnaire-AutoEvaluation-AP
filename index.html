@@ -272,9 +272,9 @@ function goToScreen(id) {
   }
 }
   
-function back(){
+function back() {
 
-  // 1️⃣ Priorité : navigation déclarative (SUMMARY / THANKS / EVA)
+  // 1️⃣ Navigation déclarative (écrans Type B)
   if (state.navStack && state.navStack.length > 1) {
     state.navStack.pop();
     sessionStorage.setItem(
@@ -287,11 +287,18 @@ function back(){
     return;
   }
 
-  // 2️⃣ Fallback sécurisé : DOM history locale (questions)
+  // 2️⃣ Fallback DOM (écrans Type A)
   if (state.history && state.history.length > 0) {
-    app.innerHTML = state.history.pop();
-    return;
+    const prev = state.history.pop();
+    if (prev && prev.trim() !== "") {
+      app.innerHTML = prev;
+      return;
+    }
   }
+
+  // 3️⃣ Garde-fou ultime — jamais de no-op
+  app.innerHTML = "";
+  final();
 }
 
 function safeBack(){
