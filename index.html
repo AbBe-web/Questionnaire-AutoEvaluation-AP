@@ -371,6 +371,11 @@ function advanceProgress(points){
 
 function start(tool){
   state.tool = tool;
+
+  // 🔒 DSR — reset navigation déclarative au démarrage d’un parcours
+  state.navStack = [];
+  sessionStorage.removeItem("nav_stack");
+
   state.gpaq = {};
   state.marshall = {};
   state.result = {};
