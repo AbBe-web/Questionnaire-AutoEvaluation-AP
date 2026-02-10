@@ -218,7 +218,8 @@ function render(html, progress = 0, save = true, screenId = null) {
   try {
 
     // 1️⃣ Historique DOM pour les écrans non déclaratifs (questions)
-if (save && app.innerHTML.trim() !== "") {
+// 🔒 DSR — seuls les écrans NON déclaratifs vont dans history
+if (save && !screenId && app.innerHTML.trim() !== "") {
   state.history.push(app.innerHTML);
 }
 
