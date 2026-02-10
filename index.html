@@ -789,7 +789,11 @@ onchange="state.result.importance_comment=this.value"></textarea>
 <button class="btn" onclick="advanceProgress(1); evaConfiance()">Continuer</button>
 <button class="btn secondary" onclick="back()">Retour</button>
 <div class="back-info">Les réponses déjà saisies sont conservées pour le calcul final.</div>
-`,98);
+`,98, true,
+  state.tool === "marshall"
+    ? "MAR-EVA-IMP-REASONS"
+    : "GPAQ-EVA-IMP-REASONS"
+);
 }
 
 function evaConfiance(){
