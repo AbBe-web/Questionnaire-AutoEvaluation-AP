@@ -208,6 +208,10 @@ app.innerHTML = "";
  *************************************************/
 function render(html, progress = 0, save = true, screenId = null) {
   try {
+  if (save) {
+  state.history.push(app.innerHTML);
+}
+
 if (screenId) {
   const last = state.navStack[state.navStack.length - 1];
   if (last !== screenId) {
@@ -266,19 +270,22 @@ function goToScreen(id) {
   
 function back(){
 
-  // Navigation déclarative uniquement (sécurisée)
-  if (state.navStack.length > 1) {
+  // 1️⃣ Priorité : navigation déclarative (SUMMARY / THANKS / EVA)
+  if (state.navStack && state.navStack.length > 1) {
     state.navStack.pop();
-
     sessionStorage.setItem(
       "nav_stack",
       JSON.stringify(state.navStack)
     );
-
     const target = state.navStack[state.navStack.length - 1];
-
     app.innerHTML = "";
     goToScreen(target);
+    return;
+  }
+
+  // 2️⃣ Fallback sécurisé : DOM history locale (questions)
+  if (state.history && state.history.length > 0) {
+    app.innerHTML = state.history.pop();
     return;
   }
 }
