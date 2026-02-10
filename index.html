@@ -268,21 +268,26 @@ function goToScreen(id) {
 }
   
 function back(){
-
+  // 🔐 PRIORITÉ 1 — restauration DOM (parcours normal)
   if (state.history.length > 0) {
     app.innerHTML = state.history.pop();
-    return; // ⬅️ ⬅️ ⬅️ LA DIFFÉRENCE EST ICI
+    return;
   }
 
+  // 🔐 PRIORITÉ 2 — restauration déclarative (post PRINT / MAIL)
   if (state.navStack.length > 1) {
     state.navStack.pop();
+
     sessionStorage.setItem(
       "nav_stack",
       JSON.stringify(state.navStack)
     );
-    goToScreen(
-      state.navStack[state.navStack.length - 1]
-    );
+
+    const target = state.navStack[state.navStack.length - 1];
+
+    // 🔒 Reconstruction propre de l’écran (pas de DOM fantôme)
+    app.innerHTML = "";
+    goToScreen(target);
     return;
   }
 }
