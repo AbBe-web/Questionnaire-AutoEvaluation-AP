@@ -293,12 +293,18 @@ function back(){
 }
 
 function safeBack(){
-  if(state.history && state.history.length > 0){
+
+  // Cas normal : historique intact
+  if (state.history && state.history.length > 0) {
     back();
-  } else {
-    endTransition();
+    return;
   }
+
+  // Cas post PRINT / MAIL : retour sûr
+  app.innerHTML = "";
+  final(); // écran idempotent
 }
+
 
 /*************************************************
  * UX — UTILITAIRES (NON CLINIQUES)
