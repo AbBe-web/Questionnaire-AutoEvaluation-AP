@@ -208,17 +208,21 @@ app.innerHTML = "";
  *************************************************/
 function render(html, progress = 0, save = true, screenId = null) {
   try {
-  if (save) {
-  state.history.push(app.innerHTML);
-}
 
-if (screenId) {
-  const last = state.navStack[state.navStack.length - 1];
-  if (last !== screenId) {
-    state.navStack.push(screenId);
-    sessionStorage.setItem("nav_stack", JSON.stringify(state.navStack));
-  }
-}
+    // 1️⃣ Historique DOM pour les écrans non déclaratifs (questions)
+    if (save) {
+      state.history.push(app.innerHTML);
+    }
+
+    // 2️⃣ Navigation déclarative pour écrans critiques
+    if (screenId) {
+      const last = state.navStack[state.navStack.length - 1];
+      if (last !== screenId) {
+        state.navStack.push(screenId);
+        sessionStorage.setItem("nav_stack", JSON.stringify(state.navStack));
+      }
+    }
+
     const percent =
       state.progress.total > 0
         ? Math.round(
