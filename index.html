@@ -303,14 +303,14 @@ function back() {
 
 function safeBack(){
 
-  // Navigation déclarative prioritaire
+  // Cas normal : navigation déclarative disponible
   if (state.navStack && state.navStack.length > 1) {
     back();
     return;
   }
 
-  // Fallback sûr : résumé
-  app.innerHTML = "";
+  // Garde-fou sécurisé :
+  // on NE touche PAS au DOM avant render()
   final();
 }
 
