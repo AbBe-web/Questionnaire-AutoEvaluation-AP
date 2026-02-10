@@ -208,9 +208,6 @@ app.innerHTML = "";
  *************************************************/
 function render(html, progress = 0, save = true, screenId = null) {
   try {
-    if (save) {
-      state.history.push(app.innerHTML);
-    }
 if (screenId) {
   const last = state.navStack[state.navStack.length - 1];
   if (last !== screenId) {
@@ -268,13 +265,8 @@ function goToScreen(id) {
 }
   
 function back(){
-  // 🔐 PRIORITÉ 1 — restauration DOM (parcours normal)
-  if (state.history.length > 0) {
-    app.innerHTML = state.history.pop();
-    return;
-  }
 
-  // 🔐 PRIORITÉ 2 — restauration déclarative (post PRINT / MAIL)
+  // Navigation déclarative uniquement (sécurisée)
   if (state.navStack.length > 1) {
     state.navStack.pop();
 
@@ -285,7 +277,6 @@ function back(){
 
     const target = state.navStack[state.navStack.length - 1];
 
-    // 🔒 Reconstruction propre de l’écran (pas de DOM fantôme)
     app.innerHTML = "";
     goToScreen(target);
     return;
