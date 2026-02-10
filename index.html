@@ -813,7 +813,12 @@ evaConfianceComment();
 ">Continuer</button>
 <button class="btn secondary" onclick="back()">Retour</button>
 <div class="back-info">Les réponses déjà saisies sont conservées pour le calcul final.</div>
-`,99);
+`,99
+true,
+state.tool === "marshall"
+  ? "MAR-EVA-CONF"
+  : "GPAQ-EVA-CONF"
+);
 }
 
 function evaConfianceComment(){
