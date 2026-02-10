@@ -285,17 +285,16 @@ function back(){
 
 function safeBack(){
 
-  // Cas normal : historique intact
-  if (state.history && state.history.length > 0) {
+  // Navigation déclarative prioritaire
+  if (state.navStack && state.navStack.length > 1) {
     back();
     return;
   }
 
-  // Cas post PRINT / MAIL : retour sûr
+  // Fallback sûr : résumé
   app.innerHTML = "";
-  final(); // écran idempotent
+  final();
 }
-
 
 /*************************************************
  * UX — UTILITAIRES (NON CLINIQUES)
@@ -346,7 +345,6 @@ function start(tool){
   state.gpaq = {};
   state.marshall = {};
   state.result = {};
-  state.history = [];
 
   state.progress.current = 0;
   state.progress.total = (tool === "marshall") ? 8 : 12;
