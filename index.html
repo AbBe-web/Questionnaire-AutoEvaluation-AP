@@ -267,7 +267,7 @@ function goToScreen(id) {
     "MAR-EVA-IMP-REASONS": evaImportanceComment,
     "MAR-EVA-IMP": evaImportance,
     "MAR-THANKS": endTransition,
-    "MAR-SUMMARY": final,
+    "MAR-SUMMARY_FINAL": final,
 
     // --- GPAQ ---
     "GPAQ-EVA-CONF-REASONS": evaConfianceComment,
@@ -1091,7 +1091,7 @@ ${state.result.niveau ? state.result.niveau.replace("_"," ") : "non disponible"}
 </p>
 `, 100, true,
   state.tool === "marshall"
-    ? "MAR-SUMMARY"
+    ? "MAR-SUMMARY_FINAL"
     : "GPAQ-SUMMARY"
 );
 }
