@@ -268,11 +268,13 @@ function goToScreen(id) {
 }
   
 function back(){
-  if(state.history.length>0){
+
+  if (state.history.length > 0) {
     app.innerHTML = state.history.pop();
+    return; // ⬅️ ⬅️ ⬅️ LA DIFFÉRENCE EST ICI
   }
 
-if (state.navStack.length > 1) {
+  if (state.navStack.length > 1) {
     state.navStack.pop();
     sessionStorage.setItem(
       "nav_stack",
@@ -284,6 +286,7 @@ if (state.navStack.length > 1) {
     return;
   }
 }
+
 function safeBack(){
   if(state.history && state.history.length > 0){
     back();
