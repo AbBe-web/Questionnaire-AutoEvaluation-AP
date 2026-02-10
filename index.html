@@ -271,7 +271,7 @@ function back(){
   if(state.history.length>0){
     app.innerHTML = state.history.pop();
   }
-}
+
 if (state.navStack.length > 1) {
     state.navStack.pop();
     sessionStorage.setItem(
@@ -797,7 +797,11 @@ onchange="state.result.confiance_comment=this.value"></textarea>
 <button class="btn" onclick="advanceProgress(1); endTransition()">Terminer</button>
 <button class="btn secondary" onclick="back()">Retour</button>
 <div class="back-info">Les réponses déjà saisies sont conservées pour le calcul final.</div>
-`,99);
+`,99, true,
+  state.tool === "marshall"
+    ? "MAR-EVA-CONF-REASONS"
+    : "GPAQ-EVA-CONF-REASONS"
+);
 }
   
 function endTransition(){
@@ -811,7 +815,11 @@ Vous allez maintenant voir un résumé à apporter à votre consultation.
 
 <button class="btn" onclick="final()">Voir le résumé</button>
 <button class="btn secondary" onclick="back()">Retour</button>
-`,99,false);
+`,99,false,
+  state.tool === "marshall"
+    ? "MAR-THANKS"
+    : "GPAQ-THANKS"
+);
 }
 
 function buildExportJSON(){
@@ -1044,7 +1052,11 @@ ${state.result.niveau ? state.result.niveau.replace("_"," ") : "non disponible"}
 <p class="footer">
   Document à apporter lors de votre consultation médicale.
 </p>
-`, 100);
+`, 100, true,
+  state.tool === "marshall"
+    ? "MAR-SUMMARY"
+    : "GPAQ-SUMMARY"
+);
 }
 
 function restart() {
