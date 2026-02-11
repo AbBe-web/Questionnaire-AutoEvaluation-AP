@@ -1112,7 +1112,9 @@ render(`
 `, 100, true,
   state.tool === "marshall"
     ? "MAR-SUMMARY"
-    : "GPAQ-SUMMARY"
+    : state.tool === "gpaq"
+      ? "GPAQ-SUMMARY"
+      : null
 );
 }
 
@@ -1138,6 +1140,10 @@ if (
 }
 
 state.exportJSON = parsed;
+      
+state.tool = parsed.meta.questionnaires === "GPAQ"
+  ? "gpaq"
+  : "marshall";
 
       state.result = {
         niveau: state.exportJSON.resultats?.niveau_activite ?? null,
