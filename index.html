@@ -270,29 +270,53 @@ function goToScreen(id) {
   const map = {
 
     // --- MARSHALL ---
+   "MAR-Q1": marshallQ1,
+    "MAR-Q2": marshallQ2,
+
     "MAR-STAGE1": motivation,
     "MAR-STAGE2": motivation2,
-    "MAR-EVA-CONF-REASONS": evaConfianceComment,
-    "MAR-EVA-CONF": evaConfiance,
-    "MAR-EVA-IMP-REASONS": evaImportanceComment,
+
     "MAR-EVA-IMP": evaImportance,
+    "MAR-EVA-IMP-REASONS": evaImportanceComment,
+    "MAR-EVA-CONF": evaConfiance,
+    "MAR-EVA-CONF-REASONS": evaConfianceComment,
+
     "MAR-THANKS": endTransition,
     "MAR-SUMMARY": final,
 
     // --- GPAQ ---
     "GPAQ-INTRO": gpaqIntro,
+
+    "GPAQ-Q1": gpaqQ1,
+    "GPAQ-Q2": gpaqQ2,
+    "GPAQ-Q4": gpaqQ4,
+    "GPAQ-Q5": gpaqQ5,
+    "GPAQ-INTRO-TRANSPORT": gpaqIntroTransport,
+    "GPAQ-Q7": gpaqQ7,
+    "GPAQ-Q8": gpaqQ8,
+    "GPAQ-Q10": gpaqQ10,
+    "GPAQ-Q11": gpaqQ11,
+    "GPAQ-Q13": gpaqQ13,
+    "GPAQ-Q14": gpaqQ14,
+    "GPAQ-INTRO-SED": gpaqIntroSedentaire,
+    "GPAQ-Q16": gpaqQ16,
+
     "GPAQ-STAGE1": motivation,
     "GPAQ-STAGE2": motivation2,
-    "GPAQ-EVA-CONF-REASONS": evaConfianceComment,
-    "GPAQ-EVA-CONF": evaConfiance,
-    "GPAQ-EVA-IMP-REASONS": evaImportanceComment,
+
     "GPAQ-EVA-IMP": evaImportance,
+    "GPAQ-EVA-IMP-REASONS": evaImportanceComment,
+    "GPAQ-EVA-CONF": evaConfiance,
+    "GPAQ-EVA-CONF-REASONS": evaConfianceComment,
+    
     "GPAQ-THANKS": endTransition,
     "GPAQ-SUMMARY": final,
   };
 
   if (map[id]) {
     map[id]();
+  } else {
+    console.warn("Écran non mappé :", id);
   }
 }
 
@@ -435,7 +459,7 @@ render(`
 <button class="btn" onclick="state.marshall.q1=0; advanceProgress(1); marshallQ2()">Jamais</button>
 <button class="btn secondary" onclick="back()">Retour</button>
 <div class="back-info">Les réponses déjà saisies sont conservées pour le calcul final.</div>
-`,15);
+`,15,"MAR-Q1");
 }
 
 function marshallQ2(){
@@ -448,7 +472,7 @@ render(`
 <button class="btn" onclick="advanceProgress(1); finishMarshall(0)">Jamais</button>
 <button class="btn secondary" onclick="back()">Retour</button>
 <div class="back-info">Les réponses déjà saisies sont conservées pour le calcul final.</div>
-`,30);
+`,30,"MAR-Q2");
 }
 
 function finishMarshall(q2){
@@ -470,7 +494,7 @@ render(`
 <button class="btn" onclick="state.gpaq.wi=0; gpaqQ4()">Non</button>
 <button class="btn secondary" onclick="back()">Retour</button>
 <div class="back-info">Les réponses déjà saisies sont conservées pour le calcul final.</div>
-`,10);
+`,10,"GPAQ-Q1");
 }
 
 function gpaqQ2(){
@@ -497,7 +521,7 @@ oninput="state.gpaq.wi_m=this.value; checkRequiredDuration('c1','#d1','#h1','#m1
 <button class="btn" id="c1" disabled onclick="gpaqQ4()">Continuer</button>
 <button class="btn secondary" onclick="back()">Retour</button>
 <div class="back-info">Les réponses déjà saisies sont conservées pour le calcul final.</div>
-`,20);
+`,20,"GPAQ-Q2");
 }
 
 function gpaqQ4(){
@@ -509,7 +533,7 @@ advanceProgress(1); // fin bloc "travail intense"
 <button class="btn" onclick="state.gpaq.wm=0; gpaqIntroTransport()">Non</button>
 <button class="btn secondary" onclick="back()">Retour</button>
 <div class="back-info">Les réponses déjà saisies sont conservées pour le calcul final.</div>
-`,30);
+`,30,"GPAQ-Q4");
 }
 
 function gpaqQ5(){
@@ -536,7 +560,7 @@ oninput="state.gpaq.wm_m=this.value; checkRequiredDuration('c2','#d2','#h2','#m2
 <button class="btn" id="c2" disabled onclick="gpaqIntroTransport()">Continuer</button>
 <button class="btn secondary" onclick="back()">Retour</button>
 <div class="back-info">Les réponses déjà saisies sont conservées pour le calcul final.</div>
-`,40);
+`,40,"GPAQ-Q5");
 }
 
 /*************************************************
@@ -559,7 +583,7 @@ faire des courses, aller au marché, aller à votre lieu consacré au culte.
 <button class="btn" onclick="gpaqQ7()">Continuer</button>
 <button class="btn secondary" onclick="back()">Retour</button>
 <div class="back-info">Les réponses déjà saisies sont conservées pour le calcul final.</div>
-`,45);
+`,45,"GPAQ-INTRO-TR");
 }
 
 function gpaqQ7(){
@@ -570,7 +594,7 @@ render(`
 <button class="btn" onclick="state.gpaq.tr=0; gpaqQ10()">Non</button>
 <button class="btn secondary" onclick="back()">Retour</button>
 <div class="back-info">Les réponses déjà saisies sont conservées pour le calcul final.</div>
-`,50);
+`,50,"GPAQ-Q7");
 }
 
 function gpaqQ8(){
@@ -597,7 +621,7 @@ oninput="state.gpaq.tr_m=this.value; checkRequiredDuration('c3','#d3','#h3','#m3
 <button class="btn" id="c3" disabled onclick="gpaqQ10()">Continuer</button>
 <button class="btn secondary" onclick="back()">Retour</button>
 <div class="back-info">Les réponses déjà saisies sont conservées pour le calcul final.</div>
-`,60);
+`,60,"GPAQ-Q8");
 }
 
 function gpaqQ10(){
@@ -609,7 +633,7 @@ advanceProgress(1); // fin bloc "déplacements"
 <button class="btn" onclick="state.gpaq.li=0; gpaqQ13()">Non</button>
 <button class="btn secondary" onclick="back()">Retour</button>
 <div class="back-info">Les réponses déjà saisies sont conservées pour le calcul final.</div>
-`,70);
+`,70,"GPAQ-Q10");
 }
 
 function gpaqQ11(){
@@ -636,7 +660,7 @@ oninput="state.gpaq.li_m=this.value; checkRequiredDuration('c4','#d4','#h4','#m4
 <button class="btn" id="c4" disabled onclick="gpaqQ13()">Continuer</button>
 <button class="btn secondary" onclick="back()">Retour</button>
 <div class="back-info">Les réponses déjà saisies sont conservées pour le calcul final.</div>
-`,75);
+`,75,"GPAQ-Q11");
 }
 
 function gpaqQ13(){
@@ -648,7 +672,7 @@ function gpaqQ13(){
 <button class="btn" onclick="state.gpaq.lm=0; gpaqIntroSedentaire()">Non</button>
 <button class="btn secondary" onclick="back()">Retour</button>
 <div class="back-info">Les réponses déjà saisies sont conservées pour le calcul final.</div>
-`,80);
+`,80,"GPAQ-Q13");
 }
 
 function gpaqQ14(){
@@ -675,7 +699,7 @@ oninput="state.gpaq.lm_m=this.value; checkRequiredDuration('c5','#d5','#h5','#m5
 <button class="btn" id="c5" disabled onclick="gpaqIntroSedentaire()">Continuer</button>
 <button class="btn secondary" onclick="back()">Retour</button>
 <div class="back-info">Les réponses déjà saisies sont conservées pour le calcul final.</div>
-`,85);
+`,85,"GPAQ-Q14");
 }
 
 /*************************************************
@@ -696,7 +720,7 @@ mais n'inclut pas le temps passé à dormir.
 <button class="btn" onclick="gpaqQ16()">Continuer</button>
 <button class="btn secondary" onclick="back()">Retour</button>
 <div class="back-info">Les réponses déjà saisies sont conservées pour le calcul final.</div>
-`,88);
+`,88,"GPAQ-INTRO-SED");
 }
 function gpaqQ16(){
 render(`
@@ -717,7 +741,7 @@ oninput="state.gpaq.sed_m=this.value; checkRequiredTimeOnly('c6','#h6','#m6'); c
 <button class="btn" id="c6" disabled onclick="finishGPAQ()">Terminer</button>
 <button class="btn secondary" onclick="back()">Retour</button>
 <div class="back-info">Les réponses déjà saisies sont conservées pour le calcul final.</div>
-`,90);
+`,90,"GPAQ-Q16");
 }
 
 function minutes(h,m){ return (Number(h||0)*60)+Number(m||0); }
