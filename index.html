@@ -322,26 +322,29 @@ function goToScreen(id) {
 
 function back() {
 
-  // 1️⃣ Navigation déclarative (écrans Type B)
+  // 1️⃣ Navigation déclarative normale
   if (state.navStack && state.navStack.length > 1) {
+
     state.navStack.pop();
+
     sessionStorage.setItem(
       "nav_stack",
       JSON.stringify(state.navStack)
     );
+
     const target = state.navStack[state.navStack.length - 1];
+
     app.innerHTML = "";
+
     goToScreen(target);
+
     return;
   }
 
-  // 2️⃣ Fallback DOM (écrans Type A)
-  if (state.history && state.history.length > 0) {
-    const prev = state.history.pop();
-    if (prev && prev.trim() !== "") {
-      app.innerHTML = prev;
-      return;
-    }
+  // 2️⃣ Si on est au premier écran du parcours → retour HOME
+  if (state.navStack && state.navStack.length === 1) {
+    renderHome();
+    return;
   }
 }
 
@@ -400,6 +403,27 @@ function advanceProgress(points){
 /*************************************************
  * ACCUEIL
  *************************************************/
+function renderHome() {
+
+  // 🔒 Sortie propre du parcours
+  state.navStack = [];
+  sessionStorage.removeItem("nav_stack");
+
+  render(`
+    <h1>Activité physique</h1>
+    <p>Questionnaire destiné à préparer votre consultation médicale.<br>
+    Aucune donnée n’est enregistrée.</p>
+
+    <div class="rgpd">
+      <a href="https://abbe-web.github.io/Questionnaire-AutoEvaluation-AP/politique-confidentialite.html" target="_blank">
+        Politique de confidentialité
+      </a>
+    </div>
+
+    <button class="btn" onclick="start('gpaq')">Questionnaire détaillé (GPAQ)</button>
+    <button class="btn secondary" onclick="start('marshall')">Questionnaire court (Marshall)</button>
+  `, 0, null); // ⚠️ pas de screenId
+}
 
 
 function start(tool){
@@ -1191,40 +1215,14 @@ state.tool = parsed.meta.questionnaires === "GPAQ"
     } catch (e) {
       console.warn("Erreur restauration session :", e);
       sessionStorage.removeItem("preconsultation_final");
-      
-      render(`
-  <h1>Activité physique</h1>
-  <p>Questionnaire destiné à préparer votre consultation médicale.<br>
-  Aucune donnée n’est enregistrée.</p>
-
-  <div class="rgpd">
-    <a href="https://abbe-web.github.io/Questionnaire-AutoEvaluation-AP/politique-confidentialite.html" target="_blank">
-      Politique de confidentialité
-    </a>
-  </div>
-
-  <button class="btn" onclick="start('gpaq')">Questionnaire détaillé (GPAQ)</button>
-  <button class="btn secondary" onclick="start('marshall')">Questionnaire court (Marshall)</button>
-`, 0, false);
-  return;
+     
+      renderHome();
+      return;  
     }
   }
 
   /* fallback sûr */
-  render(`
-    <h1>Activité physique</h1>
-    <p>Questionnaire destiné à préparer votre consultation médicale.<br>
-    Aucune donnée n’est enregistrée.</p>
-
-    <div class="rgpd">
-      <a href="https://abbe-web.github.io/Questionnaire-AutoEvaluation-AP/politique-confidentialite.html" target="_blank">
-        Politique de confidentialité
-      </a>
-    </div>
-
-    <button class="btn" onclick="start('gpaq')">Questionnaire détaillé (GPAQ)</button>
-    <button class="btn secondary" onclick="start('marshall')">Questionnaire court (Marshall)</button>
-  `, 0, false);
+  renderHome();
 });
 
 function showCopyToast() {
