@@ -259,26 +259,33 @@ if (save && !screenId && app.innerHTML.trim() !== "") {
 
 function goToScreen(id) {
   const map = {
+
     // --- MARSHALL ---
+    "MAR-STAGE1": motivation,
+    "MAR-STAGE2": motivation2,
     "MAR-EVA-CONF-REASONS": evaConfianceComment,
     "MAR-EVA-CONF": evaConfiance,
     "MAR-EVA-IMP-REASONS": evaImportanceComment,
     "MAR-EVA-IMP": evaImportance,
     "MAR-THANKS": endTransition,
+    "MAR-SUMMARY": final,
 
     // --- GPAQ ---
+    "GPAQ-STAGE1": motivation,
+    "GPAQ-STAGE2": motivation2,
     "GPAQ-EVA-CONF-REASONS": evaConfianceComment,
     "GPAQ-EVA-CONF": evaConfiance,
     "GPAQ-EVA-IMP-REASONS": evaImportanceComment,
     "GPAQ-EVA-IMP": evaImportance,
     "GPAQ-THANKS": endTransition,
+    "GPAQ-SUMMARY": final,
   };
 
   if (map[id]) {
     map[id]();
   }
 }
-  
+
 function back() {
 
   // 1️⃣ Navigation déclarative (écrans Type B)
@@ -746,8 +753,11 @@ function motivation(){
 <button class="btn" onclick="motivation2()">Non</button>
     <button class="btn secondary" onclick="back()">Retour</button>
     <div class="back-info">Les réponses déjà saisies sont conservées pour le calcul final.</div>
-    `,95);
-  }
+    `,95, true,
+  state.tool === "marshall"
+    ? "MAR-STAGE1"
+    : "GPAQ-STAGE1"
+);
 }
 
 function motivation2(){
@@ -758,7 +768,11 @@ render(`
 <button class="btn" onclick="advanceProgress(2); state.result.stade='indétermination'; evaImportance()">Non</button>
 <button class="btn secondary" onclick="back()">Retour</button>
 <div class="back-info">Les réponses déjà saisies sont conservées pour le calcul final.</div>
-`,96);
+`,96, true,
+  state.tool === "marshall"
+    ? "MAR-STAGE2"
+    : "GPAQ-STAGE2"
+);
 }
 
 function evaImportance(){
@@ -1082,7 +1096,11 @@ render(`
 <p class="footer">
   Document à apporter lors de votre consultation médicale.
 </p>
-`, 100, false);
+`, 100, true,
+  state.tool === "marshall"
+    ? "MAR-SUMMARY"
+    : "GPAQ-SUMMARY"
+);
 }
 
 function restart() {
