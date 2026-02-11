@@ -735,29 +735,42 @@ function finishGPAQ(){
  * MOTIVATION + EVA
  *************************************************/
 function motivation(){
+
   if(state.result.niveau!=="insuffisamment_actif"){
+
     render(`
-    }
     <h2>Motivation</h2>
     <p>Êtes-vous actif à ce niveau depuis plus de 6 mois ?</p>
     <button class="btn" onclick="advanceProgress(2); state.result.stade='consolidation'; evaImportance()">Oui</button>
-<button class="btn" onclick="advanceProgress(2); state.result.stade='action'; evaImportance()">Non</button>
+    <button class="btn" onclick="advanceProgress(2); state.result.stade='action'; evaImportance()">Non</button>
     <button class="btn secondary" onclick="back()">Retour</button>
     <div class="back-info">Les réponses déjà saisies sont conservées pour le calcul final.</div>
-    `,95);
+    `,
+    95,
+    true,
+    state.tool === "marshall"
+      ? "MAR-STAGE1"
+      : "GPAQ-STAGE1"
+    );
+
   } else {
+
     render(`
     <h2>Motivation</h2>
     <p>Envisagez-vous d’augmenter votre activité physique dans les 30 jours ?</p>
     <button class="btn" onclick="advanceProgress(2); state.result.stade='préparation'; evaImportance()">Oui</button>
-<button class="btn" onclick="motivation2()">Non</button>
+    <button class="btn" onclick="motivation2()">Non</button>
     <button class="btn secondary" onclick="back()">Retour</button>
     <div class="back-info">Les réponses déjà saisies sont conservées pour le calcul final.</div>
-    `,95, true,
-  state.tool === "marshall"
-    ? "MAR-STAGE1"
-    : "GPAQ-STAGE1"
-);
+    `,
+    95,
+    true,
+    state.tool === "marshall"
+      ? "MAR-STAGE1"
+      : "GPAQ-STAGE1"
+    );
+
+  }
 }
 
 function motivation2(){
