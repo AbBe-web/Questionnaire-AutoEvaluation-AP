@@ -572,13 +572,7 @@ function copyContent() {
     });
 }
 
-  navigator.clipboard.writeText(text)
-    .catch(() => {
-      alert("Copie impossible.");
-    });
-}
-
-// 🔒 Safari macOS : figer le DOM après construction complète
+ // 🔒 Safari macOS : figer le DOM après construction complète
 setTimeout(() => {
   try {
     window.onbeforeunload = null;
