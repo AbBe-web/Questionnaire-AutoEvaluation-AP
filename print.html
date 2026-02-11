@@ -360,7 +360,14 @@ if (typeof window.sessionStorage !== "undefined") {
 }
 
 const data = storedData ? JSON.parse(storedData) : rawData;
+// 🔹 Affichage date du jour (format français)
+const today = new Date();
+const formattedDate = today.toLocaleDateString("fr-FR");
 
+const dateElement = document.getElementById("date");
+if (dateElement) {
+  dateElement.textContent = formattedDate;
+}
 if (!data) {
   document.getElementById("content").innerHTML =
     "<p>Données indisponibles.</p>";
