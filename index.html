@@ -214,37 +214,31 @@ if (savedNav) {
 /*************************************************
  * RENDER + RETOUR
  *************************************************/
-function render(html, progress = 0, save = true, screenId = null) {
+function render(html, progress = 0, screenId = null) {
   try {
 
-    // 1️⃣ Historique DOM pour les écrans non déclaratifs (questions)
-// 🔒 DSR — seuls les écrans NON déclaratifs vont dans history
-if (save && !screenId && app.innerHTML.trim() !== "") {
-  state.history.push(app.innerHTML);
-}
+    if (screenId) {
 
-    // 2️⃣ Navigation déclarative pour écrans critiques
-   if (screenId) {
+      const last = state.navStack[state.navStack.length - 1];
 
-  const last = state.navStack[state.navStack.length - 1];
+      if (last !== screenId) {
 
-  // 🔒 Si l’écran affiché n’est pas au sommet,
-  // on réaligne la pile pour éviter toute désynchronisation
-  if (last !== screenId) {
+        // Si l’écran existe déjà dans la pile
+        const index = state.navStack.lastIndexOf(screenId);
 
-    // Si l’écran existe déjà dans la pile,
-    // on coupe tout ce qui est au-dessus
-    const index = state.navStack.lastIndexOf(screenId);
+        if (index !== -1) {
+          // On coupe tout ce qui est au-dessus
+          state.navStack = state.navStack.slice(0, index + 1);
+        } else {
+          state.navStack.push(screenId);
+        }
 
-    if (index !== -1) {
-      state.navStack = state.navStack.slice(0, index + 1);
-    } else {
-      state.navStack.push(screenId);
+        sessionStorage.setItem(
+          "nav_stack",
+          JSON.stringify(state.navStack)
+        );
+      }
     }
-
-    sessionStorage.setItem("nav_stack", JSON.stringify(state.navStack));
-  }
-}
 
     const percent =
       state.progress.total > 0
@@ -262,6 +256,7 @@ if (save && !screenId && app.innerHTML.trim() !== "") {
       </div>
       ${html}
     `;
+
   } catch (e) {
     console.error("Erreur render()", e);
     app.innerHTML = `
