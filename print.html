@@ -557,9 +557,16 @@ function copyContent() {
 
   // Supprimer UNIQUEMENT les deux lignes des boutons
   text = text
-    .replace("Imprimer / Enregistrer en PDF", "")
-    .replace("Copier le contenu", "")
-    .trim();
+  .replace("Imprimer / Enregistrer en PDF", "")
+  .replace("Copier le contenu", "")
+  .trim();
+
+// Garantir la présence de la phrase finale
+const phraseFinale = "Ce document est destiné à être discuté avec votre médecin.";
+
+if (!text.includes(phraseFinale)) {
+  text += "\n\n" + phraseFinale;
+}
 
   if (!navigator.clipboard || !navigator.clipboard.writeText) {
     alert("La copie automatique n’est pas disponible sur ce navigateur.");
