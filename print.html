@@ -553,19 +553,24 @@ function copyContent() {
   const el = document.getElementById("content");
   if (!el) return;
 
-  // Clone le contenu pour ne pas modifier le DOM affiché
-  const clone = el.cloneNode(true);
+  let text = el.innerText;
 
-  // Supprime le bloc actions du contenu copié
-  const actions = clone.querySelector(".actions");
-  if (actions) actions.remove();
-
-  const text = clone.innerText;
+  // Supprimer UNIQUEMENT les deux lignes des boutons
+  text = text
+    .replace("Imprimer / Enregistrer en PDF", "")
+    .replace("Copier le contenu", "")
+    .trim();
 
   if (!navigator.clipboard || !navigator.clipboard.writeText) {
     alert("La copie automatique n’est pas disponible sur ce navigateur.");
     return;
   }
+
+  navigator.clipboard.writeText(text)
+    .catch(() => {
+      alert("Copie impossible.");
+    });
+}
 
   navigator.clipboard.writeText(text)
     .catch(() => {
