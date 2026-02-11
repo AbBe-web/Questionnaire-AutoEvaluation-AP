@@ -224,13 +224,27 @@ if (save && !screenId && app.innerHTML.trim() !== "") {
 }
 
     // 2️⃣ Navigation déclarative pour écrans critiques
-    if (screenId) {
-      const last = state.navStack[state.navStack.length - 1];
-      if (last !== screenId) {
-        state.navStack.push(screenId);
-        sessionStorage.setItem("nav_stack", JSON.stringify(state.navStack));
-      }
+   if (screenId) {
+
+  const last = state.navStack[state.navStack.length - 1];
+
+  // 🔒 Si l’écran affiché n’est pas au sommet,
+  // on réaligne la pile pour éviter toute désynchronisation
+  if (last !== screenId) {
+
+    // Si l’écran existe déjà dans la pile,
+    // on coupe tout ce qui est au-dessus
+    const index = state.navStack.lastIndexOf(screenId);
+
+    if (index !== -1) {
+      state.navStack = state.navStack.slice(0, index + 1);
+    } else {
+      state.navStack.push(screenId);
     }
+
+    sessionStorage.setItem("nav_stack", JSON.stringify(state.navStack));
+  }
+}
 
     const percent =
       state.progress.total > 0
