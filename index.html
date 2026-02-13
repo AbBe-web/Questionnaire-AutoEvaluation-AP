@@ -6,1063 +6,656 @@
 <title>Résumé de la pré-consultation d'activité physique</title>
 
 <style>
-body {
+
+@page {
+  size: A4;
+  margin: 20mm;
+}
+
+@media print {
+  body {
+    margin: 0;
+  }
+}
+  
+  body {
   font-family: Arial, sans-serif;
-  background:#f6f7f8;
-  margin:0;
+  margin: 30px;
+  color: #000;
+  font-size: 14px;
 }
 
-.container {
-  max-width:720px;
-  margin:auto;
-  padding:20px;
-  background:white;
-  min-height:100vh;
+h1 {
+  font-size: 20px;
+  margin-bottom: 4px;
 }
 
-h1,h2,h3 {
-  font-weight:600;
-  margin-top:25px;
-}
-
-/* =========================
-   OPTION A — MICRO UX VISUELLE
-   ========================= */
-
-/* Question principale */
-p {
-  margin-top:12px;
-  margin-bottom:10px;
-  line-height:1.5;
-}
-
-/* Première phrase = question → plus visible */
-p:first-of-type {
-  font-weight:600;
-}
-
-/* Paragraphes explicatifs → plus discrets */
-p + p {
-  font-weight:400;
-  color:#555;
-}
-
-/* Espacement clair avant les boutons */
-.btn {
-  display: block;
-  width: 100%;
-  padding: 14px;
-  margin: 14px 0 6px 0;   /* boutons bleus plus rapprochés */
+h2 {
   font-size: 16px;
-  border-radius: 6px;
-  border: none;
-  background: #007BFF;
-  color: white;
+  margin-top: 22px;
+  padding-bottom: 3px;
+}
+
+h3 {
+  font-size: 14px;
+  margin-top: 14px;
+}
+
+p {
+  margin: 4px 0;
+}
+  
+.synthese-line {
+  margin: 2px 0;
+}
+.section {
+  margin-top: 15px;
+}
+
+.small {
+  font-size: 12px;
+  color: #555;
+}
+
+.block {
+  margin-left: 15px;
+}
+
+.verbatim {
+  font-style: italic;
+  margin-left: 15px;
+   font-size: 12px;
+  color: #555;
+}
+
+@media print {
+  body {
+    margin: 20mm;
+  }
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 8px;
+  margin-bottom: 15px;
+}
+
+th, td {
+  border: 1px solid #ccc;
+  padding: 4px 6px;
+  font-size: 12px;
+  vertical-align: top;
+}
+
+th {
+  background: #f2f2f2;
+  font-weight: bold;
+}
+
+
+@media print {
+  .actions {
+    display: none;
+  }
+}
+@media print {
+
+  h2 {
+    page-break-after: avoid;
+    break-after: avoid;
+  }
+
+  table {
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+}
+/* === Tableaux GPAQ : colonnes strictement identiques === */
+table {
+  table-layout: fixed;
+  width: 100%;
+}
+
+/* 3 colonnes = 1/3 chacune */
+table th,
+table td {
+  width: 33.33%;
+  text-align: center;
+  vertical-align: middle;
+  line-height: 1.3;
+  white-space: nowrap;
+}
+
+/* Première colonne (texte) alignée à gauche */
+table th:first-child,
+table td:first-child {
+  text-align: left;
+}
+
+/* En-têtes discrets */
+table th {
+  background: #f3f3f3;
+  font-weight: 600;
+}
+
+/* Alignement vertical homogène */
+table th,
+table td {
+  vertical-align: middle;
+  line-height: 1.3;
+}
+
+/* En-têtes plus discrets */
+table th {
+  background: #f3f3f3;
+  font-weight: 600;
+}
+/* Bloc actions : vertical */
+.actions {
+  margin-top: 30px;
+  text-align: left;
+}
+
+/* Boutons sur une même ligne */
+.actions-buttons {
+  display: inline-flex;        /* clé : inline-flex */
+  gap: 12px;
+}
+
+/* Boutons harmonisés */
+.actions-buttons button {
+  width: 220px;                /* plus fin, passe partout */
+  padding: 10px 14px;
+  font-size: 14px;
+  border: 1px solid #999;
+  background: #f5f5f5;
   cursor: pointer;
 }
 
-.btn.secondary {
-  background: #6c757d;
-  margin-top: 18px;      /* séparation claire avant le bouton Retour */
+.actions-buttons button:hover {
+  background: #eaeaea;
+}
+/* Bloc individuel bouton + texte */
+.action-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 220px;
 }
 
-.btn:disabled {
-  background:#b0b0b0;
-  cursor:not-allowed;
+/* Texte discret sous bouton */
+.action-text {
+  margin-top: 6px;
+  font-size: 11px;
+  color: #666;
+  text-align: center;
+  line-height: 1.3;
 }
 
-/* ========================= */
-
-.section {
-  border-top:1px solid #ddd;
-  padding-top:15px;
-  margin-top:20px;
+/* Texte TOUJOURS en dessous */
+.actions-note {
+  margin-top: 10px;
+  font-size: 11px;
+  color: #777;
+  max-width: 520px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
-.progress {
-  height:6px;
-  background:#ddd;
-  margin:15px 0;
+/* Impression : masqué */
+@media print {
+  .actions {
+    display: none;
+  }
 }
 
-.progress-bar {
-  height:6px;
-  background:#4caf50;
+/* Correctif iOS / écrans étroits : éviter chevauchement dans tableaux */
+@media screen and (max-width: 600px) {
+
+  table {
+    table-layout: fixed;
+  }
+
+  th, td {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+  }
+
+  /* Colonne "Intensité / Type" autorise le retour à la ligne */
+  td:first-child {
+    white-space: normal;
+  }
 }
-.progress-step {
-  font-size:12px;
-  color:#777;
-  margin-bottom:10px;
-}
-.footer {
-  font-size:12px;
-  color:#666;
-  margin-top:40px;
+@media screen and (max-width: 600px) {
+
+  .actions {
+    margin-top: 40px;
+    text-align: center;   /* Centre le bloc sur mobile */
+  }
+
+  .actions-buttons {
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;  /* Centre les blocs */
+  }
+
+  .action-item {
+    align-items: center;  /* Centre bouton + texte */
+  }
+
+  .actions-buttons button {
+    width: 100%;
+    max-width: 320px;
+    font-size: 14px;
+    white-space: nowrap;      /* 🔹 force une seule ligne */
+  }
 }
 
-.answer {
-  margin-left:10px;
-  margin-top:4px;
+  .actions-note {
+    margin-top: 12px;          /* espace clair sous les boutons */
+    text-align: center;        /* centré (plus joli sur mobile) */
+  }
+}
+/* Correctif impression iOS : forcer 1 page A4 */
+@media print and (max-width: 600px) {
+
+  body {
+    font-size: 13px;          /* très léger */
+    line-height: 1.25;
+    margin: 18mm;             /* réduit légèrement vs PC */
+  }
+
+  h1 {
+    font-size: 18px;
+    margin-bottom: 3px;
+  }
+
+  h2 {
+    margin-top: 16px;
+  }
+
+  h3 {
+    margin-top: 10px;
+  }
+
+  table {
+    margin-bottom: 10px;
+  }
+
+  p {
+    margin: 3px 0;
+  }
+}
+/* === Correctif final iOS : marges latérales trop grandes à l’impression === */
+@media print and (max-width: 600px) {
+
+  @page {
+    size: A4;
+    margin: 12mm;              /* clé : réduire les marges */
+  }
+
+  html, body {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    font-size: 13px;
+    line-height: 1.25;
+    padding: 12mm;             /* contrôle réel des marges */
+    box-sizing: border-box;
+  }
+
+  /* Tables : éviter qu’elles élargissent la page */
+  table {
+    width: 100%;
+    max-width: 100%;
+  }
+}
+/* Bouton retour depuis la version imprimable */
+.nav-back {
+  margin-bottom: 15px;
 }
 
-.rgpd {
-  font-size:12px;
-  color:#555;
-  margin-top:8px;
-}
-
-input[type=number],
-input[type=range],
-textarea {
-  width:100%;
-  padding:10px;
-  font-size:16px;
-}
-
-textarea {
-  min-height:80px;
-}
-
-.time-row {
-  display:flex;
-  gap:10px;
-}
-
-.guard {
-  font-size:13px;
-  color:#d97706;
-  margin-top:6px;
-}
-
-.back-info {
-  font-size:12px;
-  color:#666;
-  margin-top:6px;
-  text-align:center;
-}
-.copy-toast {
-  position: fixed;
-  bottom: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: #323232;
-  color: #fff;
-  padding: 10px 18px;
-  border-radius: 6px;
+.nav-back button {
+  background: none;
+  border: none;
+  color: #007BFF;
   font-size: 14px;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.3s ease;
-  z-index: 9999;
+  padding: 6px 0;
+  cursor: pointer;
 }
 
-.copy-toast.show {
-  opacity: 1;
+/* Jamais affiché à l’impression */
+@media print {
+  .nav-back {
+    display: none;
+  }
 }
 
 </style>
 </head>
 
 <body>
-<div class="container" id="app"></div>
+  
+<div class="nav-back">
+    <button onclick="goBack()">← Retour au questionnaire</button>
+  </div>
+  
+<h1>Résumé de l'évaluation de préparation de la consultation d'activité physique</h1>
+
+<p id="questionnaire-type" class="small"></p>
+
+<p class="small">
+Questionnaire d’auto-évaluation à conserver pour vous si vous le souhaitez et à transmettre à votre médecin pour en discuter.<br>
+Date : <span id="date"></span>
+</p>
+
+<div id="content"></div>
 
 <script>
+function goBack() {
+  window.location.href = "index.html";
+}
   
-const app = document.getElementById("app");
+function getJSONFromURL(){
+  const params = new URLSearchParams(window.location.search);
+  const data = params.get("data");
+  if (!data) return null;
 
-if (!app) {
-  console.error("Erreur critique : conteneur #app introuvable");
-  throw new Error("App container missing");
-}
-
-/*************************************************
- * ÉTAT GLOBAL
- *************************************************/
-const state = {
-  tool: null,
-  gpaq: {},
-  marshall: {},
-  result: {},
-  history: [],
-  navStack: [],              // ⬅️ AJOUT
-  progress: {
-    current: 0,
-    total: 0
-  }
-};
-
-const savedNav = sessionStorage.getItem("nav_stack");
-if (savedNav) {
   try {
-    const parsed = JSON.parse(savedNav);
-
-    // 🔒 Sécurité DSR :
-    // un navStack < 2 est inutilisable pour le back → on le neutralise
-    if (Array.isArray(parsed) && parsed.length >= 2) {
-      state.navStack = parsed;
-    } else {
-      state.navStack = [];
-      sessionStorage.removeItem("nav_stack");
-    }
-
+    return JSON.parse(decodeURIComponent(data));
   } catch (e) {
-    state.navStack = [];
-    sessionStorage.removeItem("nav_stack");
+    console.warn("Données URL invalides", e);
+    return null;
   }
 }
+const rawData = getJSONFromURL();
+let storedData = null;
 
-/*************************************************
- * RENDER + RETOUR
- *************************************************/
-function render(html, progress = 0, screenId = null) {
+if (typeof window.sessionStorage !== "undefined") {
   try {
-
-    if (screenId) {
-
-      const last = state.navStack[state.navStack.length - 1];
-
-      if (last !== screenId) {
-
-        // Si l’écran existe déjà dans la pile
-        const index = state.navStack.lastIndexOf(screenId);
-
-        if (index !== -1) {
-          // On coupe tout ce qui est au-dessus
-          state.navStack = state.navStack.slice(0, index + 1);
-        } else {
-          state.navStack.push(screenId);
-        }
-
-        sessionStorage.setItem(
-          "nav_stack",
-          JSON.stringify(state.navStack)
-        );
-      }
-    }
-
-    const percent =
-      state.progress.total > 0
-        ? Math.round(
-            (state.progress.current / state.progress.total) * 100
-          )
-        : 0;
-
-    app.innerHTML = `
-      <div class="progress">
-        <div class="progress-bar" style="width:${percent}%"></div>
-      </div>
-      <div class="progress-step">
-        Étape ${state.progress.current} / ${state.progress.total}
-      </div>
-      ${html}
-    `;
-
+    storedData = sessionStorage.getItem("preconsultation_final");
   } catch (e) {
-    console.error("Erreur render()", e);
-    app.innerHTML = `
-      <p>Une erreur est survenue.
-      Veuillez recharger la page.</p>
-    `;
+    console.warn("Impossible de lire les données de session", e);
   }
 }
 
-function goToScreen(id) {
-  const map = {
+const data = storedData ? JSON.parse(storedData) : rawData;
+// 🔹 Affichage date du jour (format français)
+const today = new Date();
+const formattedDate = today.toLocaleDateString("fr-FR");
 
-    // --- MARSHALL ---
-   "MAR-Q1": marshallQ1,
-    "MAR-Q2": marshallQ2,
-
-    "MAR-STAGE1": motivation,
-    "MAR-STAGE2": motivation2,
-
-    "MAR-EVA-IMP": evaImportance,
-    "MAR-EVA-IMP-REASONS": evaImportanceComment,
-    "MAR-EVA-CONF": evaConfiance,
-    "MAR-EVA-CONF-REASONS": evaConfianceComment,
-
-    "MAR-THANKS": endTransition,
-    "MAR-SUMMARY": final,
-
-    // --- GPAQ ---
-    "GPAQ-INTRO": gpaqIntro,
-
-    "GPAQ-Q1": gpaqQ1,
-    "GPAQ-Q2": gpaqQ2,
-    "GPAQ-Q4": gpaqQ4,
-    "GPAQ-Q5": gpaqQ5,
-    "GPAQ-INTRO-TRANSPORT": gpaqIntroTransport,
-    "GPAQ-Q7": gpaqQ7,
-    "GPAQ-Q8": gpaqQ8,
-    "GPAQ-Q10": gpaqQ10,
-    "GPAQ-Q11": gpaqQ11,
-    "GPAQ-Q13": gpaqQ13,
-    "GPAQ-Q14": gpaqQ14,
-    "GPAQ-INTRO-SED": gpaqIntroSedentaire,
-    "GPAQ-Q16": gpaqQ16,
-
-    "GPAQ-STAGE1": motivation,
-    "GPAQ-STAGE2": motivation2,
-
-    "GPAQ-EVA-IMP": evaImportance,
-    "GPAQ-EVA-IMP-REASONS": evaImportanceComment,
-    "GPAQ-EVA-CONF": evaConfiance,
-    "GPAQ-EVA-CONF-REASONS": evaConfianceComment,
-    
-    "GPAQ-THANKS": endTransition,
-    "GPAQ-SUMMARY": final,
-  };
-
-  if (map[id]) {
-    map[id]();
-  } else {
-    console.warn("Écran non mappé :", id);
-  }
+const dateElement = document.getElementById("date");
+if (dateElement) {
+  dateElement.textContent = formattedDate;
+}
+if (!data) {
+  document.getElementById("content").innerHTML =
+    "<p>Données indisponibles.</p>";
 }
 
-function back() {
+document.getElementById("content").innerHTML = `
 
-  // 1️⃣ Navigation déclarative normale
-  if (state.navStack && state.navStack.length > 1) {
+<h2>1. Synthèse</h2>
 
-    state.navStack.pop();
+<p class="synthese-line">
+  <strong>Niveau d’activité physique :</strong>
+  ${data.resultats.niveau_activite.replace("_"," ")}
+  <span class="small">
+    (volume estimé : ${data.resultats.met_minutes_semaine} MET-min / semaine)
+  </span>
+</p>
 
-    sessionStorage.setItem(
-      "nav_stack",
-      JSON.stringify(state.navStack)
-    );
+<p class="synthese-line">
+  <strong>Stade motivationnel :</strong>
+  ${data.motivation.stade}
+</p>
 
-    const target = state.navStack[state.navStack.length - 1];
+<p class="synthese-line">
+  <strong>Importance de l’activité physique :</strong>
+  ${data.motivation.importance_eva_0_10}/10
+</p>
 
-    app.innerHTML = "";
-
-    goToScreen(target);
-
-    return;
-  }
-
-  // 2️⃣ Si on est au premier écran du parcours → retour HOME
-  if (state.navStack && state.navStack.length === 1) {
-    renderHome();
-    return;
-  }
+${data.motivation.importance_commentaire
+  ? `<p class="verbatim small">“${data.motivation.importance_commentaire}”</p>`
+  : ""
 }
 
-function safeBack(){
+<p class="synthese-line">
+  <strong>Confiance en soi pour augmenter / maintenir son niveau d’activité :</strong>
+  ${data.motivation.confiance_eva_0_10}/10
+</p>
 
-  // Cas normal : navigation déclarative disponible
-  if (state.navStack && state.navStack.length > 1) {
-    back();
-    return;
-  }
-
-  // Garde-fou sécurisé :
-  // on NE touche PAS au DOM avant render()
-  final();
+${data.motivation.confiance_commentaire
+  ? `<p class="verbatim small">“${data.motivation.confiance_commentaire}”</p>`
+  : ""
 }
 
-/*************************************************
- * UX — UTILITAIRES (NON CLINIQUES)
- *************************************************/
-function checkRequiredDuration(btnId, daySel, hSel, mSel){
-  const btn = document.getElementById(btnId);
-  if(!btn) return;
+<div id="gpaq-section">
+  <h2 id="gpaq-title">Questionnaire GPAQ – Détail</h2>
 
-  const d = document.querySelector(daySel)?.value;
-  const h = document.querySelector(hSel)?.value;
-  const m = document.querySelector(mSel)?.value;
+  <h3>Travail</h3>
 
-  const hasDay = d !== "";
-  const hasTime = (h !== "" && Number(h) > 0) || (m !== "" && Number(m) > 0);
+  <table>
+    <tr>
+      <th>Intensité</th>
+      <th>Fréquence</th>
+      <th>Durée par jour</th>
+    </tr>
 
-  btn.disabled = !(hasDay && hasTime);
-}
+    <tr>
+      <td>Intense</td>
+      <td>
+        ${data.questionnaires.gpaq?.travail?.intense?.jours_par_semaine ?? 0} jours / semaine
+      </td>
+      <td>
+        ${(data.questionnaires.gpaq?.travail?.intense?.heures_par_jour || 0)} h
+        ${(data.questionnaires.gpaq?.travail?.intense?.minutes_par_jour || 0)} min
+      </td>
+    </tr>
 
-function checkRequiredTimeOnly(btnId, hSel, mSel){
-  const btn = document.getElementById(btnId);
-  if(!btn) return;
+    <tr>
+      <td>Modérée</td>
+      <td>
+        ${data.questionnaires.gpaq?.travail?.moderee?.jours_par_semaine ?? 0} jours / semaine
+      </td>
+      <td>
+        ${(data.questionnaires.gpaq?.travail?.moderee?.heures_par_jour || 0)} h
+        ${(data.questionnaires.gpaq?.travail?.moderee?.minutes_par_jour || 0)} min
+      </td>
+    </tr>
+  </table>
 
-  const h = document.querySelector(hSel)?.value;
-  const m = document.querySelector(mSel)?.value;
+  <h3>Déplacements</h3>
 
-  btn.disabled = (h === "" && m === "");
-}
-function checkDurationGuard(hSel, mSel, guardId){
-  const h = Number(document.querySelector(hSel)?.value || 0);
-  const m = Number(document.querySelector(mSel)?.value || 0);
-  const guard = document.getElementById(guardId);
-  if(!guard) return;
-  guard.style.display = (h + m/60) > 12 ? "block" : "none";
-}
-function advanceProgress(points){
-  state.progress.current += points;
-  if(state.progress.current > state.progress.total){
-    state.progress.current = state.progress.total;
-  }
-}
-/*************************************************
- * ACCUEIL
- *************************************************/
-function renderHome() {
+  <table>
+    <tr>
+      <th>Type</th>
+      <th>Fréquence</th>
+      <th>Durée par jour</th>
+    </tr>
 
-  // 🔒 Sortie propre du parcours
-  state.navStack = [];
-  sessionStorage.removeItem("nav_stack");
+    <tr>
+      <td>Marche / vélo ≥ 10 min</td>
+      <td>
+        ${data.questionnaires.gpaq?.deplacements?.jours_par_semaine ?? 0} jours / semaine
+      </td>
+      <td>
+        ${(data.questionnaires.gpaq?.deplacements?.heures_par_jour || 0)} h
+        ${(data.questionnaires.gpaq?.deplacements?.minutes_par_jour || 0)} min
+      </td>
+    </tr>
+  </table>
 
-  render(`
-    <h1>Activité physique</h1>
-    <p>Questionnaire destiné à préparer votre consultation médicale.<br>
-    Aucune donnée n’est enregistrée.</p>
+  <h3>Loisirs</h3>
 
-    <div class="rgpd">
-      <a href="https://abbe-web.github.io/Questionnaire-AutoEvaluation-AP/politique-confidentialite.html" target="_blank">
-        Politique de confidentialité
-      </a>
+  <table>
+    <tr>
+      <th>Intensité</th>
+      <th>Fréquence</th>
+      <th>Durée par jour</th>
+    </tr>
+
+    <tr>
+      <td>Intense</td>
+      <td>
+        ${data.questionnaires.gpaq?.loisirs?.intense?.jours_par_semaine ?? 0} jours / semaine
+      </td>
+      <td>
+        ${(data.questionnaires.gpaq?.loisirs?.intense?.heures_par_jour || 0)} h
+        ${(data.questionnaires.gpaq?.loisirs?.intense?.minutes_par_jour || 0)} min
+      </td>
+    </tr>
+
+    <tr>
+      <td>Modérée</td>
+      <td>
+        ${data.questionnaires.gpaq?.loisirs?.moderee?.jours_par_semaine ?? 0} jours / semaine
+      </td>
+      <td>
+        ${(data.questionnaires.gpaq?.loisirs?.moderee?.heures_par_jour || 0)} h
+        ${(data.questionnaires.gpaq?.loisirs?.moderee?.minutes_par_jour || 0)} min
+      </td>
+    </tr>
+  </table>
+
+  <h3>Comportement sédentaire</h3>
+
+  <table>
+    <tr>
+      <th>Temps assis / couché (hors sommeil)</th>
+    </tr>
+    <tr>
+      <td>
+        ${(data.questionnaires.gpaq?.sedentarite?.heures_par_jour || 0)} h
+        ${(data.questionnaires.gpaq?.sedentarite?.minutes_par_jour || 0)} min / jour
+      </td>
+    </tr>
+  </table>
+</div>
+
+</div>
+
+<div id="marshall-section">
+  <h2 id="marshall-title">2. Questionnaire Marshall</h2>
+  <p>
+    Score :
+    ${(data.questionnaires.marshall?.q1 || 0) + (data.questionnaires.marshall?.q2 || 0)}
+  </p>
+</div>
+
+<p class="small" style="margin-top:40px;">
+  Ce document est destiné à être discuté avec votre médecin. A l'aide des boutons situés dessous, gardez une copie pour pouvoir la présenter à votre médecin ou envoyer lui ce document pour en discuter avec lui. Sur votre téléphone, "au pire", vous pouvez faire une copie d'écran.
+</p>
+
+<div class="actions">
+  <div class="actions-buttons">
+    <div class="action-item">
+      <button onclick="window.print()">Imprimer / Enregistrer en PDF</button>
+      <div class="action-text">Document complet à imprimer ou à partager</div>
     </div>
 
-    <button class="btn" onclick="start('gpaq')">Questionnaire détaillé (GPAQ)</button>
-    <button class="btn secondary" onclick="start('marshall')">Questionnaire court (Marshall)</button>
-  `, 0, null); // ⚠️ pas de screenId
-}
-
-
-function start(tool){
-  state.tool = tool;
-
-  // 🔒 DSR — reset navigation déclarative au démarrage d’un parcours
-  state.navStack = [];
-  sessionStorage.removeItem("nav_stack");
-
-  state.gpaq = {};
-  state.marshall = {};
-  state.result = {};
-
-  state.progress.current = 0;
-  state.progress.total = (tool === "marshall") ? 8 : 12;
-
-  tool==="marshall" ? marshallQ1() : gpaqIntro();
-}
-
-/*************************************************
- * GPAQ — INTRODUCTION GÉNÉRALE OMS
- *************************************************/
-function gpaqIntro(){
-  render(`
-<h2>Questionnaire GPAQ – Organisation mondiale de la Santé</h2>
-
-<p>
-Je vais maintenant vous poser quelques questions sur le temps que vous consacrez à différents types d’activité physique lors d'une semaine typique.
-Veuillez répondre à ces questions même si vous ne vous considérez pas comme quelqu’un d’actif.
-</p>
-
-<p>
-Pensez tout d’abord au temps que vous y consacrez au travail, qu'il s'agisse d'un travail rémunéré ou non, de tâches ménagères,
-de cueillir ou récolter des aliments, de pêcher ou chasser, de chercher un emploi.
-</p>
-
-<p>
-Dans les questions suivantes, les activités physiques de forte intensité sont des activités nécessitant un effort physique important
-et causant une augmentation conséquente de la respiration ou du rythme cardiaque, et les activités physiques d'intensité modérée sont
-des activités qui demandent un effort physique modéré et causant une petite augmentation de la respiration ou du rythme cardiaque.
-</p>
-
-<button class="btn" onclick="gpaqQ1()">Commencer le questionnaire</button>
-<button class="btn secondary" onclick="back()">Retour</button>
-`,5,"GPAQ-INTRO");
-}
-
-/*************************************************
- * MARSHALL
- *************************************************/
-function marshallQ1(){
-render(`
-<h2>Marshall – Question 1</h2>
-<p>Au cours d’une semaine habituelle, combien de fois pratiquez-vous une activité physique intense d’au moins 20 minutes ?</p>
-<button class="btn" onclick="state.marshall.q1=4; advanceProgress(1); marshallQ2()">≥ 3 fois / semaine</button>
-<button class="btn" onclick="state.marshall.q1=2; advanceProgress(1); marshallQ2()">1–2 fois / semaine</button>
-<button class="btn" onclick="state.marshall.q1=0; advanceProgress(1); marshallQ2()">Jamais</button>
-<button class="btn secondary" onclick="back()">Retour</button>
-<div class="back-info">Les réponses déjà saisies sont conservées pour le calcul final.</div>
-`,15,"MAR-Q1");
-}
-
-function marshallQ2(){
-render(`
-<h2>Marshall – Question 2</h2>
-<p>Combien de fois par semaine pratiquez-vous une activité physique modérée ou de la marche rapide pendant au moins 30 minutes ?</p>
-<button class="btn" onclick="advanceProgress(1); finishMarshall(4)">≥ 5 fois / semaine</button>
-<button class="btn" onclick="advanceProgress(1); finishMarshall(2)">3–4 fois / semaine</button>
-<button class="btn" onclick="advanceProgress(1); finishMarshall(1)">1–2 fois / semaine</button>
-<button class="btn" onclick="advanceProgress(1); finishMarshall(0)">Jamais</button>
-<button class="btn secondary" onclick="back()">Retour</button>
-<div class="back-info">Les réponses déjà saisies sont conservées pour le calcul final.</div>
-`,30,"MAR-Q2");
-}
-
-function finishMarshall(q2){
-  state.marshall.q2=q2;
-  const score=state.marshall.q1+q2;
-  state.result.niveau = score>=4 ? "suffisamment_actif" : "insuffisamment_actif";
-  state.result.marshall_score=score;
-  motivation();
-}
-
-/*************************************************
- * GPAQ — FLUX COMPLET
- *************************************************/
-function gpaqQ1(){
-render(`
-<h2>Activité au travail – intensité élevée</h2>
-<p>Est-ce que votre travail implique des activités physiques de forte intensité qui nécessitent une augmentation conséquente de la respiration ou du rythme cardiaque, comme soulever des charges lourdes, travailler sur un chantier, effectuer du travail de maçonnerie, pendant au moins 10 minutes d’affilée ?</p>
-<button class="btn" onclick="state.gpaq.wi=1; gpaqQ2()">Oui</button>
-<button class="btn" onclick="state.gpaq.wi=0; gpaqQ4()">Non</button>
-<button class="btn secondary" onclick="back()">Retour</button>
-<div class="back-info">Les réponses déjà saisies sont conservées pour le calcul final.</div>
-`,10,"GPAQ-Q1");
-}
-
-function gpaqQ2(){
-render(`
-<h2>Activité au travail – intensité élevée</h2>
-<p>Lors d’une journée habituelle durant laquelle vous effectuez des activités physiques de forte intensité, combien de temps consacrez-vous à ces activités ?</p>
-
-<input type="number" id="d1" min="0" max="7"
-placeholder="Nombre de jours par semaine (ex. : 3)"
-oninput="state.gpaq.wi_d=this.value; checkRequiredDuration('c1','#d1','#h1','#m1')">
-
-<p>Combien de temps par jour ?</p>
-<div class="time-row">
-<input type="number" id="h1" min="0" max="23" placeholder="Heures"
-oninput="state.gpaq.wi_h=this.value; checkRequiredDuration('c1','#d1','#h1','#m1'); checkDurationGuard('#h1','#m1','g1')">
-<input type="number" id="m1" min="0" max="59" placeholder="Minutes"
-oninput="state.gpaq.wi_m=this.value; checkRequiredDuration('c1','#d1','#h1','#m1'); checkDurationGuard('#h1','#m1','g1')">
-</div>
-
-<div id="g1" class="guard" style="display:none;">
-⚠️ Vérifiez votre saisie (durée inhabituelle)
-</div>
-
-<button class="btn" id="c1" disabled onclick="gpaqQ4()">Continuer</button>
-<button class="btn secondary" onclick="back()">Retour</button>
-<div class="back-info">Les réponses déjà saisies sont conservées pour le calcul final.</div>
-`,20,"GPAQ-Q2");
-}
-
-function gpaqQ4(){
-advanceProgress(1); // fin bloc "travail intense"
-  render(`
-<h2>Activité au travail – intensité modérée</h2>
-<p>Est-ce que votre travail implique des activités physiques d'intensité modérée, comme une marche rapide ou soulever une charge légère, durant au moins 10 minutes d’affilée ?</p>
-<button class="btn" onclick="state.gpaq.wm=1; gpaqQ5()">Oui</button>
-<button class="btn" onclick="state.gpaq.wm=0; gpaqIntroTransport()">Non</button>
-<button class="btn secondary" onclick="back()">Retour</button>
-<div class="back-info">Les réponses déjà saisies sont conservées pour le calcul final.</div>
-`,30,"GPAQ-Q4");
-}
-
-function gpaqQ5(){
-render(`
-<h2>Activité au travail – intensité modérée</h2>
-<p>Habituellement, combien de jours par semaine effectuez-vous des activités physiques d'intensité modérée dans le cadre de votre travail ?</p>
-
-<input type="number" id="d2" min="0" max="7"
-placeholder="Nombre de jours par semaine (ex. : 3)"
-oninput="state.gpaq.wm_d=this.value; checkRequiredDuration('c2','#d2','#h2','#m2')">
-
-<p>Lors d’une journée habituelle durant laquelle vous effectuez des activités physiques d'intensité modérée, combien de temps consacrez-vous à ces activités ?</p>
-<div class="time-row">
-<input type="number" id="h2" min="0" max="23" placeholder="Heures"
-oninput="state.gpaq.wm_h=this.value; checkRequiredDuration('c2','#d2','#h2','#m2'); checkDurationGuard('#h2','#m2','g2')">
-<input type="number" id="m2" min="0" max="59" placeholder="Minutes"
-oninput="state.gpaq.wm_m=this.value; checkRequiredDuration('c2','#d2','#h2','#m2'); checkDurationGuard('#h2','#m2','g2')">
-</div>
-
-<div id="g2" class="guard" style="display:none;">
-⚠️ Vérifiez votre saisie (durée inhabituelle)
-</div>
-
-<button class="btn" id="c2" disabled onclick="gpaqIntroTransport()">Continuer</button>
-<button class="btn secondary" onclick="back()">Retour</button>
-<div class="back-info">Les réponses déjà saisies sont conservées pour le calcul final.</div>
-`,40,"GPAQ-Q5");
-}
-
-/*************************************************
- * GPAQ — INTRO DÉPLACEMENTS (OMS)
- *************************************************/
-function gpaqIntroTransport(){
- advanceProgress(1); // fin bloc "travail modéré"
-  render(`
-<h2>Déplacements</h2>
-
-<p>
-Les questions suivantes excluent les activités physiques dans le cadre de votre travail, que vous avez déjà mentionnées.
-</p>
-
-<p>
-Maintenant, je voudrais connaître votre façon habituelle de vous déplacer d'un endroit à l'autre ; par exemple pour aller au travail,
-faire des courses, aller au marché, aller à votre lieu consacré au culte.
-</p>
-
-<button class="btn" onclick="gpaqQ7()">Continuer</button>
-<button class="btn secondary" onclick="back()">Retour</button>
-<div class="back-info">Les réponses déjà saisies sont conservées pour le calcul final.</div>
-`,45,"GPAQ-INTRO-TRANSPORT");
-}
-
-function gpaqQ7(){
-render(`
-<h2>Déplacements</h2>
-<p>Effectuez-vous des trajets d’au moins 10 minutes à pied ou à vélo ?</p>
-<button class="btn" onclick="state.gpaq.tr=1; gpaqQ8()">Oui</button>
-<button class="btn" onclick="state.gpaq.tr=0; gpaqQ10()">Non</button>
-<button class="btn secondary" onclick="back()">Retour</button>
-<div class="back-info">Les réponses déjà saisies sont conservées pour le calcul final.</div>
-`,50,"GPAQ-Q7");
-}
-
-function gpaqQ8(){
-render(`
-<h2>Déplacements</h2>
-
-<p>Habituellement, combien de jours par semaine effectuez-vous des trajets d’au moins 10 minutes à pied ou à vélo ?</p>
-<input type="number" id="d3" min="0" max="7"
-placeholder="Nombre de jours par semaine (ex. : 3)"
-oninput="state.gpaq.tr_d=this.value; checkRequiredDuration('c3','#d3','#h3','#m3')">
-
-<p>Lors d’une journée habituelle, combien de temps consacrez-vous à vos déplacements à pied ou à vélo ?</p>
-<div class="time-row">
-<input type="number" id="h3" min="0" max="23" placeholder="Heures"
-oninput="state.gpaq.tr_h=this.value; checkRequiredDuration('c3','#d3','#h3','#m3'); checkDurationGuard('#h3','#m3','g3')">
-<input type="number" id="m3" min="0" max="59" placeholder="Minutes"
-oninput="state.gpaq.tr_m=this.value; checkRequiredDuration('c3','#d3','#h3','#m3'); checkDurationGuard('#h3','#m3','g3')">
-</div>
-
-<div id="g3" class="guard" style="display:none;">
-⚠️ Vérifiez votre saisie (durée inhabituelle)
-</div>
-
-<button class="btn" id="c3" disabled onclick="gpaqQ10()">Continuer</button>
-<button class="btn secondary" onclick="back()">Retour</button>
-<div class="back-info">Les réponses déjà saisies sont conservées pour le calcul final.</div>
-`,60,"GPAQ-Q8");
-}
-
-function gpaqQ10(){
-advanceProgress(1); // fin bloc "déplacements"
-  render(`
-<h2>Loisirs – activité intense</h2>
-<p>Est-ce que vous pratiquez des sports, du fitness ou des activités de loisirs de forte intensité qui nécessitent une augmentation importante de la respiration ou du rythme cardiaque comme [courir ou jouer au football] pendant au moins dix minutes d'affilée ?</p>
-<button class="btn" onclick="state.gpaq.li=1; gpaqQ11()">Oui</button>
-<button class="btn" onclick="state.gpaq.li=0; gpaqQ13()">Non</button>
-<button class="btn secondary" onclick="back()">Retour</button>
-<div class="back-info">Les réponses déjà saisies sont conservées pour le calcul final.</div>
-`,70,"GPAQ-Q10");
-}
-
-function gpaqQ11(){
-render(`
-<h2>Loisirs – activité intense</h2>
-
-<p>Habituellement, combien de jours par semaine pratiquez-vous une activité sportive, du fitness ou d'autres activités de loisirs de forte intensité ?</p>
-<input type="number" id="d4" min="0" max="7"
-placeholder="Nombre de jours par semaine (ex. : 3)"
-oninput="state.gpaq.li_d=this.value; checkRequiredDuration('c4','#d4','#h4','#m4')">
-
-<p>Lors d’une journée habituelle, combien de temps y consacrez-vous ?</p>
-<div class="time-row">
-<input type="number" id="h4" min="0" max="23" placeholder="Heures"
-oninput="state.gpaq.li_h=this.value; checkRequiredDuration('c4','#d4','#h4','#m4'); checkDurationGuard('#h4','#m4','g4')">
-<input type="number" id="m4" min="0" max="59" placeholder="Minutes"
-oninput="state.gpaq.li_m=this.value; checkRequiredDuration('c4','#d4','#h4','#m4'); checkDurationGuard('#h4','#m4','g4')">
-</div>
-
-<div id="g4" class="guard" style="display:none;">
-⚠️ Vérifiez votre saisie (durée inhabituelle)
-</div>
-
-<button class="btn" id="c4" disabled onclick="gpaqQ13()">Continuer</button>
-<button class="btn secondary" onclick="back()">Retour</button>
-<div class="back-info">Les réponses déjà saisies sont conservées pour le calcul final.</div>
-`,75,"GPAQ-Q11");
-}
-
-function gpaqQ13(){
- advanceProgress(1); // fin bloc "loisirs intenses"
-  render(`
-<h2>Loisirs – activité modérée</h2>
-<p>Est-ce que vous pratiquez des sports, du fitness ou des activités de loisirs d'intensité modérée qui nécessitent une petite augmentation de la respiration ou du rythme cardiaque comme la marche rapide, faire du vélo, nager, jouer au volley, pendant au moins dix minutes d'affilée ?</p>
-<button class="btn" onclick="state.gpaq.lm=1; gpaqQ14()">Oui</button>
-<button class="btn" onclick="state.gpaq.lm=0; gpaqIntroSedentaire()">Non</button>
-<button class="btn secondary" onclick="back()">Retour</button>
-<div class="back-info">Les réponses déjà saisies sont conservées pour le calcul final.</div>
-`,80,"GPAQ-Q13");
-}
-
-function gpaqQ14(){
-render(`
-<h2>Loisirs – activité modérée</h2>
-
-<p>Habituellement, combien de jours par semaine pratiquez-vous une activité sportive, du fitness ou d'autres activités de loisirs d'intensité modérée ?</p>
-<input type="number" id="d5" min="0" max="7"
-placeholder="Nombre de jours par semaine (ex. : 3)"
-oninput="state.gpaq.lm_d=this.value; checkRequiredDuration('c5','#d5','#h5','#m5')">
-
-<p>Lors d’une journée habituelle, combien de temps y consacrez-vous ?</p>
-<div class="time-row">
-<input type="number" id="h5" min="0" max="23" placeholder="Heures"
-oninput="state.gpaq.lm_h=this.value; checkRequiredDuration('c5','#d5','#h5','#m5'); checkDurationGuard('#h5','#m5','g5')">
-<input type="number" id="m5" min="0" max="59" placeholder="Minutes"
-oninput="state.gpaq.lm_m=this.value; checkRequiredDuration('c5','#d5','#h5','#m5'); checkDurationGuard('#h5','#m5','g5')">
-</div>
-
-<div id="g5" class="guard" style="display:none;">
-⚠️ Vérifiez votre saisie (durée inhabituelle)
-</div>
-
-<button class="btn" id="c5" disabled onclick="gpaqIntroSedentaire()">Continuer</button>
-<button class="btn secondary" onclick="back()">Retour</button>
-<div class="back-info">Les réponses déjà saisies sont conservées pour le calcul final.</div>
-`,85,"GPAQ-Q14");
-}
-
-/*************************************************
- * GPAQ — INTRO COMPORTEMENT SÉDENTAIRE (OMS)
- *************************************************/
-function gpaqIntroSedentaire(){
-advanceProgress(1); // fin bloc "loisirs modérés"
-  render(`
-<h2>Comportement sédentaire</h2>
-
-<p>
-La question suivante concerne le temps passé en position assise ou couchée, au travail, à la maison, en déplacement,
-à rendre visite à des amis, et inclut le temps passé assis devant un bureau, se déplacer en voiture, en bus, en train,
-à lire, jouer aux cartes ou à regarder la télévision,
-mais n'inclut pas le temps passé à dormir.
-</p>
-
-<button class="btn" onclick="gpaqQ16()">Continuer</button>
-<button class="btn secondary" onclick="back()">Retour</button>
-<div class="back-info">Les réponses déjà saisies sont conservées pour le calcul final.</div>
-`,88,"GPAQ-INTRO-SED");
-}
-function gpaqQ16(){
-render(`
-<h2>Comportement sédentaire</h2>
-
-<p>Combien de temps passez-vous assis ou couché par jour (hors sommeil) lors d'une journée habituelle ?</p>
-<div class="time-row">
-<input type="number" id="h6" min="0" max="23" placeholder="Heures"
-oninput="state.gpaq.sed_h=this.value; checkRequiredTimeOnly('c6','#h6','#m6'); checkDurationGuard('#h6','#m6','g6')">
-<input type="number" id="m6" min="0" max="59" placeholder="Minutes"
-oninput="state.gpaq.sed_m=this.value; checkRequiredTimeOnly('c6','#h6','#m6'); checkDurationGuard('#h6','#m6','g6')">
-</div>
-
-<div id="g6" class="guard" style="display:none;">
-⚠️ Vérifiez votre saisie (durée inhabituelle)
-</div>
-
-<button class="btn" id="c6" disabled onclick="finishGPAQ()">Terminer</button>
-<button class="btn secondary" onclick="back()">Retour</button>
-<div class="back-info">Les réponses déjà saisies sont conservées pour le calcul final.</div>
-`,90,"GPAQ-Q16");
-}
-
-function minutes(h,m){ return (Number(h||0)*60)+Number(m||0); }
-
-function finishGPAQ(){
-  advanceProgress(1); // sédentarité = 1 point
-
-  const wi = (state.gpaq.wi_d||0)*minutes(state.gpaq.wi_h,state.gpaq.wi_m);
-  const wm = (state.gpaq.wm_d||0)*minutes(state.gpaq.wm_h,state.gpaq.wm_m);
-  const tr = (state.gpaq.tr_d||0)*minutes(state.gpaq.tr_h,state.gpaq.tr_m);
-  const li = (state.gpaq.li_d||0)*minutes(state.gpaq.li_h,state.gpaq.li_m);
-  const lm = (state.gpaq.lm_d||0)*minutes(state.gpaq.lm_h,state.gpaq.lm_m);
-
-  const MET = wi*8 + li*8 + (wm+tr+lm)*4;
-  state.result.met = MET;
-
-  if(MET>=3000) state.result.niveau="très_actif";
-  else if(MET>=600) state.result.niveau="moyennement_actif";
-  else state.result.niveau="insuffisamment_actif";
-
-  motivation();
-}
-
-/*************************************************
- * MOTIVATION + EVA
- *************************************************/
-function motivation(){
-
-  if(state.result.niveau!=="insuffisamment_actif"){
-
-    render(`
-    <h2>Motivation</h2>
-    <p>Êtes-vous actif à ce niveau depuis plus de 6 mois ?</p>
-    <button class="btn" onclick="advanceProgress(2); state.result.stade='consolidation'; evaImportance()">Oui</button>
-    <button class="btn" onclick="advanceProgress(2); state.result.stade='action'; evaImportance()">Non</button>
-    <button class="btn secondary" onclick="back()">Retour</button>
-    <div class="back-info">Les réponses déjà saisies sont conservées pour le calcul final.</div>
-    `,
-    95,
-    true,
-    state.tool === "marshall"
-      ? "MAR-STAGE1"
-      : "GPAQ-STAGE1"
-    );
-
-  } else {
-
-    render(`
-    <h2>Motivation</h2>
-    <p>Envisagez-vous d’augmenter votre activité physique dans les 30 jours ?</p>
-    <button class="btn" onclick="advanceProgress(2); state.result.stade='préparation'; evaImportance()">Oui</button>
-    <button class="btn" onclick="motivation2()">Non</button>
-    <button class="btn secondary" onclick="back()">Retour</button>
-    <div class="back-info">Les réponses déjà saisies sont conservées pour le calcul final.</div>
-    `,
-    95,
-    state.tool === "marshall"
-      ? "MAR-STAGE1"
-      : "GPAQ-STAGE1"
-    );
-
+    <div class="action-item">
+      <button onclick="shareToDoctor()">Transmettre au médecin</button>
+      <div class="action-text">Envoie les données du questionnaire par email</div>
+    </div>
+
+    <div class="action-item">
+      <button onclick="copyContent()">Copier le contenu</button>
+      <div class="action-text">Copie le résumé pour le partager</div>
+    </div>
+  </div>
+
+`;
+
+  if (data.meta.questionnaires === "GPAQ") {
+  const gpaqTitle = document.getElementById("gpaq-title");
+  if (gpaqTitle) {
+    gpaqTitle.innerText = "2. Questionnaire GPAQ – Détail";
   }
 }
 
-function motivation2(){
-render(`
-<h2>Motivation</h2>
-<p>Avez-vous l’intention de vous engager dans une activité physique régulière dans les 6 mois ?</p>
-<button class="btn" onclick="advanceProgress(2); state.result.stade='intention'; evaImportance()">Oui</button>
-<button class="btn" onclick="advanceProgress(2); state.result.stade='indétermination'; evaImportance()">Non</button>
-<button class="btn secondary" onclick="back()">Retour</button>
-<div class="back-info">Les réponses déjà saisies sont conservées pour le calcul final.</div>
-`,96,
-  state.tool === "marshall"
-    ? "MAR-STAGE2"
-    : "GPAQ-STAGE2"
-);
+if (data.meta.questionnaires === "Marshall") {
+  const marshallTitle = document.getElementById("marshall-title");
+  if (marshallTitle) {
+    marshallTitle.innerText = "2. Questionnaire Marshall";
+  }
+}
+  if (data.meta.questionnaires === "Marshall") {
+  const gpaq = document.getElementById("gpaq-section");
+  if (gpaq) gpaq.style.display = "none";
 }
 
-function evaImportance(){
-render(`
-<h2>Importance de l’activité physique</h2>
-<p>Quelle importance accordez-vous à l’activité physique dans votre vie ?</p>
-<input type="range" min="0" max="10" value="5"
-oninput="this.nextElementSibling.innerText=this.value">
-<div>5</div>
-<button class="btn" onclick="
-advanceProgress(1);
-state.result.importance=document.querySelector('input').value;
-evaImportanceComment();
-">Continuer</button>
-<button class="btn secondary" onclick="back()">Retour</button>
-<div class="back-info">Les réponses déjà saisies sont conservées pour le calcul final.</div>
-`,97,
-    state.tool === "marshall"
-      ? "MAR-EVA-IMP"
-      : "GPAQ-EVA-IMP"
-  );
+if (data.meta.questionnaires === "GPAQ") {
+  const marshall = document.getElementById("marshall-section");
+  if (marshall) marshall.style.display = "none";
+}
+function buildReadableSummary(data) {
+
+  if (!data) return "";
+
+  let output = "";
+
+  output += "RÉSUMÉ DE LA PRÉ-CONSULTATION D’ACTIVITÉ PHYSIQUE\n\n";
+
+  output += "1. SYNTHÈSE\n\n";
+
+  output += "Niveau d’activité physique : ";
+  output += data.resultats.niveau_activite.replace("_"," ");
+  output += "\n";
+
+  output += "Volume estimé : ";
+  output += data.resultats.met_minutes_semaine;
+  output += " MET-min / semaine\n\n";
+
+  output += "Stade motivationnel : ";
+  output += data.motivation.stade + "\n\n";
+
+  output += "Importance : ";
+  output += data.motivation.importance_eva_0_10 + "/10\n\n";
+
+  output += "Confiance : ";
+  output += data.motivation.confiance_eva_0_10 + "/10\n\n";
+
+  output += "Ce document est destiné à être discuté avec votre médecin.";
+
+  return output;
 }
 
-function evaImportanceComment(){
-render(`
-<h2>Votre choix</h2>
-<p>
-Pouvez-vous m’indiquer en quelques mots pour quelles raisons vous avez choisi ce chiffre ?<br>
-<em>Sinon, passez à la question suivante.</em>
-</p>
-<textarea placeholder="Votre réponse (facultative)"
-onchange="state.result.importance_comment=this.value"></textarea>
-<button class="btn" onclick="advanceProgress(1); evaConfiance()">Continuer</button>
-<button class="btn secondary" onclick="back()">Retour</button>
-<div class="back-info">Les réponses déjà saisies sont conservées pour le calcul final.</div>
-`,98,
-  state.tool === "marshall"
-    ? "MAR-EVA-IMP-REASONS"
-    : "GPAQ-EVA-IMP-REASONS"
-);
-}
+function copyContent() {
 
-function evaConfiance(){
-  const question = state.result.niveau==="insuffisamment_actif"
-    ? "Dans quelle mesure êtes-vous confiant(e) en vous pour réussir à augmenter votre niveau d’activité physique ?"
-    : "Dans quelle mesure êtes-vous confiant(e) en vous pour réussir à maintenir voire augmenter votre niveau d’activité physique ?";
+  if (!data) {
+    alert("Données indisponibles.");
+    return;
+  }
 
-  render(`
-<h2>Confiance en soi</h2>
-<p>${question}</p>
-<input type="range" min="0" max="10" value="5"
-oninput="this.nextElementSibling.innerText=this.value">
-<div>5</div>
-<button class="btn" onclick="
-advanceProgress(1);
-state.result.confiance=document.querySelector('input').value;
-evaConfianceComment();
-">Continuer</button>
-<button class="btn secondary" onclick="back()">Retour</button>
-<div class="back-info">Les réponses déjà saisies sont conservées pour le calcul final.</div>
-`,99,
-state.tool === "marshall"
-  ? "MAR-EVA-CONF"
-  : "GPAQ-EVA-CONF"
-);
-}
+  const text = buildReadableSummary(data);
 
-function evaConfianceComment(){
-render(`
-<h2>Votre réponse</h2>
-<p>
-Pouvez-vous m’indiquer en quelques mots ce qui vous rend confiant(e) ou, au contraire, ce qui vous freine ?<br>
-<em>Sinon, passez à la question suivante.</em>
-</p>
-<textarea placeholder="Votre réponse (facultative)"
-onchange="state.result.confiance_comment=this.value"></textarea>
-<button class="btn" onclick="advanceProgress(1); endTransition()">Terminer</button>
-<button class="btn secondary" onclick="back()">Retour</button>
-<div class="back-info">Les réponses déjà saisies sont conservées pour le calcul final.</div>
-`,99,
-  state.tool === "marshall"
-    ? "MAR-EVA-CONF-REASONS"
-    : "GPAQ-EVA-CONF-REASONS"
-);
-}
-  
-function endTransition(){
-  render(`
-<h2>Merci</h2>
-<p>Vos réponses ont bien été prises en compte.</p>
-
-<p>
-Vous allez maintenant voir un résumé à apporter à votre consultation.
-</p>
-
-<button class="btn" onclick="final()">Voir mon résumé</button>
-<button class="btn secondary" onclick="back()">Retour</button>
-`,99,
-  state.tool === "marshall"
-    ? "MAR-THANKS"
-    : "GPAQ-THANKS"
-);
-}
-
-function buildExportJSON(){
-  return {
-    meta: {
-      outil: "preconsultation-activite-physique",
-      version: "v0.x",
-      date: new Date().toISOString(),
-      questionnaires: state.tool === "gpaq" ? "GPAQ" : "Marshall",
-      donnees_enregistrees: false
-    },
-
-    questionnaires: {
-      marshall: state.marshall,
-
-      gpaq: {
-        travail: {
-          intense: {
-            oui_non: state.gpaq.wi ?? null,
-            jours_par_semaine: state.gpaq.wi_d ?? null,
-            heures_par_jour: state.gpaq.wi_h ?? null,
-            minutes_par_jour: state.gpaq.wi_m ?? null
-          },
-          moderee: {
-            oui_non: state.gpaq.wm ?? null,
-            jours_par_semaine: state.gpaq.wm_d ?? null,
-            heures_par_jour: state.gpaq.wm_h ?? null,
-            minutes_par_jour: state.gpaq.wm_m ?? null
-          }
-        },
-
-        deplacements: {
-          oui_non: state.gpaq.tr ?? null,
-          jours_par_semaine: state.gpaq.tr_d ?? null,
-          heures_par_jour: state.gpaq.tr_h ?? null,
-          minutes_par_jour: state.gpaq.tr_m ?? null
-        },
-
-        loisirs: {
-          intense: {
-            oui_non: state.gpaq.li ?? null,
-            jours_par_semaine: state.gpaq.li_d ?? null,
-            heures_par_jour: state.gpaq.li_h ?? null,
-            minutes_par_jour: state.gpaq.li_m ?? null
-          },
-          moderee: {
-            oui_non: state.gpaq.lm ?? null,
-            jours_par_semaine: state.gpaq.lm_d ?? null,
-            heures_par_jour: state.gpaq.lm_h ?? null,
-            minutes_par_jour: state.gpaq.lm_m ?? null
-          }
-        },
-
-        sedentarite: {
-          heures_par_jour: state.gpaq.sed_h ?? null,
-          minutes_par_jour: state.gpaq.sed_m ?? null
-        }
-      }
-    },
-
-    resultats: {
-      met_minutes_semaine: state.result.met ?? null,
-      niveau_activite: state.result.niveau ?? null
-    },
-
-    motivation: {
-      stade: state.result.stade ?? null,
-      importance_eva_0_10: state.result.importance ?? null,
-      importance_commentaire: state.result.importance_comment ?? null,
-      confiance_eva_0_10: state.result.confiance ?? null,
-      confiance_commentaire: state.result.confiance_comment ?? null
-    }
-  };
-}
-
-function freezeExportJSON() {
-  const frozen = buildExportJSON();
-
-  state.exportJSON = frozen;
-
-  sessionStorage.setItem(
-    "preconsultation_final",
-    JSON.stringify(frozen)
-  );
-
-  return frozen;
-}
-
-function openPrintable() {
-  const frozen = freezeExportJSON();
-
-  const json = encodeURIComponent(
-    JSON.stringify(frozen)
-  );
-
-  window.open(
-    "print.html?data=" + json,
-    "_blank"
-  );
-}
-
-
-// 🔐 Copie de secours (utilisée si partage / mail échoue)
-// 🔐 Copie de secours (utilisée si partage / mail échoue)
-function copyFallback(text) {
   if (!navigator.clipboard || !navigator.clipboard.writeText) {
-    console.warn("Clipboard indisponible");
+    alert("La copie automatique n’est pas disponible sur ce navigateur.");
     return;
   }
 
   navigator.clipboard.writeText(text)
     .catch(() => {
-      console.warn("Copie de secours impossible");
+      alert("Copie impossible.");
     });
 }
 
+  if (!navigator.clipboard || !navigator.clipboard.writeText) {
+    alert("La copie automatique n’est pas disponible sur ce navigateur.");
+    return;
+  }
+
+  navigator.clipboard.writeText(text)
+    .catch(() => {
+      alert("Copie impossible.");
+    });
+}
 function shareToDoctor() {
-  const frozen = freezeExportJSON();
+  const frozen = data;
 
   if (!frozen) {
     alert("Données indisponibles.");
@@ -1089,216 +682,19 @@ ${dataBlock}`;
   const subject = encodeURIComponent(mailTitle);
   const body = encodeURIComponent(mailBody);
 
-  /* 📱 Mobile → partage natif */
-  const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
-
-  if (isMobile && navigator.share) {
-    navigator.share({
-      title: mailTitle,
-      text: mailTitle + "\n\n" + mailBody
-    }).catch(() => {
-      copyFallback(mailTitle + "\n\n" + mailBody);
-    });
-    return;
-  }
-
-  /* 🖥️ PC → client mail par défaut (Outlook / Exchange) */
   window.location.href = `mailto:?subject=${subject}&body=${body}`;
+}
 
-/* Aide explicite pour les webmails */
+
+ // 🔒 Safari macOS : figer le DOM après construction complète
 setTimeout(() => {
-  alert(
-    "Si aucun nouveau message ne s’est ouvert automatiquement, " +
-    "les données ont été copiées.\n\n" +
-    "Vous pouvez les coller manuellement dans un email à destination de votre médecin."
-  );
-}, 500);
+  try {
+    window.onbeforeunload = null;
+  } catch (e) {}
+}, 0);
 
-/* Copie systématique de secours */
-copyFallback(mailTitle + "\n\n" + mailBody);
-}
-  
-function final(){
-
-  state.exportJSON = buildExportJSON();
-
-  sessionStorage.setItem(
-    "preconsultation_final",
-    JSON.stringify(state.exportJSON)
-  );
-
-  console.log("EXPORT JSON", state.exportJSON);
-
-render(`
-<h2>Résultat</h2>
-
-<p>
-  <strong>Niveau d’activité :</strong>
-  ${state.result.niveau ? state.result.niveau.replace("_"," ") : "non disponible"}
-  ${state.result.met ? ` (${state.result.met} MET-min/semaine)` : ""}
-</p>
-
-<div class="section">
-  <strong>Stade motivationnel</strong>
-  <div class="answer">${state.result.stade ?? "non renseigné"}</div>
-</div>
-
-<div class="section">
-  <strong>Importance de l'activité physique</strong>
-  <div class="answer">
-    ${state.result.importance != null ? state.result.importance + "/10" : "non renseignée"}
-  </div>
-</div>
-
-<div class="section">
-  <strong>Confiance pour augmenter ou maintenir son activité physique</strong>
-  <div class="answer">
-    ${state.result.confiance != null ? state.result.confiance + "/10" : "non renseignée"}
-  </div>
-</div>
-
-<button class="btn" onclick="openPrintable()">Voir mon bilan d'activité physique</button>
-<button class="btn secondary" onclick="restart()">Recommencer</button>
-<button class="btn secondary" onclick="safeBack()">Retour</button>
-
-<p class="footer">
-  Document à apporter lors de votre consultation médicale.
-</p>
-`, 100,
-  state.tool === "marshall"
-    ? "MAR-SUMMARY"
-    : state.tool === "gpaq"
-      ? "GPAQ-SUMMARY"
-      : null
-);
-}
-
-function restart() {
-  sessionStorage.removeItem("preconsultation_final");
-  location.reload();
-}
-
-window.addEventListener("load", () => {
-  const saved = sessionStorage.getItem("preconsultation_final");
-
-  if (saved) {
-    try {
-    const parsed = JSON.parse(saved);
-
-if (
-  !parsed ||
-  typeof parsed !== "object" ||
-  !parsed.resultats ||
-  !parsed.motivation
-) {
-  throw new Error("Export JSON invalide");
-}
-
-state.exportJSON = parsed;
-      
-state.tool = parsed.meta.questionnaires === "GPAQ"
-  ? "gpaq"
-  : "marshall";
-
-      state.result = {
-        niveau: state.exportJSON.resultats?.niveau_activite ?? null,
-        met: state.exportJSON.resultats?.met_minutes_semaine ?? null,
-        stade: state.exportJSON.motivation?.stade ?? null,
-        importance: state.exportJSON.motivation?.importance_eva_0_10 ?? null,
-        confiance: state.exportJSON.motivation?.confiance_eva_0_10 ?? null
-      };
-
-      final();
-      return; // ⛔️ empêche le render accueil
-
-    } catch (e) {
-      console.warn("Erreur restauration session :", e);
-      sessionStorage.removeItem("preconsultation_final");
-     
-      renderHome();
-      return;  
-    }
-  }
-
-  /* fallback sûr */
-  renderHome();
-});
-
-function showCopyToast() {
-  const toast = document.getElementById("copy-toast");
-  if (!toast) return;
-
-  toast.classList.add("show");
-
-  setTimeout(() => {
-    toast.classList.remove("show");
-  }, 2000);
-}
-
-function copyContent() {
-  const data = state.exportJSON || buildExportJSON();
-  if (!data) {
-    console.warn("Aucune donnée à copier");
-    return;
-  }
-
-  let output = "";
-
-  // Titre global
-  output += "RÉSUMÉ DE LA PRÉ-CONSULTATION D’ACTIVITÉ PHYSIQUE\n\n";
-
-  // 1. Synthèse
-  output += "1. SYNTHÈSE\n\n";
-
-  const niveau = data.resultats.niveau_activite
-    ? data.resultats.niveau_activite.replace("_", " ")
-    : "non disponible";
-
-  output += "NIVEAU D’ACTIVITÉ PHYSIQUE :\n";
-  output += niveau + "\n";
-
-  if (data.resultats.met_minutes_semaine !== null) {
-    output += `Volume estimé : ${data.resultats.met_minutes_semaine} MET-min / semaine\n`;
-  }
-
-  output += "\n";
-
-  output += "STADE MOTIVATIONNEL :\n";
-  output += (data.motivation.stade ?? "non renseigné") + "\n\n";
-
-  output += "IMPORTANCE DE L’ACTIVITÉ PHYSIQUE :\n";
-  output += (data.motivation.importance_eva_0_10 ?? "–") + " / 10\n\n";
-
-  output += "CONFIANCE :\n";
-  output += (data.motivation.confiance_eva_0_10 ?? "–") + " / 10\n\n";
-
-  // 2. Questionnaire
-  if (data.meta.questionnaires === "Marshall") {
-    output += "2. QUESTIONNAIRE MARSHALL\n";
-    const score =
-      (data.questionnaires.marshall.q1 || 0) +
-      (data.questionnaires.marshall.q2 || 0);
-    output += "Score total : " + score + "\n";
-  }
-
-  if (data.meta.questionnaires === "GPAQ") {
-    output += "2. QUESTIONNAIRE GPAQ\n";
-  }
-
- navigator.clipboard.writeText(output)
-  .catch(() => {
-    console.warn("Copie impossible");
-  });
-
-// Feedback utilisateur immédiat (indépendant du navigateur)
-showCopyToast();
-
-}
 
 </script>
-  <div id="copy-toast" class="copy-toast">
-  Résumé copié ✔
-</div>
 
 </body>
 </html>
