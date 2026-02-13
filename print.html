@@ -536,8 +536,6 @@ ${data.motivation.confiance_commentaire
   </table>
 </div>
 
-</div>
-
 <div id="marshall-section">
   <h2 id="marshall-title">2. Questionnaire Marshall</h2>
   <p>
@@ -633,18 +631,7 @@ function copyContent() {
 
   const text = buildReadableSummary(data);
 
-  if (!navigator.clipboard || !navigator.clipboard.writeText) {
-    alert("La copie automatique n’est pas disponible sur ce navigateur.");
-    return;
-  }
-
-  navigator.clipboard.writeText(text)
-    .catch(() => {
-      alert("Copie impossible.");
-    });
-}
-
-  if (!navigator.clipboard || !navigator.clipboard.writeText) {
+   if (!navigator.clipboard || !navigator.clipboard.writeText) {
     alert("La copie automatique n’est pas disponible sur ce navigateur.");
     return;
   }
