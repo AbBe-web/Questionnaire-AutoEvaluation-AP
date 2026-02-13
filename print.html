@@ -153,7 +153,7 @@ table th {
 /* Bloc actions : vertical */
 .actions {
   margin-top: 30px;
-  text-align: center;
+  text-align: left;
 }
 
 /* Boutons sur une même ligne */
@@ -226,23 +226,29 @@ table th {
     white-space: normal;
   }
 }
-/* Correctif iOS / mobile pour les boutons d’actions */
 @media screen and (max-width: 600px) {
 
   .actions {
-    margin-top: 40px; /* descend légèrement le bloc */
+    margin-top: 40px;
+    text-align: center;   /* Centre le bloc sur mobile */
   }
 
   .actions-buttons {
-    flex-wrap: wrap;           /* autorise retour à la ligne si besoin */
+    flex-wrap: wrap;
     gap: 10px;
+    justify-content: center;  /* Centre les blocs */
+  }
+
+  .action-item {
+    align-items: center;  /* Centre bouton + texte */
   }
 
   .actions-buttons button {
-    width: 100%;               /* boutons pleine largeur sur mobile */
-    max-width: 320px;          /* mais pas trop larges */
+    width: 100%;
+    max-width: 320px;
     font-size: 14px;
   }
+}
 
   .actions-note {
     margin-top: 12px;          /* espace clair sous les boutons */
