@@ -592,25 +592,56 @@ if (data.meta.questionnaires === "GPAQ") {
   const marshall = document.getElementById("marshall-section");
   if (marshall) marshall.style.display = "none";
 }
-  
+function buildReadableSummary(data) {
+
+  if (!data) return "";
+
+  let output = "";
+
+  output += "RÉSUMÉ DE LA PRÉ-CONSULTATION D’ACTIVITÉ PHYSIQUE\n\n";
+
+  output += "1. SYNTHÈSE\n\n";
+
+  output += "Niveau d’activité physique : ";
+  output += data.resultats.niveau_activite.replace("_"," ");
+  output += "\n";
+
+  output += "Volume estimé : ";
+  output += data.resultats.met_minutes_semaine;
+  output += " MET-min / semaine\n\n";
+
+  output += "Stade motivationnel : ";
+  output += data.motivation.stade + "\n\n";
+
+  output += "Importance : ";
+  output += data.motivation.importance_eva_0_10 + "/10\n\n";
+
+  output += "Confiance : ";
+  output += data.motivation.confiance_eva_0_10 + "/10\n\n";
+
+  output += "Ce document est destiné à être discuté avec votre médecin.";
+
+  return output;
+}
+
 function copyContent() {
-  const el = document.getElementById("content");
-  if (!el) return;
 
-  let text = el.innerText;
+  if (!data) {
+    alert("Données indisponibles.");
+    return;
+  }
 
-  // Supprimer UNIQUEMENT les deux lignes des boutons
-  text = text
-  .replace("Imprimer / Enregistrer en PDF", "")
-  .replace("Copier le contenu", "")
-    .replace("Transmettre au médecin", "")
-  .trim();
+  const text = buildReadableSummary(data);
 
-// Garantir la présence de la phrase finale
-const phraseFinale = "Ce document est destiné à être discuté avec votre médecin.";
+  if (!navigator.clipboard || !navigator.clipboard.writeText) {
+    alert("La copie automatique n’est pas disponible sur ce navigateur.");
+    return;
+  }
 
-if (!text.includes(phraseFinale)) {
-  text += "\n\n" + phraseFinale;
+  navigator.clipboard.writeText(text)
+    .catch(() => {
+      alert("Copie impossible.");
+    });
 }
 
   if (!navigator.clipboard || !navigator.clipboard.writeText) {
