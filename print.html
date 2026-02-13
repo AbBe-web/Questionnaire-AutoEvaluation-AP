@@ -528,6 +528,7 @@ ${data.motivation.confiance_commentaire
 <div class="actions">
   <div class="actions-buttons">
     <button onclick="window.print()">Imprimer / Enregistrer en PDF</button>
+    <button onclick="shareToDoctor()">Transmettre au médecin</button>
     <button onclick="copyContent()">Copier le contenu</button>
   </div>
 
@@ -585,6 +586,37 @@ if (!text.includes(phraseFinale)) {
       alert("Copie impossible.");
     });
 }
+function shareToDoctor() {
+  const frozen = data;
+
+  if (!frozen) {
+    alert("Données indisponibles.");
+    return;
+  }
+
+  const mailTitle = "Auto-évaluation de l’activité physique – consultation médicale";
+
+  const dataBlock =
+`--- DÉBUT DES DONNÉES ---
+${JSON.stringify(frozen, null, 2)}
+--- FIN DES DONNÉES ---`;
+
+  const mailBody =
+`Bonjour,
+
+Vous trouverez ci-dessous les informations issues de mon questionnaire
+d’auto-évaluation de l’activité physique, rempli en amont de la consultation.
+
+Ces données peuvent être copiées et intégrées dans votre compte-rendu médical.
+
+${dataBlock}`;
+
+  const subject = encodeURIComponent(mailTitle);
+  const body = encodeURIComponent(mailBody);
+
+  window.location.href = `mailto:?subject=${subject}&body=${body}`;
+}
+
 
  // 🔒 Safari macOS : figer le DOM après construction complète
 setTimeout(() => {
