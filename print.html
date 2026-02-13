@@ -402,9 +402,7 @@ document.getElementById("content").innerHTML = `
 
 <p class="synthese-line">
   <strong>Niveau d’activité physique :</strong>
-${data.resultats?.niveau_activite
-  ? data.resultats.niveau_activite.replace("_"," ")
-  : "non disponible"}
+  ${data.resultats.niveau_activite.replace("_"," ")}
   <span class="small">
     (volume estimé : ${data.resultats.met_minutes_semaine} MET-min / semaine)
   </span>
@@ -536,6 +534,8 @@ ${data.motivation.confiance_commentaire
       </td>
     </tr>
   </table>
+</div>
+
 </div>
 
 <div id="marshall-section">
