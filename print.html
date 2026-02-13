@@ -175,6 +175,22 @@ table th {
 .actions-buttons button:hover {
   background: #eaeaea;
 }
+/* Bloc individuel bouton + texte */
+.action-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 220px;
+}
+
+/* Texte discret sous bouton */
+.action-text {
+  margin-top: 6px;
+  font-size: 11px;
+  color: #666;
+  text-align: center;
+  line-height: 1.3;
+}
 
 /* Texte TOUJOURS en dessous */
 .actions-note {
@@ -527,9 +543,20 @@ ${data.motivation.confiance_commentaire
 
 <div class="actions">
   <div class="actions-buttons">
-    <button onclick="window.print()">Imprimer / Enregistrer en PDF</button>
-    <button onclick="shareToDoctor()">Transmettre au médecin</button>
-    <button onclick="copyContent()">Copier le contenu</button>
+    <div class="action-item">
+      <button onclick="window.print()">Imprimer / Enregistrer en PDF</button>
+      <div class="action-text">Document complet à imprimer ou à partager</div>
+    </div>
+
+    <div class="action-item">
+      <button onclick="shareToDoctor()">Transmettre au médecin</button>
+      <div class="action-text">Envoie les données du questionnaire par email</div>
+    </div>
+
+    <div class="action-item">
+      <button onclick="copyContent()">Copier le contenu</button>
+      <div class="action-text">Copie le résumé pour le partager</div>
+    </div>
   </div>
 
 `;
