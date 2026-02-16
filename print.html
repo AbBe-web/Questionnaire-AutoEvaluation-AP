@@ -662,27 +662,32 @@ if (data.meta.questionnaires === "Marshall") {
 
 if (data.meta.questionnaires === "GPAQ") {
 
-  output += "Détail des réponses :\n";
+  output += "DÉTAIL DES RÉPONSES (GPAQ)\n";
+  output += "---------------------------------------------\n";
+  output += "Type                | Jours | Durée / jour\n";
+  output += "---------------------------------------------\n";
 
-  output += "Travail intense : " +
-    (data.questionnaires.gpaq?.travail?.intense?.jours_par_semaine ?? 0) +
-    " j/sem\n";
+  const g = data.questionnaires.gpaq;
 
-  output += "Travail modéré : " +
-    (data.questionnaires.gpaq?.travail?.moderee?.jours_par_semaine ?? 0) +
-    " j/sem\n";
+  function formatLine(label, obj) {
+    const jours = obj?.jours_par_semaine ?? 0;
+    const h = obj?.heures_par_jour ?? 0;
+    const m = obj?.minutes_par_jour ?? 0;
 
-  output += "Déplacements : " +
-    (data.questionnaires.gpaq?.deplacements?.jours_par_semaine ?? 0) +
-    " j/sem\n";
+    const duree = `${h}h ${m}min`;
 
-  output += "Loisirs intenses : " +
-    (data.questionnaires.gpaq?.loisirs?.intense?.jours_par_semaine ?? 0) +
-    " j/sem\n";
+    return label.padEnd(20) + " | " +
+           String(jours).padEnd(5) + " | " +
+           duree + "\n";
+  }
 
-  output += "Loisirs modérés : " +
-    (data.questionnaires.gpaq?.loisirs?.moderee?.jours_par_semaine ?? 0) +
-    " j/sem\n\n";
+  output += formatLine("Travail intense", g?.travail?.intense);
+  output += formatLine("Travail modéré", g?.travail?.moderee);
+  output += formatLine("Déplacements", g?.deplacements);
+  output += formatLine("Loisirs intenses", g?.loisirs?.intense);
+  output += formatLine("Loisirs modérés", g?.loisirs?.moderee);
+
+  output += "---------------------------------------------\n\n";
 }
 
 output += "Ce document est destiné à être discuté avec votre médecin.";
