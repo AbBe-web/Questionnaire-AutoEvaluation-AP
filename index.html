@@ -443,6 +443,7 @@ function start(tool){
  * GPAQ — INTRODUCTION GÉNÉRALE OMS
  *************************************************/
 function gpaqIntro(){
+pushScreen("GPAQ-INTRO");
   render(`
 <h2>Questionnaire GPAQ – Organisation mondiale de la Santé</h2>
 
@@ -464,7 +465,7 @@ des activités qui demandent un effort physique modéré et causant une petite a
 
 <button class="btn" onclick="gpaqQ1()">Commencer le questionnaire</button>
 <button class="btn secondary" onclick="back()">Retour</button>
-`,5,"GPAQ-INTRO");
+`,5);
 }
 
 /*************************************************
@@ -545,7 +546,7 @@ oninput="state.gpaq.wi_m=this.value; checkRequiredDuration('c1','#d1','#h1','#m1
 <button class="btn" id="c1" disabled onclick="gpaqQ4()">Continuer</button>
 <button class="btn secondary" onclick="back()">Retour</button>
 <div class="back-info">Les réponses déjà saisies sont conservées pour le calcul final.</div>
-`,20,"GPAQ-Q2");
+`,20);
 }
 
 function gpaqQ4(){
@@ -1160,7 +1161,14 @@ function final(){
   );
 
   console.log("EXPORT JSON", state.exportJSON);
-
+  
+pushScreen(
+   state.tool === "marshall"
+    ? "MAR-SUMMARY"
+    : state.tool === "gpaq"
+      ? "GPAQ-SUMMARY"
+      : null
+  );
 render(`
 <h2>Résultat</h2>
 
@@ -1203,13 +1211,7 @@ ${state.result.pas_mois ? `
 <p class="footer">
   Document à apporter lors de votre consultation médicale.
 </p>
-`, 100,
-  state.tool === "marshall"
-    ? "MAR-SUMMARY"
-    : state.tool === "gpaq"
-      ? "GPAQ-SUMMARY"
-      : null
-);
+`, 100);
 }
 
 function restart() {
