@@ -686,7 +686,13 @@ if (data.meta.questionnaires === "GPAQ") {
   output += formatLine("Déplacements", g?.deplacements);
   output += formatLine("Loisirs intenses", g?.loisirs?.intense);
   output += formatLine("Loisirs modérés", g?.loisirs?.moderee);
+  // Ligne sédentarité (hors sommeil)
+  const sedH = g?.sedentarite?.heures_par_jour ?? 0;
+  const sedM = g?.sedentarite?.minutes_par_jour ?? 0;
 
+  output += "\n";
+  output += "Sédentarité (hors sommeil)\n";
+  output += "Temps assis / couché : " + sedH + "h " + sedM + "min / jour\n";
   output += "---------------------------------------------\n\n";
 }
 
