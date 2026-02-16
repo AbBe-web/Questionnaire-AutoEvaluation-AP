@@ -504,7 +504,7 @@ function finishMarshall(q2){
   const score=state.marshall.q1+q2;
   state.result.niveau = score>=4 ? "suffisamment_actif" : "insuffisamment_actif";
   state.result.marshall_score=score;
-  motivation();
+  stepsQuestion();
 }
 
 /*************************************************
@@ -786,7 +786,27 @@ function finishGPAQ(){
   else if(MET>=600) state.result.niveau="moyennement_actif";
   else state.result.niveau="insuffisamment_actif";
 
-  motivation();
+  stepsQuestion();
+}
+function stepsQuestion(){
+  render(`
+<h2>Activité quotidienne (facultatif)</h2>
+
+<p>
+Si vous suivez votre nombre de pas, indiquez votre moyenne sur le dernier mois.
+</p>
+
+<input type="number" min="0" placeholder="Ex. : 6500"
+oninput="state.result.pas_mois=this.value">
+
+<button class="btn" onclick="motivation()">Continuer</button>
+<button class="btn secondary" onclick="back()">Retour</button>
+
+`, 94,
+  state.tool === "marshall"
+    ? "MAR-STEPS"
+    : "GPAQ-STEPS"
+);
 }
 
 /*************************************************
@@ -1006,9 +1026,10 @@ function buildExportJSON(){
     },
 
     resultats: {
-      met_minutes_semaine: state.result.met ?? null,
-      niveau_activite: state.result.niveau ?? null
-    },
+  met_minutes_semaine: state.result.met ?? null,
+  niveau_activite: state.result.niveau ?? null,
+  pas_moyens_jour_1_mois: state.result.pas_mois ?? null
+},
 
     motivation: {
       stade: state.result.stade ?? null,
@@ -1138,6 +1159,13 @@ render(`
   ${state.result.met ? ` (${state.result.met} MET-min/semaine)` : ""}
 </p>
 
+${state.result.pas_mois ? `
+<div class="section">
+  <strong>Nombre de pas moyen (1 mois)</strong>
+  <div class="answer">${state.result.pas_mois} pas / jour</div>
+</div>
+` : ""}
+
 <div class="section">
   <strong>Stade motivationnel</strong>
   <div class="answer">${state.result.stade ?? "non renseigné"}</div>
@@ -1201,12 +1229,13 @@ state.tool = parsed.meta.questionnaires === "GPAQ"
   : "marshall";
 
       state.result = {
-        niveau: state.exportJSON.resultats?.niveau_activite ?? null,
-        met: state.exportJSON.resultats?.met_minutes_semaine ?? null,
-        stade: state.exportJSON.motivation?.stade ?? null,
-        importance: state.exportJSON.motivation?.importance_eva_0_10 ?? null,
-        confiance: state.exportJSON.motivation?.confiance_eva_0_10 ?? null
-      };
+  niveau: state.exportJSON.resultats?.niveau_activite ?? null,
+  met: state.exportJSON.resultats?.met_minutes_semaine ?? null,
+  pas_mois: state.exportJSON.resultats?.pas_moyens_jour_1_mois ?? null,
+  stade: state.exportJSON.motivation?.stade ?? null,
+  importance: state.exportJSON.motivation?.importance_eva_0_10 ?? null,
+  confiance: state.exportJSON.motivation?.confiance_eva_0_10 ?? null
+};
 
       final();
       return; // ⛔️ empêche le render accueil
