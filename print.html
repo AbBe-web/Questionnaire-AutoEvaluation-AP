@@ -596,33 +596,53 @@ function buildReadableSummary(data) {
 
   if (!data) return "";
 
-  let output = "";
+let output = "";
 
-  output += "RÉSUMÉ DE LA PRÉ-CONSULTATION D’ACTIVITÉ PHYSIQUE\n\n";
+/* =========================
+   TITRE
+========================= */
 
-  output += "1. SYNTHÈSE\n\n";
+output += "RÉSUMÉ DE LA PRÉ-CONSULTATION D’ACTIVITÉ PHYSIQUE\n";
+output += "--------------------------------------------------\n\n";
 
-  output += "Niveau d’activité physique : ";
-  output += data.resultats.niveau_activite.replace("_"," ");
-  output += "\n";
+/* =========================
+   1. SYNTHÈSE
+========================= */
 
-  output += "Volume estimé : ";
-  output += data.resultats.met_minutes_semaine;
-  output += " MET-min / semaine\n\n";
+output += "1. SYNTHÈSE\n";
+output += "───────────\n";
 
-  output += "Stade motivationnel : ";
-  output += data.motivation.stade + "\n\n";
+output += "Niveau d’activité physique : ";
+output += data.resultats.niveau_activite.replace("_"," ");
+output += "\n";
 
-  output += "Importance : ";
-  output += data.motivation.importance_eva_0_10 + "/10\n\n";
+output += "Volume estimé : ";
+output += data.resultats.met_minutes_semaine;
+output += " MET-min / semaine\n";
 
-  output += "Confiance : ";
-  output += data.motivation.confiance_eva_0_10 + "/10\n\n";
+output += "\n";   // espace entre blocs
 
-  output += "Ce document est destiné à être discuté avec votre médecin.";
+/* =========================
+   MOTIVATION
+========================= */
 
-  return output;
-}
+output += "Stade motivationnel : ";
+output += data.motivation.stade;
+output += "\n";
+
+output += "Importance (0–10) : ";
+output += data.motivation.importance_eva_0_10;
+output += "/10\n";
+
+output += "Confiance (0–10) : ";
+output += data.motivation.confiance_eva_0_10;
+output += "/10\n";
+
+output += "\n";   // espace avant conclusion
+
+output += "Ce document est destiné à être discuté avec votre médecin.";
+
+return output;
 
 function copyContent() {
 
