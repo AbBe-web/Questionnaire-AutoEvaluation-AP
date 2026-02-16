@@ -184,7 +184,8 @@ const state = {
   marshall: {},
   result: {},
   history: [],
-  navStack: [],              // ⬅️ AJOUT
+  navStack: [],
+  navMode: "forward",   // ⬅️ AJOUT ICI
   progress: {
     current: 0,
     total: 0
@@ -243,7 +244,11 @@ function render(html, progress = 0) {
   }
 }
 
-  function pushScreen(screenId) {
+function pushScreen(screenId) {
+
+  if (state.navMode === "back") {
+    return; // ⛔️ on n’empile pas pendant un retour
+  }
 
   if (!screenId || typeof screenId !== "string") {
     console.warn("screenId invalide :", screenId);
@@ -318,7 +323,6 @@ function goToScreen(id) {
 
 function back() {
 
-  // 1️⃣ Navigation déclarative normale
   if (state.navStack && state.navStack.length > 1) {
 
     state.navStack.pop();
@@ -330,14 +334,17 @@ function back() {
 
     const target = state.navStack[state.navStack.length - 1];
 
+    state.navMode = "back";   // ⬅️ on passe en mode retour
+
     app.innerHTML = "";
 
     goToScreen(target);
 
+    state.navMode = "forward"; // ⬅️ on réactive mode normal
+
     return;
   }
 
-  // 2️⃣ Si on est au premier écran du parcours → retour HOME
   if (state.navStack && state.navStack.length === 1) {
     renderHome();
     return;
