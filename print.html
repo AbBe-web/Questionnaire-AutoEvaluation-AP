@@ -410,6 +410,14 @@ document.getElementById("content").innerHTML = `
   </span>
 </p>
 
+${data.resultats.pas_moyens_jour_1_mois
+  ? `<p class="synthese-line">
+       <strong>Nombre de pas moyen (1 mois) :</strong>
+       ${data.resultats.pas_moyens_jour_1_mois} pas / jour
+     </p>`
+  : ""
+}
+
 <p class="synthese-line">
   <strong>Stade motivationnel :</strong>
   ${data.motivation.stade}
@@ -621,6 +629,14 @@ output += data.resultats.met_minutes_semaine;
 output += " MET-min / semaine\n";
 
 output += "\n";   // espace entre blocs
+  
+if (data.resultats.pas_moyens_jour_1_mois !== null) {
+  output += "Nombre de pas moyen (1 mois) : ";
+  output += data.resultats.pas_moyens_jour_1_mois;
+  output += " pas / jour\n";
+}
+
+output += "\n";
 
 /* =========================
    MOTIVATION
