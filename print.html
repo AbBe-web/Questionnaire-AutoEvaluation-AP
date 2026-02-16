@@ -639,6 +639,51 @@ output += data.motivation.confiance_eva_0_10;
 output += "/10\n";
 
 output += "\n";   // espace avant conclusion
+  
+/* =========================
+   2. QUESTIONNAIRE UTILISÉ
+========================= */
+
+output += "2. QUESTIONNAIRE UTILISÉ\n";
+output += "------------------------\n";
+
+output += data.meta.questionnaires + "\n\n";
+
+if (data.meta.questionnaires === "Marshall") {
+
+  output += "Détail des réponses :\n";
+  output += "Question 1 : " + (data.questionnaires.marshall.q1 || 0) + " points\n";
+  output += "Question 2 : " + (data.questionnaires.marshall.q2 || 0) + " points\n";
+  output += "Score total : " +
+    ((data.questionnaires.marshall.q1 || 0) +
+     (data.questionnaires.marshall.q2 || 0)) +
+    "\n\n";
+}
+
+if (data.meta.questionnaires === "GPAQ") {
+
+  output += "Détail des réponses :\n";
+
+  output += "Travail intense : " +
+    (data.questionnaires.gpaq?.travail?.intense?.jours_par_semaine ?? 0) +
+    " j/sem\n";
+
+  output += "Travail modéré : " +
+    (data.questionnaires.gpaq?.travail?.moderee?.jours_par_semaine ?? 0) +
+    " j/sem\n";
+
+  output += "Déplacements : " +
+    (data.questionnaires.gpaq?.deplacements?.jours_par_semaine ?? 0) +
+    " j/sem\n";
+
+  output += "Loisirs intenses : " +
+    (data.questionnaires.gpaq?.loisirs?.intense?.jours_par_semaine ?? 0) +
+    " j/sem\n";
+
+  output += "Loisirs modérés : " +
+    (data.questionnaires.gpaq?.loisirs?.moderee?.jours_par_semaine ?? 0) +
+    " j/sem\n\n";
+}
 
 output += "Ce document est destiné à être discuté avec votre médecin.";
 
