@@ -350,7 +350,7 @@ table th {
 <p id="questionnaire-type" class="small"></p>
 
 <p class="small">
-Questionnaire d’auto-évaluation à conserver pour vous si vous le souhaitez et à transmettre à votre médecin pour en discuter.<br>
+Questionnaire d’auto-évaluation à conserver si vous le souhaitez et à transmettre à votre médecin pour en discuter.<br>
 Date : <span id="date"></span>
 </p>
 
@@ -384,7 +384,18 @@ if (typeof window.sessionStorage !== "undefined") {
   }
 }
 
-const data = storedData ? JSON.parse(storedData) : rawData;
+let parsedStored = null;
+
+if (storedData) {
+  try {
+    parsedStored = JSON.parse(storedData);
+  } catch (e) {
+    console.warn("JSON session invalide", e);
+  }
+}
+
+const data = parsedStored || rawData;
+
 // 🔹 Affichage date du jour (format français)
 const today = new Date();
 const formattedDate = today.toLocaleDateString("fr-FR");
@@ -405,9 +416,14 @@ document.getElementById("content").innerHTML = `
 <p class="synthese-line">
   <strong>Niveau d’activité physique :</strong>
   ${data.resultats.niveau_activite.replace("_"," ")}
-  <span class="small">
-    (volume estimé : ${data.resultats.met_minutes_semaine} MET-min / semaine)
-  </span>
+  ${
+    data.meta.questionnaires === "GPAQ" &&
+    data.resultats.met_minutes_semaine != null
+      ? `<span class="small">
+           (volume estimé : ${data.resultats.met_minutes_semaine} MET-min / semaine)
+         </span>`
+      : ""
+  }
 </p>
 
 ${data.resultats.pas_moyens_jour_1_mois
@@ -555,7 +571,7 @@ ${data.motivation.confiance_commentaire
 </div>
 
 <p class="small" style="margin-top:40px;">
-  Ce document est destiné à être discuté avec votre médecin. A l'aide des boutons situés dessous, gardez une copie pour pouvoir la présenter à votre médecin ou envoyer lui ce document pour en discuter avec lui. Sur votre téléphone, "au pire", vous pouvez faire une copie d'écran.
+  A l'aide des boutons situés dessous, gardez une copie pour pouvoir la présenter à votre médecin ou envoyer lui ce document pour en discuter avec lui. "Au pire", faites une copie d'écran.
 </p>
 
 <div class="actions">
