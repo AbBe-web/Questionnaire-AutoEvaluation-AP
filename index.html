@@ -7,125 +7,144 @@
 
 <style>
 body {
-  font-family: Arial, sans-serif;
-  background:#f6f7f8;
-  margin:0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  background: linear-gradient(135deg, #eef2f7, #f8fafc);
+  margin: 0;
 }
 
 .container {
-  max-width:720px;
-  margin:auto;
-  padding:20px;
-  background:white;
-  min-height:100vh;
+  max-width: 760px;
+  margin: 40px auto;
+  padding: 40px;
+  background: #ffffff;
+  border-radius: 18px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.06);
+  min-height: 80vh;
+  transition: all 0.3s ease;
 }
 
 h1,h2,h3 {
-  font-weight:600;
-  margin-top:25px;
+  font-weight: 600;
+  margin-top: 28px;
+  color: #1f2937;
 }
 
-/* =========================
-   OPTION A — MICRO UX VISUELLE
-   ========================= */
-
-/* Question principale */
 p {
-  margin-top:12px;
-  margin-bottom:10px;
-  line-height:1.5;
+  margin-top: 14px;
+  margin-bottom: 12px;
+  line-height: 1.6;
+  color: #374151;
 }
 
-/* Première phrase = question → plus visible */
 p:first-of-type {
-  font-weight:600;
+  font-weight: 600;
+  color: #111827;
 }
 
-/* Paragraphes explicatifs → plus discrets */
 p + p {
-  font-weight:400;
-  color:#555;
+  font-weight: 400;
+  color: #6b7280;
 }
 
-/* Espacement clair avant les boutons */
+/* ===== Buttons ===== */
+
 .btn {
   display: block;
   width: 100%;
-  padding: 14px;
-  margin: 14px 0 6px 0;
+  padding: 15px;
+  margin: 16px 0 8px 0;
   font-size: 16px;
-  border-radius: 6px;
+  border-radius: 12px;
   border: none;
-  background: #007BFF;
+  background: linear-gradient(135deg, #2563eb, #1d4ed8);
   color: white;
   cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(37, 99, 235, 0.25);
 }
 
 .btn.secondary {
-  background: #6c757d;
-  margin-top: 18px;      /* séparation claire avant le bouton Retour */
+  background: #e5e7eb;
+  color: #374151;
+  margin-top: 22px;
+}
+
+.btn.secondary:hover {
+  background: #d1d5db;
+  transform: none;
+  box-shadow: none;
 }
 
 .btn:disabled {
-  background:#b0b0b0;
+  background:#cbd5e1;
   cursor:not-allowed;
+  box-shadow:none;
+  transform:none;
 }
 
-/* ========================= */
+/* ===== Sections ===== */
 
 .section {
-  border-top:1px solid #ddd;
-  padding-top:15px;
-  margin-top:20px;
+  border-top:1px solid #e5e7eb;
+  padding-top:20px;
+  margin-top:25px;
 }
 
+/* ===== Progress ===== */
+
 .progress {
-  height:6px;
-  background:#ddd;
-  margin:15px 0;
+  height:8px;
+  background:#e5e7eb;
+  border-radius:10px;
+  margin:25px 0 12px 0;
+  overflow:hidden;
 }
 
 .progress-bar {
-  height:6px;
-  background:#4caf50;
+  height:8px;
+  background: linear-gradient(90deg, #22c55e, #16a34a);
+  border-radius:10px;
+  transition: width 0.3s ease;
 }
+
 .progress-step {
-  font-size:12px;
-  color:#777;
-  margin-bottom:10px;
-}
-.footer {
-  font-size:12px;
-  color:#666;
-  margin-top:40px;
+  font-size:13px;
+  color:#6b7280;
+  margin-bottom:12px;
 }
 
-.answer {
-  margin-left:10px;
-  margin-top:4px;
-}
-
-.rgpd {
-  font-size:12px;
-  color:#555;
-  margin-top:8px;
-}
+/* ===== Inputs ===== */
 
 input[type=number],
 input[type=range],
 textarea {
   width:100%;
-  padding:10px;
+  padding:12px;
   font-size:16px;
+  border-radius:10px;
+  border:1px solid #e5e7eb;
+  transition: border 0.2s ease;
+}
+
+input:focus,
+textarea:focus {
+  outline:none;
+  border:1px solid #2563eb;
 }
 
 textarea {
-  min-height:80px;
+  min-height:90px;
 }
+
+/* ===== Misc ===== */
 
 .time-row {
   display:flex;
-  gap:10px;
+  gap:12px;
 }
 
 .guard {
@@ -136,19 +155,39 @@ textarea {
 
 .back-info {
   font-size:12px;
-  color:#666;
-  margin-top:6px;
+  color:#6b7280;
+  margin-top:8px;
   text-align:center;
 }
+
+.footer {
+  font-size:13px;
+  color:#6b7280;
+  margin-top:40px;
+}
+
+.answer {
+  margin-left:12px;
+  margin-top:6px;
+}
+
+.rgpd {
+  font-size:12px;
+  color:#6b7280;
+  margin-top:10px;
+}
+
+/* ===== Copy toast ===== */
+
 .copy-toast {
   position: fixed;
-  bottom: 20px;
+  bottom: 30px;
   left: 50%;
   transform: translateX(-50%);
-  background: #323232;
+  background: #111827;
   color: #fff;
-  padding: 10px 18px;
-  border-radius: 6px;
+  padding: 12px 20px;
+  border-radius: 10px;
   font-size: 14px;
   opacity: 0;
   pointer-events: none;
@@ -158,6 +197,23 @@ textarea {
 
 .copy-toast.show {
   opacity: 1;
+}
+
+/* ===== Responsive ===== */
+
+@media (max-width: 768px) {
+
+  .container {
+    margin: 0;
+    border-radius: 0;
+    padding: 24px;
+    min-height: 100vh;
+  }
+
+  .btn:hover {
+    transform: none;
+    box-shadow: none;
+  }
 }
 
 </style>
@@ -339,15 +395,22 @@ function back() {
 
     const target = state.navStack[state.navStack.length - 1];
 
-    state.navMode = "back";   // ⬅️ on passe en mode retour
+if (!target) {
+  console.warn("NavStack invalide → retour sécurisé accueil");
+  renderHome();
+  return;
+}
 
-    app.innerHTML = "";
+state.navMode = "back";   // ⬅️ on passe en mode retour
 
-    goToScreen(target);
+app.innerHTML = "";
 
-    state.navMode = "forward"; // ⬅️ on réactive mode normal
+goToScreen(target);
 
-    return;
+state.navMode = "forward"; // ⬅️ on réactive mode normal
+
+return;
+
   }
 
   if (state.navStack && state.navStack.length === 1) {
